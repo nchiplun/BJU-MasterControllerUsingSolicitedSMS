@@ -407,6 +407,7 @@ unsigned char filtrationDelay2 = CLEAR; // To store filtration Delay2 in minutes
 unsigned char filtrationDelay3 = CLEAR; // To store filtration Delay3 in minutes
 unsigned char filtrationOnTime = CLEAR; // To store filtration OnTime in minutes
 unsigned char filtrationSeperationTime = CLEAR; // To store filtration SeperationTime1 in minutes
+unsigned char dryRunCheckCount = CLEAR; // To store dry run check count
 unsigned int dueDD = CLEAR; // To store calculated due day in DD format
 unsigned int sleepCount = CLEAR; // To store sleep count -- max 65550
 unsigned int remainingFertigationOnPeriod = CLEAR; //To store remaining sleep count for interrupted fertigation valve
