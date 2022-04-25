@@ -1,4 +1,5 @@
 Operations
+
 0x00-0
 0x01-1 System Authenticated/Idle Mode
 0x02-2 New SMS Received
@@ -18,7 +19,6 @@ Operations
 
 Errors
 
-
 0x00-0. Out SMS Action
 0x01-1. Authentication Error
 0x02-2. RTC Battery Low Error
@@ -35,17 +35,3 @@ Errors
 0x0D-Ç. Decryption Action
 0x0E-t. RTC Clock fetch Action
 0x0F- "."  <Blank><.> All Modules are Normal, System running in Normal operation
-
-
-factory
-
-get ct
-extractdata
-fdata
-sensordata
-
-note for enabling all
-
-
-
-
