@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-  <executable name="dist/18f66k40/production\AutoIrrigation_SolicitedSMS.X.production.hex">
+  <executable name="dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex">
     <memory name="program">
       <units>bytes</units>
       <length>65536</length>
-      <used>50841</used>
-      <free>14695</free>
+      <used>51791</used>
+      <free>13745</free>
     </memory>
     <memory name="data">
       <units>bytes</units>
       <length>3562</length>
-      <used>2413</used>
-      <free>1149</free>
+      <used>2429</used>
+      <free>1133</free>
     </memory>
   </executable>
 </project>

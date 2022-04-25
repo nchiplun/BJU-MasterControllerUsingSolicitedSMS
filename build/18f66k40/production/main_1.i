@@ -24471,6 +24471,7 @@ _Bool currentDateCalled = 0;
 _Bool sleepCountChangedDueToInterrupt = 0;
 _Bool inSleepMode = 0;
 _Bool dryRunDetected = 0;
+_Bool lowPhaseCurrentDetected = 0;
 _Bool valveDue = 0;
 _Bool valveExecuted = 0;
 _Bool onHold = 0;
@@ -24606,6 +24607,11 @@ const char SmsTest[19] = "Test Data Injected";
 const char SmsFact1[15] = "Factory Key : ";
 
 const char SmsPh1[47] = "Phase failure detected, suspending all actions";
+const char SmsPh2[51] = "Low Phase current detected, suspending all actions";
+const char SmsPh3[25] = "Phase R failure detected";
+const char SmsPh4[25] = "Phase Y failure detected";
+const char SmsPh5[25] = "Phase B failure detected";
+const char SmsPh6[19] = "All Phase detected";
 
 const char SmsMS1[60] = "Moisture sensor is failed, Irrigation started for field no.";
 const char SmsMS2[46] = "Moisture sensor frequency value for field no.";
@@ -24656,6 +24662,7 @@ unsigned char filtrationDelay2 = 0;
 unsigned char filtrationDelay3 = 0;
 unsigned char filtrationOnTime = 0;
 unsigned char filtrationSeperationTime = 0;
+unsigned char dryRunCheckCount = 0;
 unsigned int dueDD = 0;
 unsigned int sleepCount = 0;
 unsigned int remainingFertigationOnPeriod = 0;
@@ -24690,6 +24697,7 @@ _Bool isFieldMoistureSensorWet(unsigned char);
 _Bool isMotorInNoLoad(void);
 void calibrateMotorCurrent(unsigned char, unsigned char);
 void doDryRunAction(void);
+void doLowPhaseAction(void);
 void doPhaseFailureAction(void);
 _Bool isRTCBatteryDrained(void);
 unsigned char fetchFieldNo(unsigned char);
@@ -24858,9 +24866,12 @@ void __attribute__((picinterrupt(("low_priority")))) timerInterrupt_handler(void
         TMR0L = 0xB0;
         Timer0Overflow++;
 
-        if (sleepCount > 0 && valveDue) {
+        if (sleepCount > 0 && PORTFbits.RF7 == 1) {
             sleepCount--;
+            if (dryRunCheckCount == 0 || dryRunCheckCount < 5) {
+                dryRunCheckCount++;
             }
+        }
 
         if (filtrationCycleSequence == 1 && Timer0Overflow == filtrationDelay1 ) {
             Timer0Overflow = 0;
@@ -24940,7 +24951,7 @@ void __attribute__((picinterrupt(("low_priority")))) timerInterrupt_handler(void
     unsigned char last_Field_No = 0;
     actionsOnSystemReset();
     while (1) {
-nxtVlv: if (!valveDue && !phaseFailureDetected) {
+nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
             myMsDelay(50);
             scanValveScheduleAndGetSleepCount();
             myMsDelay(50);
@@ -24968,7 +24979,7 @@ nxtVlv: if (!valveDue && !phaseFailureDetected) {
             valveExecuted = 0;
 
             sendSms(SmsMotor1, userMobileNo, 0);
-# 262 "main_1.c"
+# 265 "main_1.c"
             startFieldNo = 0;
 
         }
@@ -24978,7 +24989,7 @@ nxtVlv: if (!valveDue && !phaseFailureDetected) {
         }
 
         deepSleep();
-# 279 "main_1.c"
+# 282 "main_1.c"
         if (newSMSRcvd) {
 
 
@@ -25014,7 +25025,7 @@ nxtVlv: if (!valveDue && !phaseFailureDetected) {
             if (isRTCBatteryDrained()){
 
                 sendSms(SmsRTC1, userMobileNo, 0);
-# 322 "main_1.c"
+# 325 "main_1.c"
             }
         }
     }
