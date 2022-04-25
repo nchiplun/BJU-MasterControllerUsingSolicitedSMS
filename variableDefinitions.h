@@ -222,6 +222,7 @@ _Bool currentDateCalled = false;                // To avoid repetitive fetching 
 _Bool sleepCountChangedDueToInterrupt = false;  // TO check if sleep count need to calculate again if change due to GSM interrupt
 _Bool inSleepMode = false;                      // To check if system is in sleep mode
 _Bool dryRunDetected = false;                   // To state water level of tank --true for Low and --false for Full
+_Bool lowPhaseCurrentDetected = false;          // To state motor not started due to low phase current
 _Bool valveDue = false;                         // To indicate if any valve is due for operation after checking
 _Bool valveExecuted = false;                    // To indicate if valve executed
 _Bool onHold = false;                           // To indicate Field valve hold status
@@ -356,7 +357,12 @@ const char SmsTest[19] = "Test Data Injected";
 
 const char SmsFact1[15] = "Factory Key : "; // Acknowledge user about successful motor off action
 
-const char SmsPh1[47] = "Phase failure detected, suspending all actions"; // Acknowledge user about successful motor off action
+const char SmsPh1[47] = "Phase failure detected, suspending all actions"; // Acknowledge user about Phase failure status
+const char SmsPh2[51] = "Low Phase current detected, suspending all actions"; // Acknowledge user about successful motor off action
+const char SmsPh3[25] = "Phase R failure detected"; // Acknowledge user about phase failure status
+const char SmsPh4[25] = "Phase Y failure detected"; // Acknowledge user about phase failure status
+const char SmsPh5[25] = "Phase B failure detected"; // Acknowledge user about phase failure status
+const char SmsPh6[19] = "All Phase detected"; // Acknowledge user about phase status
 
 const char SmsMS1[60] = "Moisture sensor is failed, Irrigation started for field no."; // Acknowledge user about failure in moisture sensor
 const char SmsMS2[46] = "Moisture sensor frequency value for field no."; // Acknowledge user measured moisture sensor value

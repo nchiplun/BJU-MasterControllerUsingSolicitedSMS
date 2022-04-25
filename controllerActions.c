@@ -1610,8 +1610,8 @@ void extractReceivedSms(void) {
                         temporaryBytesArray[1] = iterator + 39; // To store field no. of valve in action 
                     }
                     myMsDelay(5000);
-                    calibrateMotorCurrent(NoLoad, iterator);
-                    myMsDelay(1000);
+                    //calibrateMotorCurrent(NoLoad, iterator);
+                    //myMsDelay(1000);
                     calibrateMotorCurrent(FullLoad, iterator);
                     myMsDelay(1000);
                     saveMotorLoadValuesIntoEeprom();
@@ -2243,6 +2243,10 @@ Here ADC module is used to measure high/ low voltage of CT thereby identifying l
 
 _Bool isMotorInNoLoad(void) {
     unsigned int ctOutput = 0;
+    unsigned int temp = 0;
+    lowPhaseCurrentDetected = false;
+    dryRunDetected = false;
+    temp = (10*fullLoadCutOff)/100;
     #ifdef DEBUG_MODE_ON_H
     //********Debug log#start************//
     transmitStringToDebug("isMotorInNoLoad_IN\r\n");
@@ -2251,20 +2255,30 @@ _Bool isMotorInNoLoad(void) {
     // Averaging measured pulse width
     selectChannel(CTchannel);
     ctOutput = getADCResult();
-    if (ctOutput <= noLoadCutOff) {
+    if (ctOutput == 0 && ctOutput <= noLoadCutOff) {
         dryRunDetected = true; //Set Low water level
         #ifdef DEBUG_MODE_ON_H
         //********Debug log#start************//
-        transmitStringToDebug("isMotorInNoLoad_Yes_OUT\r\n");
+        transmitStringToDebug("isMotorInNoLoad_Dry_Yes_OUT\r\n");
+        //********Debug log#end**************//
+        #endif
+        return true;
+    }
+    else if (ctOutput == 0 || ctOutput <= temp) {  // no phase current
+        lowPhaseCurrentDetected = true; //Set phase current low
+        #ifdef DEBUG_MODE_ON_H
+        //********Debug log#start************//
+        transmitStringToDebug("isMotorInNoLoad_LowPhase_Yes_OUT\r\n");
         //********Debug log#end**************//
         #endif
         return true;
     }
     else {
+        lowPhaseCurrentDetected = false; 
         dryRunDetected = false; //Set High water level
         #ifdef DEBUG_MODE_ON_H
         //********Debug log#start************//
-        transmitStringToDebug("isMotorInNoLoad_No_OUT\r\n");
+        transmitStringToDebug("isMotorInNoLoad_Dry_LowPhase_No_OUT\r\n");
         //********Debug log#end**************//
         #endif
         return false;
@@ -2382,6 +2396,7 @@ void calibrateMotorCurrent(unsigned char loadType, unsigned char FieldNo) {
         setBCDdigit(0x0F, 1);
         if (loadType == FullLoad) {
             fullLoadCutOff = ctOutput;
+            noLoadCutOff = (7*fullLoadCutOff)/10;
         }
         else if (loadType == NoLoad) {
             noLoadCutOff = ctOutput;
@@ -2439,6 +2454,7 @@ void calibrateMotorCurrent(unsigned char loadType, unsigned char FieldNo) {
 }
 
 /*********** Motor current calibration#End********/
+
 /*********** DRY RUN Action#Start********/
 
 /*************************************************************************************************************************
@@ -2610,6 +2626,55 @@ void doDryRunAction(void) {
 					/***************************/
                 }
             }
+            if (phaseR) {
+                /***************************/
+                sendSms(SmsPh3, userMobileNo, noInfo); // Acknowledge user about dry run detected again
+                #ifdef SMS_DELIVERY_REPORT_ON_H
+                sleepCount = 2; // Load sleep count for SMS transmission action
+                sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
+                setBCDdigit(0x05,0);
+                deepSleep(); // Sleep until message transmission acknowledge SMS is received from service provider
+                setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+                #endif
+                /***************************/
+            }
+            else if (phaseY) {
+                /***************************/
+                sendSms(SmsPh4, userMobileNo, noInfo); // Acknowledge user about dry run detected again
+                #ifdef SMS_DELIVERY_REPORT_ON_H
+                sleepCount = 2; // Load sleep count for SMS transmission action
+                sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
+                setBCDdigit(0x05,0);
+                deepSleep(); // Sleep until message transmission acknowledge SMS is received from service provider
+                setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+                #endif
+                /***************************/
+            }
+            else if (phaseB) {
+                /***************************/
+                sendSms(SmsPh5, userMobileNo, noInfo); // Acknowledge user about dry run detected again
+                #ifdef SMS_DELIVERY_REPORT_ON_H
+                sleepCount = 2; // Load sleep count for SMS transmission action
+                sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
+                setBCDdigit(0x05,0);
+                deepSleep(); // Sleep until message transmission acknowledge SMS is received from service provider
+                setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+                #endif
+                /***************************/
+            }
+            else {
+                /***************************/
+                sendSms(SmsPh6, userMobileNo, noInfo); // Acknowledge user about dry run detected again
+                #ifdef SMS_DELIVERY_REPORT_ON_H
+                sleepCount = 2; // Load sleep count for SMS transmission action
+                sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
+                setBCDdigit(0x05,0);
+                deepSleep(); // Sleep until message transmission acknowledge SMS is received from service provider
+                setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+                #endif
+                /***************************/
+            }
+            
         }
         else if ((currentDD == fieldValve[field_No].nextDueDD && currentMM == fieldValve[field_No].nextDueMM && currentYY == fieldValve[field_No].nextDueYY)) {
             /******** Calculate and save Field Valve next date**********/
@@ -2633,6 +2698,79 @@ void doDryRunAction(void) {
 }
 
 /*********** DRY RUN Action#End********/
+
+/*********** Low Phase Action#Start********/
+
+/*************************************************************************************************************************
+
+This function is called to perform actions after detecting low phase condition.
+After detecting low phase condition, stop all active valves and set them due when phase current recovers
+Notify user about all actions
+
+**************************************************************************************************************************/
+
+void doLowPhaseAction(void) {;
+    unsigned char field_No = CLEAR;
+    #ifdef DEBUG_MODE_ON_H
+    //********Debug log#start************//
+    transmitStringToDebug("dolowPhaseAction_IN\r\n");
+    //********Debug log#end**************//
+    #endif
+    /***************************/
+    sendSms(SmsPh2, userMobileNo, noInfo); // Acknowledge user about low phase current
+    #ifdef SMS_DELIVERY_REPORT_ON_H
+    sleepCount = 2; // Load sleep count for SMS transmission action
+    sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
+    setBCDdigit(0x05,0);
+    deepSleep(); // Sleep until message transmission acknowledge SMS is received from service provider
+    setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+    #endif
+    /***************************/
+    if (valveDue) {
+        for (field_No = 0; field_No < fieldCount; field_No++) {
+            if (fieldValve[field_No].status == ON) {
+                powerOffMotor();
+                myMsDelay(1000);
+                deActivateValve(field_No);   // Deactivate Valve upon phase failure condition and reset valve to next due time
+                /************Fertigation switch off due to dry run***********/
+                if (fieldValve[field_No].fertigationStage == injectPeriod) {
+                    fertigationValveControl = OFF; // Switch off fertigation valve in case it is ON
+
+                    /***************************/
+                    // for field no. 01 to 09
+                    if (field_No<9){
+                        temporaryBytesArray[0] = 48; // To store field no. of valve in action 
+                        temporaryBytesArray[1] = field_No + 49; // To store field no. of valve in action 
+                    }// for field no. 10 to 12
+                    else if (field_No > 8 && field_No < 12) {
+                        temporaryBytesArray[0] = 49; // To store field no. of valve in action 
+                        temporaryBytesArray[1] = field_No + 39; // To store field no. of valve in action 
+                    }
+                    /***************************/
+
+                    /***************************/
+                    sendSms(SmsFert6, userMobileNo, fieldNoRequired); // Acknowledge user about successful Fertigation stopped action
+                    #ifdef SMS_DELIVERY_REPORT_ON_H
+                    sleepCount = 2; // Load sleep count for SMS transmission action
+                    sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
+                    setBCDdigit(0x05,0);
+                    deepSleep(); // Sleep until message transmission acknowledge SMS is received from service provider           
+                    setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+                    #endif
+                    /***************************/
+                }
+            }
+        }
+    }
+    phaseFailureActionTaken = true;
+    #ifdef DEBUG_MODE_ON_H
+    //********Debug log#start************//
+    transmitStringToDebug("dolowPhaseAction_OUT\r\n");
+    //********Debug log#end**************//
+    #endif
+}
+
+/*********** Low Phase Action#End********/
 
 /*********** Phase Failure Action#Start********/
 
@@ -2828,7 +2966,7 @@ void powerOnMotor(void) {
     else {
         filtrationCycleSequence = 99;
     }
-    myMsDelay(100);
+    dryRunCheckCount = 0;
 #ifdef STAR_DELTA_DEFINITIONS_H
     myMsDelay(500);
     motorPowerTorque = ON;
@@ -3070,22 +3208,6 @@ void deActivateValve(unsigned char FieldNo) {
         field12ValveControl = OFF; // switch off valve for field 12
         break;   
     }
-    /*
-    if(!dryRunDetected && !phaseFailureDetected) {
-        fieldValve[FieldNo].status = OFF; //notify field valve status
-        if (fieldValve[FieldNo].cyclesExecuted >= fieldValve[FieldNo].cycles) {
-            fieldValve[FieldNo].cyclesExecuted = 1; //Cycles execution begin after valve due for first time
-        }
-        else {
-            fieldValve[FieldNo].cyclesExecuted++; //Cycles execution record
-        }
-        myMsDelay(100);
-        saveIrrigationValveOnOffStatusIntoEeprom(eepromAddress[FieldNo], &fieldValve[FieldNo]);
-        myMsDelay(100);
-        saveIrrigationValveCycleStatusIntoEeprom(eepromAddress[FieldNo], &fieldValve[FieldNo]);
-        myMsDelay(100);
-    }
-    */
     /***************************/
     // for field no. 01 to 09
     if (FieldNo<9){
@@ -3141,20 +3263,28 @@ void deepSleep(void) {
             sleepCount = 65500;
             setBCDdigit(0x03,0);  // (3.) BCD Indication for Phase Failure Error
         }
-        // Valve is ON without any external/Internal interrupt
-        else if (valveDue) {
+        // Motor is ON without any external/Internal interrupt
+        else if (MotorControl == ON && dryRunCheckCount > 4) {
             saveActiveSleepCountIntoEeprom(); // Save current valve on time
             // check Motor Dry run condition after each sleep count
             if (isMotorInNoLoad()) {
-                //sleepCount = 1; // clear sleep count
+                if (dryRunDetected) {
                     doDryRunAction();
                 }
+                else if (lowPhaseCurrentDetected) {
+                    doLowPhaseAction();
+                    sleepCount = 65500;
+                }
+            }
             else {
                 setBCDdigit(0x0C,1);  // (u) BCD Indication for valve in action
             }     
         }
         else if(dryRunDetected) {
             setBCDdigit(0x0C,0);  // (u.) BCD Indication for Dry Run Detected Error
+        }
+        else if(lowPhaseCurrentDetected) {
+            setBCDdigit(0x03,0);  // (3.) BCD Indication for Phase Failure Error
         }
         else if(lowRTCBatteryDetected) {
             setBCDdigit(0x02,0);  // (2.) BCD Indication for RTC Battery Low Error
@@ -3173,7 +3303,7 @@ void deepSleep(void) {
         }
         WDTCON0bits.SWDTEN = DISABLED; //turn off sleep mode timer
         Run_led = GLOW; // Led Indication for system in Operational Mode
-        if(!valveDue && !phaseFailureDetected) {
+        if(!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
             sleepCount--; // Decrement sleep count after every sleep cycle
         }
     }
@@ -3842,7 +3972,7 @@ The purpose of this function is to perform actions after awaking from deep sleep
 ***************************************************************************************************************************/
 void actionsOnSleepCountFinish(void) {
     unsigned char field_No = CLEAR;
-    if (valveDue && sleepCount == 0 && !dryRunDetected && !phaseFailureDetected && !onHold) {
+    if (valveDue && sleepCount == 0 && !dryRunDetected && !phaseFailureDetected && !onHold && !lowPhaseCurrentDetected) {
         for (field_No = 0; field_No < fieldCount; field_No++) {
             // upon completing first delay start period sleep , switch on fertigation valve
             if (fieldValve[field_No].status == ON && fieldValve[field_No].isFertigationEnabled && fieldValve[field_No].fertigationStage == wetPeriod) {
@@ -4054,7 +4184,7 @@ void actionsOnDueValve(unsigned char field_No) {
         /***************************/
 
         /***************************/
-        sendSms(SmsIrr6, userMobileNo, fieldNoRequired); // Acknowledge user about sIrrigation not started due to wet field detection						
+        sendSms(SmsIrr6, userMobileNo, fieldNoRequired); // Acknowledge user about Irrigation not started due to wet field detection						
         #ifdef SMS_DELIVERY_REPORT_ON_H
         sleepCount = 2; // Load sleep count for SMS transmission action
         sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission

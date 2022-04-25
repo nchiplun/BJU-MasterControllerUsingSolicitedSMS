@@ -36,6 +36,7 @@ _Bool isFieldMoistureSensorWet(unsigned char);	// Measure moisture level for fie
 _Bool isMotorInNoLoad(void);                    // Measure motor ct current
 void calibrateMotorCurrent(unsigned char, unsigned char);      // Calibrate Motor rated current
 void doDryRunAction(void);                      // Take action after detecting Dry Run
+void doLowPhaseAction(void);                    // Take action after detecting Low Phase current
 void doPhaseFailureAction(void);                // Take action after detecting PhaseFailure
 _Bool isRTCBatteryDrained(void);                // Measure RTC Battery Voltage
 unsigned char fetchFieldNo(unsigned char);      //Fetch field no from sms
