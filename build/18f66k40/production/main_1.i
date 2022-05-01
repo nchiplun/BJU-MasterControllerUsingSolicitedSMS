@@ -24607,7 +24607,7 @@ const char SmsTest[19] = "Test Data Injected";
 const char SmsFact1[15] = "Factory Key : ";
 
 const char SmsPh1[47] = "Phase failure detected, suspending all actions";
-const char SmsPh2[51] = "Low Phase current detected, suspending all actions";
+const char SmsPh2[69] = "Low Phase current detected, actions suspended, please restart system";
 const char SmsPh3[25] = "Phase R failure detected";
 const char SmsPh4[25] = "Phase Y failure detected";
 const char SmsPh5[25] = "Phase B failure detected";
@@ -24868,7 +24868,7 @@ void __attribute__((picinterrupt(("low_priority")))) timerInterrupt_handler(void
 
         if (sleepCount > 0 && PORTFbits.RF7 == 1) {
             sleepCount--;
-            if (dryRunCheckCount == 0 || dryRunCheckCount < 5) {
+            if (dryRunCheckCount == 0 || dryRunCheckCount < 3) {
                 dryRunCheckCount++;
             }
         }

@@ -143,7 +143,7 @@ void __interrupt(low_priority) timerInterrupt_handler(void) {
         // Control sleep count decrement for each one minute interrupt when motor is on 
         if (sleepCount > 0 && MotorControl == ON) {
             sleepCount--;
-            if (dryRunCheckCount == 0 || dryRunCheckCount < 5) {
+            if (dryRunCheckCount == 0 || dryRunCheckCount < 3) {
                 dryRunCheckCount++;
             }
         } 

@@ -2246,7 +2246,7 @@ _Bool isMotorInNoLoad(void) {
     unsigned int temp = 0;
     lowPhaseCurrentDetected = false;
     dryRunDetected = false;
-    temp = (10*fullLoadCutOff)/100;
+    temp = (fullLoadCutOff)/10;
     #ifdef DEBUG_MODE_ON_H
     //********Debug log#start************//
     transmitStringToDebug("isMotorInNoLoad_IN\r\n");
@@ -2255,7 +2255,7 @@ _Bool isMotorInNoLoad(void) {
     // Averaging measured pulse width
     selectChannel(CTchannel);
     ctOutput = getADCResult();
-    if (ctOutput == 0 && ctOutput <= noLoadCutOff) {
+    if (ctOutput > temp && ctOutput <= noLoadCutOff) {
         dryRunDetected = true; //Set Low water level
         #ifdef DEBUG_MODE_ON_H
         //********Debug log#start************//
@@ -2264,7 +2264,7 @@ _Bool isMotorInNoLoad(void) {
         #endif
         return true;
     }
-    else if (ctOutput == 0 || ctOutput <= temp) {  // no phase current
+    else if (ctOutput == 0 && ctOutput < temp) {  // no phase current
         lowPhaseCurrentDetected = true; //Set phase current low
         #ifdef DEBUG_MODE_ON_H
         //********Debug log#start************//
@@ -3264,10 +3264,10 @@ void deepSleep(void) {
             setBCDdigit(0x03,0);  // (3.) BCD Indication for Phase Failure Error
         }
         // Motor is ON without any external/Internal interrupt
-        else if (MotorControl == ON && dryRunCheckCount > 4) {
+        else if (MotorControl == ON ) {
             saveActiveSleepCountIntoEeprom(); // Save current valve on time
             // check Motor Dry run condition after each sleep count
-            if (isMotorInNoLoad()) {
+            if (isMotorInNoLoad() && dryRunCheckCount > 2) {
                 if (dryRunDetected) {
                     doDryRunAction();
                 }
@@ -3925,6 +3925,12 @@ void actionsOnSystemReset(void) {
         setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
         #endif
         /***************************/
+        if(gsmSetToLocalTime) {
+            getDateFromGSM(); // Get today's date from Network
+            myMsDelay(1000);
+            feedTimeInRTC(); // Feed fetched date from network into RTC
+            myMsDelay(1000);
+        }
     }
     else if (lowRTCBatteryDetected) {
         lowRTCBatteryDetected = false;
@@ -3959,7 +3965,13 @@ void actionsOnSystemReset(void) {
             #endif
             /***************************/  
         }   
-    }  
+    } 
+    else if(gsmSetToLocalTime) {
+        getDateFromGSM(); // Get today's date from Network
+        myMsDelay(1000);
+        feedTimeInRTC(); // Feed fetched date from network into RTC
+        myMsDelay(1000);
+    }
 }
 /*************actionsOnSystemReset#End**********/
 

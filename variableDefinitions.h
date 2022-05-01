@@ -358,7 +358,7 @@ const char SmsTest[19] = "Test Data Injected";
 const char SmsFact1[15] = "Factory Key : "; // Acknowledge user about successful motor off action
 
 const char SmsPh1[47] = "Phase failure detected, suspending all actions"; // Acknowledge user about Phase failure status
-const char SmsPh2[51] = "Low Phase current detected, suspending all actions"; // Acknowledge user about successful motor off action
+const char SmsPh2[69] = "Low Phase current detected, actions suspended, please restart system"; // Acknowledge user about successful motor off action
 const char SmsPh3[25] = "Phase R failure detected"; // Acknowledge user about phase failure status
 const char SmsPh4[25] = "Phase Y failure detected"; // Acknowledge user about phase failure status
 const char SmsPh5[25] = "Phase B failure detected"; // Acknowledge user about phase failure status
