@@ -2264,7 +2264,7 @@ _Bool isMotorInNoLoad(void) {
         #endif
         return true;
     }
-    else if (ctOutput == 0 && ctOutput < temp) {  // no phase current
+    else if (ctOutput >= 0 && ctOutput <= temp) {  // no phase current
         lowPhaseCurrentDetected = true; //Set phase current low
         #ifdef DEBUG_MODE_ON_H
         //********Debug log#start************//
@@ -2396,7 +2396,7 @@ void calibrateMotorCurrent(unsigned char loadType, unsigned char FieldNo) {
         setBCDdigit(0x0F, 1);
         if (loadType == FullLoad) {
             fullLoadCutOff = ctOutput;
-            noLoadCutOff = (7*fullLoadCutOff)/10;
+            noLoadCutOff = (8*fullLoadCutOff)/10;
         }
         else if (loadType == NoLoad) {
             noLoadCutOff = ctOutput;
