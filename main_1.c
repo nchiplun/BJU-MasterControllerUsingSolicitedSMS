@@ -311,9 +311,10 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
             transmitStringToDebug("actionsOnSleepCountFinish_OUT\r\n");
             //********Debug log#end**************//
             #endif
-            if (isRTCBatteryDrained()){
+            if (isRTCBatteryDrained() && !rtcBatteryLevelChecked){
                 /***************************/
                 sendSms(SmsRTC1, userMobileNo, noInfo); // Acknowledge user about replace RTC battery
+                rtcBatteryLevelChecked = true;
                 #ifdef SMS_DELIVERY_REPORT_ON_H
                 sleepCount = 2; // Load sleep count for SMS transmission action
                 sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission

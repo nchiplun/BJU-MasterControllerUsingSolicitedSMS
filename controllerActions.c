@@ -2396,7 +2396,7 @@ void calibrateMotorCurrent(unsigned char loadType, unsigned char FieldNo) {
         setBCDdigit(0x0F, 1);
         if (loadType == FullLoad) {
             fullLoadCutOff = ctOutput;
-            noLoadCutOff = (8*fullLoadCutOff)/10;
+            noLoadCutOff = (7*fullLoadCutOff)/10;
         }
         else if (loadType == NoLoad) {
             noLoadCutOff = ctOutput;
@@ -2709,7 +2709,7 @@ Notify user about all actions
 
 **************************************************************************************************************************/
 
-void doLowPhaseAction(void) {;
+void doLowPhaseAction(void) {
     unsigned char field_No = CLEAR;
     #ifdef DEBUG_MODE_ON_H
     //********Debug log#start************//

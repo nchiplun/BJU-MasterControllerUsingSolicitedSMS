@@ -24479,7 +24479,7 @@ _Bool dueValveChecked = 0;
 _Bool correctDate = 0;
 _Bool phaseFailureDetected = 0;
 _Bool lowRTCBatteryDetected = 0;
-_Bool checkRTCBatteryLevel = 0;
+_Bool rtcBatteryLevelChecked = 0;
 _Bool phaseFailureActionTaken = 0;
 _Bool filtrationEnabled = 0;
 _Bool cmtiCmd = 0;
@@ -26453,7 +26453,7 @@ _Bool isMotorInNoLoad(void) {
 
         return 1;
     }
-    else if (ctOutput == 0 && ctOutput < temp) {
+    else if (ctOutput >= 0 && ctOutput <= temp) {
         lowPhaseCurrentDetected = 1;
 
 
@@ -26803,7 +26803,7 @@ void doDryRunAction(void) {
 
 }
 # 2712 "controllerActions.c"
-void doLowPhaseAction(void) {;
+void doLowPhaseAction(void) {
     unsigned char field_No = 0;
 
 

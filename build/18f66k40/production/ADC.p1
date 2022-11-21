@@ -2268,9 +2268,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> -> 0 `i `a
 ]
 "233
-[; ;./variableDefinitions.h: 233: _Bool checkRTCBatteryLevel = 0;
-[v _checkRTCBatteryLevel `a ~T0 @X0 1 e ]
-[i _checkRTCBatteryLevel
+[; ;./variableDefinitions.h: 233: _Bool rtcBatteryLevelChecked = 0;
+[v _rtcBatteryLevelChecked `a ~T0 @X0 1 e ]
+[i _rtcBatteryLevelChecked
 -> -> 0 `i `a
 ]
 "234

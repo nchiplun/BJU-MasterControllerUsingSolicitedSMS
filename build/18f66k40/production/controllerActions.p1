@@ -3085,9 +3085,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> -> 0 `i `a
 ]
 "233
-[; ;./variableDefinitions.h: 233: _Bool checkRTCBatteryLevel = 0;
-[v _checkRTCBatteryLevel `a ~T0 @X0 1 e ]
-[i _checkRTCBatteryLevel
+[; ;./variableDefinitions.h: 233: _Bool rtcBatteryLevelChecked = 0;
+[v _rtcBatteryLevelChecked `a ~T0 @X0 1 e ]
+[i _rtcBatteryLevelChecked
 -> -> 0 `i `a
 ]
 "234
@@ -11653,9 +11653,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 }
 [e $U 2483  ]
 "2267
-[; ;controllerActions.c: 2267:     else if (ctOutput == 0 && ctOutput < temp) {
+[; ;controllerActions.c: 2267:     else if (ctOutput >= 0 && ctOutput <= temp) {
 [e :U 2482 ]
-[e $ ! && == _ctOutput -> -> 0 `i `ui < _ctOutput _temp 2484  ]
+[e $ ! && >= _ctOutput -> -> 0 `i `ui <= _ctOutput _temp 2484  ]
 {
 "2268
 [; ;controllerActions.c: 2268:         lowPhaseCurrentDetected = 1;
@@ -12618,7 +12618,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :UE 2527 ]
 }
 "2712
-[; ;controllerActions.c: 2712: void doLowPhaseAction(void) {;
+[; ;controllerActions.c: 2712: void doLowPhaseAction(void) {
 [v _doLowPhaseAction `(v ~T0 @X0 1 ef ]
 {
 [e :U _doLowPhaseAction ]

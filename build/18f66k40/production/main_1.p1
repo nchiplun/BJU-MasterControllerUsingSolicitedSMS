@@ -2429,9 +2429,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> -> 0 `i `a
 ]
 "233
-[; ;./variableDefinitions.h: 233: _Bool checkRTCBatteryLevel = 0;
-[v _checkRTCBatteryLevel `a ~T0 @X0 1 e ]
-[i _checkRTCBatteryLevel
+[; ;./variableDefinitions.h: 233: _Bool rtcBatteryLevelChecked = 0;
+[v _rtcBatteryLevelChecked `a ~T0 @X0 1 e ]
+[i _rtcBatteryLevelChecked
 -> -> 0 `i `a
 ]
 "234
@@ -7095,27 +7095,30 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main_1.c: 308:             actionsOnSleepCountFinish();
 [e ( _actionsOnSleepCountFinish ..  ]
 "314
-[; ;main_1.c: 314:             if (isRTCBatteryDrained()){
-[e $ ! != -> ( _isRTCBatteryDrained ..  `i -> 0 `i 2077  ]
+[; ;main_1.c: 314:             if (isRTCBatteryDrained() && !rtcBatteryLevelChecked){
+[e $ ! && != -> ( _isRTCBatteryDrained ..  `i -> 0 `i ! != -> _rtcBatteryLevelChecked `i -> 0 `i 2077  ]
 {
 "316
 [; ;main_1.c: 316:                 sendSms(SmsRTC1, userMobileNo, 0);
 [e ( _sendSms (3 , , &U _SmsRTC1 &U _userMobileNo -> -> 0 `i `uc ]
-"325
-[; ;main_1.c: 325:             }
+"317
+[; ;main_1.c: 317:                 rtcBatteryLevelChecked = 1;
+[e = _rtcBatteryLevelChecked -> -> 1 `i `a ]
+"326
+[; ;main_1.c: 326:             }
 }
 [e :U 2077 ]
-"326
-[; ;main_1.c: 326:         }
+"327
+[; ;main_1.c: 327:         }
 }
 [e :U 2076 ]
-"327
-[; ;main_1.c: 327:     }
+"328
+[; ;main_1.c: 328:     }
 }
 [e :U 2066 ]
 [e $U 2067  ]
 [e :U 2068 ]
-"328
-[; ;main_1.c: 328: }
+"329
+[; ;main_1.c: 329: }
 [e :UE 2065 ]
 }

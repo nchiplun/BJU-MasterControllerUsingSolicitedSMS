@@ -24479,7 +24479,7 @@ _Bool dueValveChecked = 0;
 _Bool correctDate = 0;
 _Bool phaseFailureDetected = 0;
 _Bool lowRTCBatteryDetected = 0;
-_Bool checkRTCBatteryLevel = 0;
+_Bool rtcBatteryLevelChecked = 0;
 _Bool phaseFailureActionTaken = 0;
 _Bool filtrationEnabled = 0;
 _Bool cmtiCmd = 0;
@@ -25022,10 +25022,11 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
 
 
 
-            if (isRTCBatteryDrained()){
+            if (isRTCBatteryDrained() && !rtcBatteryLevelChecked){
 
                 sendSms(SmsRTC1, userMobileNo, 0);
-# 325 "main_1.c"
+                rtcBatteryLevelChecked = 1;
+# 326 "main_1.c"
             }
         }
     }
