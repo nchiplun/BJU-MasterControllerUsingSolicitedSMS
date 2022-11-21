@@ -140,10 +140,13 @@ void __interrupt(low_priority) timerInterrupt_handler(void) {
         TMR0H = 0xE3; // Load Timer0 Register Higher Byte 
         TMR0L = 0xB0; // Load Timer0 Register Lower Byte
         Timer0Overflow++;
-        // Control sleep count decrement for each one minute interrupt
-        if (sleepCount > 0 && valveDue) {
+        // Control sleep count decrement for each one minute interrupt when motor is on 
+        if (sleepCount > 0 && MotorControl == ON) {
             sleepCount--;
+            if (dryRunCheckCount == 0 || dryRunCheckCount < 3) {
+                dryRunCheckCount++;
             }
+        } 
         //*To follow filtration  cycle sequence*/
         if (filtrationCycleSequence == 1 && Timer0Overflow == filtrationDelay1 ) { // 10 minute off
             Timer0Overflow = 0;
@@ -223,7 +226,7 @@ void __interrupt(low_priority) timerInterrupt_handler(void) {
     unsigned char last_Field_No = CLEAR;
     actionsOnSystemReset();
     while (1) {
-nxtVlv: if (!valveDue && !phaseFailureDetected) {
+nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
             myMsDelay(50);
             scanValveScheduleAndGetSleepCount(); // get sleep count for next valve action
             myMsDelay(50);
@@ -308,9 +311,10 @@ nxtVlv: if (!valveDue && !phaseFailureDetected) {
             transmitStringToDebug("actionsOnSleepCountFinish_OUT\r\n");
             //********Debug log#end**************//
             #endif
-            if (isRTCBatteryDrained()){
+            if (isRTCBatteryDrained() && !rtcBatteryLevelChecked){
                 /***************************/
                 sendSms(SmsRTC1, userMobileNo, noInfo); // Acknowledge user about replace RTC battery
+                rtcBatteryLevelChecked = true;
                 #ifdef SMS_DELIVERY_REPORT_ON_H
                 sleepCount = 2; // Load sleep count for SMS transmission action
                 sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission

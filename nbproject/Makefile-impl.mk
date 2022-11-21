@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=AutoIrrigation_SolicitedSMS.X
+PROJECTNAME=AutoIrrigation_SolicitedSMSNcDevBranch.X
 
 # Active Configuration
 DEFAULTCONF=18f66k40
