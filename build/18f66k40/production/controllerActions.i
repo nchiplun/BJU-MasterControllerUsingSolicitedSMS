@@ -26453,7 +26453,7 @@ _Bool isMotorInNoLoad(void) {
 
         return 1;
     }
-    else if (ctOutput >= 0 && ctOutput <= temp) {
+    else if (ctOutput == 0 || (ctOutput > 0 && ctOutput <= temp)) {
         lowPhaseCurrentDetected = 1;
 
 

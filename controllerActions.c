@@ -2264,7 +2264,7 @@ _Bool isMotorInNoLoad(void) {
         #endif
         return true;
     }
-    else if (ctOutput >= 0 && ctOutput <= temp) {  // no phase current
+    else if (ctOutput == 0 || (ctOutput > 0 && ctOutput <= temp)) {  // no phase current
         lowPhaseCurrentDetected = true; //Set phase current low
         #ifdef DEBUG_MODE_ON_H
         //********Debug log#start************//

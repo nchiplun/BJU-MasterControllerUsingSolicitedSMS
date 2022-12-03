@@ -11653,9 +11653,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 }
 [e $U 2483  ]
 "2267
-[; ;controllerActions.c: 2267:     else if (ctOutput >= 0 && ctOutput <= temp) {
+[; ;controllerActions.c: 2267:     else if (ctOutput == 0 || (ctOutput > 0 && ctOutput <= temp)) {
 [e :U 2482 ]
-[e $ ! && >= _ctOutput -> -> 0 `i `ui <= _ctOutput _temp 2484  ]
+[e $ ! || == _ctOutput -> -> 0 `i `ui && > _ctOutput -> -> 0 `i `ui <= _ctOutput _temp 2484  ]
 {
 "2268
 [; ;controllerActions.c: 2268:         lowPhaseCurrentDetected = 1;
