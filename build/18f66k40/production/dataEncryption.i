@@ -24482,6 +24482,7 @@ _Bool filtrationEnabled = 0;
 _Bool cmtiCmd = 0;
 _Bool DeviceBurnStatus = 0;
 _Bool gsmSetToLocalTime = 0;
+_Bool wetSensor = 0;
 
 
 

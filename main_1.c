@@ -269,60 +269,63 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
         if (onHold) {
             sleepCount = 0; // Skip Next sleep for performing hold operation
         }
-        /****************************/
-        deepSleep(); // sleep for given sleep count (	default/calculated )
-        /****************************/
-        // check if Sleep count executed with interrupt occurred due to new SMS command reception
-        #ifdef DEBUG_MODE_ON_H
-        //********Debug log#start************//
-        transmitStringToDebug((const char *)gsmResponse);
-        transmitStringToDebug("\r\n");
-        //********Debug log#end**************//
-        #endif
-        if (newSMSRcvd) {
+        if (!wetSensor) {
+            wetSensor = false;
+            /****************************/
+            deepSleep(); // sleep for given sleep count (	default/calculated )
+            /****************************/
+            // check if Sleep count executed with interrupt occurred due to new SMS command reception
             #ifdef DEBUG_MODE_ON_H
             //********Debug log#start************//
-            transmitStringToDebug("newSMSRcvd_IN\r\n");
+            transmitStringToDebug((const char *)gsmResponse);
+            transmitStringToDebug("\r\n");
             //********Debug log#end**************//
             #endif
-            setBCDdigit(0x02,1); // "2" BCD indication for New SMS Received 
-            myMsDelay(500);
-            newSMSRcvd = false; // received command is processed										
-            extractReceivedSms(); // Read received SMS
-            setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
-            myMsDelay(500);
-            deleteMsgFromSIMStorage();
-            #ifdef DEBUG_MODE_ON_H
-            //********Debug log#start************//
-            transmitStringToDebug("newSMSRcvd_OUT\r\n");
-            //********Debug log#end**************//
-            #endif
-        } 
-        //check if Sleep count executed without external interrupt
-        else {
-            #ifdef DEBUG_MODE_ON_H
-            //********Debug log#start************//
-            transmitStringToDebug("actionsOnSleepCountFinish_IN\r\n");
-            //********Debug log#end**************//
-            #endif
-            actionsOnSleepCountFinish();
-            #ifdef DEBUG_MODE_ON_H
-            //********Debug log#start************//
-            transmitStringToDebug("actionsOnSleepCountFinish_OUT\r\n");
-            //********Debug log#end**************//
-            #endif
-            if (isRTCBatteryDrained() && !rtcBatteryLevelChecked){
-                /***************************/
-                sendSms(SmsRTC1, userMobileNo, noInfo); // Acknowledge user about replace RTC battery
-                rtcBatteryLevelChecked = true;
-                #ifdef SMS_DELIVERY_REPORT_ON_H
-                sleepCount = 2; // Load sleep count for SMS transmission action
-                sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
-                setBCDdigit(0x05,0);
-                deepSleep(); // Sleep until message transmission acknowledge SMS is received from service provider
-                setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+            if (newSMSRcvd) {
+                #ifdef DEBUG_MODE_ON_H
+                //********Debug log#start************//
+                transmitStringToDebug("newSMSRcvd_IN\r\n");
+                //********Debug log#end**************//
                 #endif
-                /***************************/
+                setBCDdigit(0x02,1); // "2" BCD indication for New SMS Received 
+                myMsDelay(500);
+                newSMSRcvd = false; // received command is processed										
+                extractReceivedSms(); // Read received SMS
+                setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+                myMsDelay(500);
+                deleteMsgFromSIMStorage();
+                #ifdef DEBUG_MODE_ON_H
+                //********Debug log#start************//
+                transmitStringToDebug("newSMSRcvd_OUT\r\n");
+                //********Debug log#end**************//
+                #endif
+            } 
+            //check if Sleep count executed without external interrupt
+            else {
+                #ifdef DEBUG_MODE_ON_H
+                //********Debug log#start************//
+                transmitStringToDebug("actionsOnSleepCountFinish_IN\r\n");
+                //********Debug log#end**************//
+                #endif
+                actionsOnSleepCountFinish();
+                #ifdef DEBUG_MODE_ON_H
+                //********Debug log#start************//
+                transmitStringToDebug("actionsOnSleepCountFinish_OUT\r\n");
+                //********Debug log#end**************//
+                #endif
+                if (isRTCBatteryDrained() && !rtcBatteryLevelChecked){
+                    /***************************/
+                    sendSms(SmsRTC1, userMobileNo, noInfo); // Acknowledge user about replace RTC battery
+                    rtcBatteryLevelChecked = true;
+                    #ifdef SMS_DELIVERY_REPORT_ON_H
+                    sleepCount = 2; // Load sleep count for SMS transmission action
+                    sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
+                    setBCDdigit(0x05,0);
+                    deepSleep(); // Sleep until message transmission acknowledge SMS is received from service provider
+                    setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+                    #endif
+                    /***************************/
+                }
             }
         }
     }

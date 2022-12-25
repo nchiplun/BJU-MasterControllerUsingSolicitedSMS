@@ -236,6 +236,7 @@ _Bool filtrationEnabled = false;                // To store tank filtration oper
 _Bool cmtiCmd = false;                           // Set to indicate cmti command received
 _Bool DeviceBurnStatus = false;                 // To store Device program status
 _Bool gsmSetToLocalTime = false;                // To indicate if gsm set to local timezone
+_Bool wetSensor = false;                        // To indicate if sensor is wet
 /************* BOOLeans definition#end ***********************************/
 
 /************* Strings definition#start **********************************/

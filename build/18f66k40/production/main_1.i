@@ -24485,6 +24485,7 @@ _Bool filtrationEnabled = 0;
 _Bool cmtiCmd = 0;
 _Bool DeviceBurnStatus = 0;
 _Bool gsmSetToLocalTime = 0;
+_Bool wetSensor = 0;
 
 
 
@@ -24987,46 +24988,49 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
         if (onHold) {
             sleepCount = 0;
         }
+        if (!wetSensor) {
+            wetSensor = 0;
 
-        deepSleep();
-# 282 "main_1.c"
-        if (newSMSRcvd) {
-
-
-
-
-
-            setBCDdigit(0x02,1);
-            myMsDelay(500);
-            newSMSRcvd = 0;
-            extractReceivedSms();
-            setBCDdigit(0x0F,0);
-            myMsDelay(500);
-            deleteMsgFromSIMStorage();
+            deepSleep();
+# 284 "main_1.c"
+            if (newSMSRcvd) {
 
 
 
 
 
-        }
-
-        else {
-
-
-
-
-
-            actionsOnSleepCountFinish();
+                setBCDdigit(0x02,1);
+                myMsDelay(500);
+                newSMSRcvd = 0;
+                extractReceivedSms();
+                setBCDdigit(0x0F,0);
+                myMsDelay(500);
+                deleteMsgFromSIMStorage();
 
 
 
 
 
-            if (isRTCBatteryDrained() && !rtcBatteryLevelChecked){
+            }
 
-                sendSms(SmsRTC1, userMobileNo, 0);
-                rtcBatteryLevelChecked = 1;
-# 326 "main_1.c"
+            else {
+
+
+
+
+
+                actionsOnSleepCountFinish();
+
+
+
+
+
+                if (isRTCBatteryDrained() && !rtcBatteryLevelChecked){
+
+                    sendSms(SmsRTC1, userMobileNo, 0);
+                    rtcBatteryLevelChecked = 1;
+# 328 "main_1.c"
+                }
             }
         }
     }

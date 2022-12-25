@@ -24485,6 +24485,7 @@ _Bool filtrationEnabled = 0;
 _Bool cmtiCmd = 0;
 _Bool DeviceBurnStatus = 0;
 _Bool gsmSetToLocalTime = 0;
+_Bool wetSensor = 0;
 
 
 
@@ -27944,6 +27945,7 @@ void actionsOnDueValve(unsigned char field_No) {
     unsigned char last_Field_No = 0;
 
     if (isFieldMoistureSensorWet(field_No)) {
+        wetSensor = 1;
         valveDue = 0;
         fieldValve[field_No].status = 0;
         fieldValve[field_No].cyclesExecuted = fieldValve[field_No].cycles;
@@ -27976,7 +27978,7 @@ void actionsOnDueValve(unsigned char field_No) {
 
 
         sendSms(SmsIrr6, userMobileNo, 2);
-# 4208 "controllerActions.c"
+# 4209 "controllerActions.c"
     }
 
     else if (!phaseFailure()){
@@ -28003,7 +28005,7 @@ void actionsOnDueValve(unsigned char field_No) {
 
 
             sendSms(SmsFert5, userMobileNo, 2);
-# 4244 "controllerActions.c"
+# 4245 "controllerActions.c"
         }
         if (fieldValve[field_No].cyclesExecuted == fieldValve[field_No].cycles) {
 
@@ -28031,7 +28033,7 @@ void actionsOnDueValve(unsigned char field_No) {
         }
     }
 }
-# 4281 "controllerActions.c"
+# 4282 "controllerActions.c"
 void deleteUserData(void) {
     sendSms(SmsSR14, userMobileNo, 0);
     systemAuthenticated = 0;
@@ -28041,7 +28043,7 @@ void deleteUserData(void) {
     }
     saveMobileNoIntoEeprom();
 }
-# 4300 "controllerActions.c"
+# 4301 "controllerActions.c"
 void deleteValveData(void) {
     sendSms(SmsSR14, userMobileNo, 0);
     filtrationDelay1 = 0;
@@ -28072,7 +28074,7 @@ void deleteValveData(void) {
         myMsDelay(100);
     }
 }
-# 4339 "controllerActions.c"
+# 4340 "controllerActions.c"
 void randomPasswordGeneration(void) {
 
 
@@ -28089,7 +28091,7 @@ void randomPasswordGeneration(void) {
     }
     factryPswrd[6] = '\0';
 }
-# 4363 "controllerActions.c"
+# 4364 "controllerActions.c"
 void deleteGsmResponse(void) {
 
 
@@ -28109,7 +28111,7 @@ void deleteGsmResponse(void) {
 
 
 }
-# 4390 "controllerActions.c"
+# 4391 "controllerActions.c"
 void deleteStringToDecode(void) {
 
 
@@ -28128,7 +28130,7 @@ void deleteStringToDecode(void) {
 
 
 }
-# 4416 "controllerActions.c"
+# 4417 "controllerActions.c"
 void deleteDecodedString(void) {
 
 

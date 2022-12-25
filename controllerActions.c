@@ -4165,6 +4165,7 @@ void actionsOnDueValve(unsigned char field_No) {
     unsigned char last_Field_No = CLEAR;
     // Check if Field is wet
     if (isFieldMoistureSensorWet(field_No)) {
+        wetSensor = true;
         valveDue = false;
         fieldValve[field_No].status = OFF;
         fieldValve[field_No].cyclesExecuted = fieldValve[field_No].cycles;
