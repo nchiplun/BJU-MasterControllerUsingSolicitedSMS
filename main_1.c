@@ -270,7 +270,6 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
             sleepCount = 0; // Skip Next sleep for performing hold operation
         }
         if (!wetSensor) {
-            wetSensor = false;
             /****************************/
             deepSleep(); // sleep for given sleep count (	default/calculated )
             /****************************/

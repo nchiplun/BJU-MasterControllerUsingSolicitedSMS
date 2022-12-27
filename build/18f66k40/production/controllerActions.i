@@ -27943,6 +27943,7 @@ void actionsOnSleepCountFinish(void) {
 # 4164 "controllerActions.c"
 void actionsOnDueValve(unsigned char field_No) {
     unsigned char last_Field_No = 0;
+    wetSensor = 0;
 
     if (isFieldMoistureSensorWet(field_No)) {
         wetSensor = 1;
@@ -27978,7 +27979,7 @@ void actionsOnDueValve(unsigned char field_No) {
 
 
         sendSms(SmsIrr6, userMobileNo, 2);
-# 4209 "controllerActions.c"
+# 4210 "controllerActions.c"
     }
 
     else if (!phaseFailure()){
@@ -28005,7 +28006,7 @@ void actionsOnDueValve(unsigned char field_No) {
 
 
             sendSms(SmsFert5, userMobileNo, 2);
-# 4245 "controllerActions.c"
+# 4246 "controllerActions.c"
         }
         if (fieldValve[field_No].cyclesExecuted == fieldValve[field_No].cycles) {
 
@@ -28033,7 +28034,7 @@ void actionsOnDueValve(unsigned char field_No) {
         }
     }
 }
-# 4282 "controllerActions.c"
+# 4283 "controllerActions.c"
 void deleteUserData(void) {
     sendSms(SmsSR14, userMobileNo, 0);
     systemAuthenticated = 0;
@@ -28043,7 +28044,7 @@ void deleteUserData(void) {
     }
     saveMobileNoIntoEeprom();
 }
-# 4301 "controllerActions.c"
+# 4302 "controllerActions.c"
 void deleteValveData(void) {
     sendSms(SmsSR14, userMobileNo, 0);
     filtrationDelay1 = 0;
@@ -28074,7 +28075,7 @@ void deleteValveData(void) {
         myMsDelay(100);
     }
 }
-# 4340 "controllerActions.c"
+# 4341 "controllerActions.c"
 void randomPasswordGeneration(void) {
 
 
@@ -28091,7 +28092,7 @@ void randomPasswordGeneration(void) {
     }
     factryPswrd[6] = '\0';
 }
-# 4364 "controllerActions.c"
+# 4365 "controllerActions.c"
 void deleteGsmResponse(void) {
 
 
@@ -28111,7 +28112,7 @@ void deleteGsmResponse(void) {
 
 
 }
-# 4391 "controllerActions.c"
+# 4392 "controllerActions.c"
 void deleteStringToDecode(void) {
 
 
@@ -28130,7 +28131,7 @@ void deleteStringToDecode(void) {
 
 
 }
-# 4417 "controllerActions.c"
+# 4418 "controllerActions.c"
 void deleteDecodedString(void) {
 
 

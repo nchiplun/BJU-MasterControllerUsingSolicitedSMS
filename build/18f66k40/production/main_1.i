@@ -24989,10 +24989,9 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
             sleepCount = 0;
         }
         if (!wetSensor) {
-            wetSensor = 0;
 
             deepSleep();
-# 284 "main_1.c"
+# 283 "main_1.c"
             if (newSMSRcvd) {
 
 
@@ -25029,7 +25028,7 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
 
                     sendSms(SmsRTC1, userMobileNo, 0);
                     rtcBatteryLevelChecked = 1;
-# 328 "main_1.c"
+# 327 "main_1.c"
                 }
             }
         }

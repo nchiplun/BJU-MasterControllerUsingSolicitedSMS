@@ -7065,77 +7065,74 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main_1.c: 272:         if (!wetSensor) {
 [e $ ! ! != -> _wetSensor `i -> 0 `i 2075  ]
 {
-"273
-[; ;main_1.c: 273:             wetSensor = 0;
-[e = _wetSensor -> -> 0 `i `a ]
-"275
-[; ;main_1.c: 275:             deepSleep();
+"274
+[; ;main_1.c: 274:             deepSleep();
 [e ( _deepSleep ..  ]
-"284
-[; ;main_1.c: 284:             if (newSMSRcvd) {
+"283
+[; ;main_1.c: 283:             if (newSMSRcvd) {
 [e $ ! != -> _newSMSRcvd `i -> 0 `i 2076  ]
 {
-"290
-[; ;main_1.c: 290:                 setBCDdigit(0x02,1);
+"289
+[; ;main_1.c: 289:                 setBCDdigit(0x02,1);
 [e ( _setBCDdigit (2 , -> -> 2 `i `uc -> -> 1 `i `a ]
+"290
+[; ;main_1.c: 290:                 myMsDelay(500);
+[e ( _myMsDelay (1 -> -> 500 `i `ui ]
 "291
-[; ;main_1.c: 291:                 myMsDelay(500);
-[e ( _myMsDelay (1 -> -> 500 `i `ui ]
-"292
-[; ;main_1.c: 292:                 newSMSRcvd = 0;
+[; ;main_1.c: 291:                 newSMSRcvd = 0;
 [e = _newSMSRcvd -> -> 0 `i `a ]
-"293
-[; ;main_1.c: 293:                 extractReceivedSms();
+"292
+[; ;main_1.c: 292:                 extractReceivedSms();
 [e ( _extractReceivedSms ..  ]
-"294
-[; ;main_1.c: 294:                 setBCDdigit(0x0F,0);
+"293
+[; ;main_1.c: 293:                 setBCDdigit(0x0F,0);
 [e ( _setBCDdigit (2 , -> -> 15 `i `uc -> -> 0 `i `a ]
-"295
-[; ;main_1.c: 295:                 myMsDelay(500);
+"294
+[; ;main_1.c: 294:                 myMsDelay(500);
 [e ( _myMsDelay (1 -> -> 500 `i `ui ]
-"296
-[; ;main_1.c: 296:                 deleteMsgFromSIMStorage();
+"295
+[; ;main_1.c: 295:                 deleteMsgFromSIMStorage();
 [e ( _deleteMsgFromSIMStorage ..  ]
-"302
-[; ;main_1.c: 302:             }
+"301
+[; ;main_1.c: 301:             }
 }
 [e $U 2077  ]
-"304
-[; ;main_1.c: 304:             else {
+"303
+[; ;main_1.c: 303:             else {
 [e :U 2076 ]
 {
-"310
-[; ;main_1.c: 310:                 actionsOnSleepCountFinish();
+"309
+[; ;main_1.c: 309:                 actionsOnSleepCountFinish();
 [e ( _actionsOnSleepCountFinish ..  ]
-"316
-[; ;main_1.c: 316:                 if (isRTCBatteryDrained() && !rtcBatteryLevelChecked){
+"315
+[; ;main_1.c: 315:                 if (isRTCBatteryDrained() && !rtcBatteryLevelChecked){
 [e $ ! && != -> ( _isRTCBatteryDrained ..  `i -> 0 `i ! != -> _rtcBatteryLevelChecked `i -> 0 `i 2078  ]
 {
-"318
-[; ;main_1.c: 318:                     sendSms(SmsRTC1, userMobileNo, 0);
+"317
+[; ;main_1.c: 317:                     sendSms(SmsRTC1, userMobileNo, 0);
 [e ( _sendSms (3 , , &U _SmsRTC1 &U _userMobileNo -> -> 0 `i `uc ]
-"319
-[; ;main_1.c: 319:                     rtcBatteryLevelChecked = 1;
+"318
+[; ;main_1.c: 318:                     rtcBatteryLevelChecked = 1;
 [e = _rtcBatteryLevelChecked -> -> 1 `i `a ]
-"328
-[; ;main_1.c: 328:                 }
+"327
+[; ;main_1.c: 327:                 }
 }
 [e :U 2078 ]
-"329
-[; ;main_1.c: 329:             }
+"328
+[; ;main_1.c: 328:             }
 }
 [e :U 2077 ]
-"330
-[; ;main_1.c: 330:         }
+"329
+[; ;main_1.c: 329:         }
 }
 [e :U 2075 ]
-"331
-[; ;main_1.c: 331:     }
+"330
+[; ;main_1.c: 330:     }
 }
 [e :U 2066 ]
 [e $U 2067  ]
 [e :U 2068 ]
-"332
-[; ;main_1.c: 332: }
+"331
+[; ;main_1.c: 331: }
 [e :UE 2065 ]
 }

@@ -4163,6 +4163,7 @@ The purpose of this function is to perform actions after valve is due.
 ***************************************************************************************************************************/
 void actionsOnDueValve(unsigned char field_No) {
     unsigned char last_Field_No = CLEAR;
+    wetSensor = false;
     // Check if Field is wet
     if (isFieldMoistureSensorWet(field_No)) {
         wetSensor = true;
