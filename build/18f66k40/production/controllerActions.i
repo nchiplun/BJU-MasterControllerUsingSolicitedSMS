@@ -24486,6 +24486,7 @@ _Bool cmtiCmd = 0;
 _Bool DeviceBurnStatus = 0;
 _Bool gsmSetToLocalTime = 0;
 _Bool wetSensor = 0;
+_Bool fertigationDry = 0;
 
 
 
@@ -24561,6 +24562,7 @@ const char SmsFert3[34] = "Fertigation enabled for field no.";
 const char SmsFert4[35] = "Fertigation disabled for field no.";
 const char SmsFert5[34] = "Fertigation started for field no.";
 const char SmsFert6[34] = "Fertigation stopped for field no.";
+const char SmsFert7[74] = "Fertigation sensor failure detected and fertigation stopped for field no.";
 
 const char SmsFilt1[27] = "Water filtration activated";
 const char SmsFilt2[29] = "Water filtration deactivated";
@@ -24842,7 +24844,7 @@ void setBCDdigit(unsigned char digit, _Bool dp_1) {
 # 128 "controllerActions.c"
 void getDateFromGSM(void) {
     unsigned char index = 0;
-    timer3Count = 30;
+    timer3Count = 15;
 
 
 
@@ -25239,7 +25241,7 @@ unsigned char fetchFieldNo(unsigned char index) {
 void extractReceivedSms(void) {
     unsigned char count = 0, onHour = 0, onMinute = 0;
     unsigned int digit = 0;
-    timer3Count = 30;
+    timer3Count = 15;
 
 
 
@@ -26413,6 +26415,24 @@ _Bool isFieldMoistureSensorWet(unsigned char FieldNo) {
     }
     checkMoistureSensor = 0;
     setBCDdigit(0x0F,0);
+    if (FieldNo == 12) {
+        if (moistureLevel >= 150) {
+
+
+
+
+
+            return 1;
+        }
+        else {
+
+
+
+
+
+            return 0;
+        }
+    }
     if (moistureLevel >= fieldValve[FieldNo].wetValue) {
 
 
@@ -26430,7 +26450,7 @@ _Bool isFieldMoistureSensorWet(unsigned char FieldNo) {
         return 0;
     }
 }
-# 2244 "controllerActions.c"
+# 2262 "controllerActions.c"
 _Bool isMotorInNoLoad(void) {
     unsigned int ctOutput = 0;
     unsigned int temp = 0;
@@ -26474,7 +26494,7 @@ _Bool isMotorInNoLoad(void) {
         return 0;
     }
 }
-# 2303 "controllerActions.c"
+# 2321 "controllerActions.c"
 void calibrateMotorCurrent(unsigned char loadType, unsigned char FieldNo) {
     unsigned int ctOutput = 0;
     unsigned char itr = 0, limit = 30;
@@ -26627,7 +26647,7 @@ void calibrateMotorCurrent(unsigned char loadType, unsigned char FieldNo) {
 
 
 }
-# 2468 "controllerActions.c"
+# 2486 "controllerActions.c"
 void doDryRunAction(void) {
     unsigned char field_No = 0;
  unsigned int sleepCountVar = 0;
@@ -26689,7 +26709,7 @@ void doDryRunAction(void) {
 
 
      sendSms(SmsDR1, userMobileNo, 2);
-# 2537 "controllerActions.c"
+# 2555 "controllerActions.c"
     }
     else if (fieldValve[field_No].fertigationStage == 1) {
 
@@ -26714,7 +26734,7 @@ void doDryRunAction(void) {
 
 
                     sendSms(SmsDR2, userMobileNo, 2);
-# 2569 "controllerActions.c"
+# 2587 "controllerActions.c"
     }
    }
    else {
@@ -26741,7 +26761,7 @@ void doDryRunAction(void) {
 
 
      sendSms(SmsDR3, userMobileNo, 2);
-# 2603 "controllerActions.c"
+# 2621 "controllerActions.c"
                 }
                 else {
 
@@ -26758,28 +26778,28 @@ void doDryRunAction(void) {
 
 
      sendSms(SmsDR4, userMobileNo, 2);
-# 2627 "controllerActions.c"
+# 2645 "controllerActions.c"
                 }
             }
             if (PORTEbits.RE7) {
 
                 sendSms(SmsPh3, userMobileNo, 0);
-# 2640 "controllerActions.c"
+# 2658 "controllerActions.c"
             }
             else if (PORTEbits.RE6) {
 
                 sendSms(SmsPh4, userMobileNo, 0);
-# 2652 "controllerActions.c"
+# 2670 "controllerActions.c"
             }
             else if (PORTEbits.RE5) {
 
                 sendSms(SmsPh5, userMobileNo, 0);
-# 2664 "controllerActions.c"
+# 2682 "controllerActions.c"
             }
             else {
 
                 sendSms(SmsPh6, userMobileNo, 0);
-# 2676 "controllerActions.c"
+# 2694 "controllerActions.c"
             }
 
         }
@@ -26803,7 +26823,7 @@ void doDryRunAction(void) {
 
 
 }
-# 2712 "controllerActions.c"
+# 2730 "controllerActions.c"
 void doLowPhaseAction(void) {
     unsigned char field_No = 0;
 
@@ -26813,7 +26833,7 @@ void doLowPhaseAction(void) {
 
 
     sendSms(SmsPh2, userMobileNo, 0);
-# 2729 "controllerActions.c"
+# 2747 "controllerActions.c"
     if (valveDue) {
         for (field_No = 0; field_No < fieldCount; field_No++) {
             if (fieldValve[field_No].status == 1) {
@@ -26838,7 +26858,7 @@ void doLowPhaseAction(void) {
 
 
                     sendSms(SmsFert6, userMobileNo, 2);
-# 2761 "controllerActions.c"
+# 2779 "controllerActions.c"
                 }
             }
         }
@@ -26850,7 +26870,7 @@ void doLowPhaseAction(void) {
 
 
 }
-# 2785 "controllerActions.c"
+# 2803 "controllerActions.c"
 void doPhaseFailureAction(void) {
     unsigned char field_No = 0;
 
@@ -26860,7 +26880,7 @@ void doPhaseFailureAction(void) {
 
 
     sendSms(SmsPh1, userMobileNo, 0);
-# 2802 "controllerActions.c"
+# 2820 "controllerActions.c"
     if (valveDue) {
         for (field_No = 0; field_No < fieldCount; field_No++) {
             if (fieldValve[field_No].status == 1) {
@@ -26885,7 +26905,7 @@ void doPhaseFailureAction(void) {
 
 
                     sendSms(SmsFert6, userMobileNo, 2);
-# 2834 "controllerActions.c"
+# 2852 "controllerActions.c"
                 }
             }
         }
@@ -26897,7 +26917,7 @@ void doPhaseFailureAction(void) {
 
 
 }
-# 2861 "controllerActions.c"
+# 2879 "controllerActions.c"
 _Bool isRTCBatteryDrained(void) {
     unsigned int batteryVoltage = 0;
     unsigned int batteryVoltageCutoff = 555;
@@ -26932,7 +26952,7 @@ _Bool isRTCBatteryDrained(void) {
         return 0;
     }
 }
-# 2912 "controllerActions.c"
+# 2930 "controllerActions.c"
 _Bool phaseFailure(void) {
 
 
@@ -26962,7 +26982,7 @@ _Bool phaseFailure(void) {
         return 1;
     }
 }
-# 2953 "controllerActions.c"
+# 2971 "controllerActions.c"
 void powerOnMotor(void) {
 
 
@@ -26993,7 +27013,7 @@ void powerOnMotor(void) {
 
 
 }
-# 2996 "controllerActions.c"
+# 3014 "controllerActions.c"
 void powerOffMotor(void) {
 
 
@@ -27017,7 +27037,7 @@ void powerOffMotor(void) {
 
 
 }
-# 3031 "controllerActions.c"
+# 3049 "controllerActions.c"
 void activateValve(unsigned char FieldNo) {
 
 
@@ -27090,17 +27110,17 @@ void activateValve(unsigned char FieldNo) {
         temporaryBytesArray[0] = 49;
         temporaryBytesArray[1] = FieldNo + 39;
     }
-# 3112 "controllerActions.c"
+# 3130 "controllerActions.c"
     if(moistureSensorFailed) {
         moistureSensorFailed = 0;
 
         sendSms(SmsMS1, userMobileNo, 2);
-# 3124 "controllerActions.c"
+# 3142 "controllerActions.c"
     }
     else {
 
         sendSms(SmsIrr4, userMobileNo, 2);
-# 3136 "controllerActions.c"
+# 3154 "controllerActions.c"
     }
 
 
@@ -27108,7 +27128,7 @@ void activateValve(unsigned char FieldNo) {
 
 
 }
-# 3154 "controllerActions.c"
+# 3172 "controllerActions.c"
 void deActivateValve(unsigned char FieldNo) {
 
 
@@ -27176,11 +27196,11 @@ void deActivateValve(unsigned char FieldNo) {
         temporaryBytesArray[0] = 49;
         temporaryBytesArray[1] = FieldNo + 39;
     }
-# 3230 "controllerActions.c"
+# 3248 "controllerActions.c"
     sendSms(SmsIrr5, userMobileNo, 2);
-# 3244 "controllerActions.c"
+# 3262 "controllerActions.c"
 }
-# 3256 "controllerActions.c"
+# 3274 "controllerActions.c"
 void deepSleep(void) {
 
     while (sleepCount > 0 && !newSMSRcvd) {
@@ -27241,7 +27261,7 @@ void deepSleep(void) {
     inSleepMode = 0;
 
 }
-# 3327 "controllerActions.c"
+# 3345 "controllerActions.c"
 void configureController(void) {
 
     BSR = 0x0f;
@@ -27359,7 +27379,7 @@ void configureController(void) {
     PIR5bits.TMR3IF = 0;
     PIE5bits.TMR3IE = 1;
     IPR5bits.TMR3IP = 0;
-# 3472 "controllerActions.c"
+# 3490 "controllerActions.c"
     TX3STA = 0b00100100;
     RC3STA = 0b10010000;
     BAUD3CON = 0b00001000;
@@ -27389,7 +27409,7 @@ void configureController(void) {
     INTCONbits.GIE = 1;
     CPUDOZEbits.IDLEN = 1;
 }
-# 3510 "controllerActions.c"
+# 3528 "controllerActions.c"
 void actionsOnSystemReset(void) {
     unsigned char resetType = 0;
 
@@ -27481,7 +27501,7 @@ void actionsOnSystemReset(void) {
                     msgIndex = 0;
 
                     sendSms(SmsMotor3, userMobileNo, 5);
-# 3614 "controllerActions.c"
+# 3632 "controllerActions.c"
                     break;
                 case 2:
                     resetCount = 0x00;
@@ -27496,7 +27516,7 @@ void actionsOnSystemReset(void) {
                     msgIndex = 0;
 
                     sendSms(SmsMotor3, userMobileNo, 5);
-# 3641 "controllerActions.c"
+# 3659 "controllerActions.c"
                     break;
                 case 3:
                     resetCount = 0x00;
@@ -27688,7 +27708,7 @@ void actionsOnSystemReset(void) {
                     break;
                 }
                 resetType = 0;
-# 3846 "controllerActions.c"
+# 3864 "controllerActions.c"
                 sleepCount = readActiveSleepCountFromEeprom();
             }
             else {
@@ -27713,7 +27733,7 @@ void actionsOnSystemReset(void) {
                     break;
                 }
                 resetType = 0;
-# 3884 "controllerActions.c"
+# 3902 "controllerActions.c"
             }
         }
     }
@@ -27750,7 +27770,7 @@ void actionsOnSystemReset(void) {
     if (isRTCBatteryDrained()) {
 
         sendSms(SmsRTC1, userMobileNo, 0);
-# 3928 "controllerActions.c"
+# 3946 "controllerActions.c"
         if(gsmSetToLocalTime) {
             getDateFromGSM();
             myMsDelay(1000);
@@ -27770,12 +27790,12 @@ void actionsOnSystemReset(void) {
             myMsDelay(1000);
 
             sendSms(SmsRTC3, userMobileNo, 0);
-# 3955 "controllerActions.c"
+# 3973 "controllerActions.c"
         }
         else {
 
             sendSms(SmsRTC4, userMobileNo, 0);
-# 3967 "controllerActions.c"
+# 3985 "controllerActions.c"
         }
     }
     else if(gsmSetToLocalTime) {
@@ -27785,7 +27805,7 @@ void actionsOnSystemReset(void) {
         myMsDelay(1000);
     }
 }
-# 3985 "controllerActions.c"
+# 4003 "controllerActions.c"
 void actionsOnSleepCountFinish(void) {
     unsigned char field_No = 0;
     if (valveDue && sleepCount == 0 && !dryRunDetected && !phaseFailureDetected && !onHold && !lowPhaseCurrentDetected) {
@@ -27823,7 +27843,7 @@ void actionsOnSleepCountFinish(void) {
 
 
                 sendSms(SmsFert5, userMobileNo, 2);
-# 4031 "controllerActions.c"
+# 4049 "controllerActions.c"
                 break;
             }
 
@@ -27853,11 +27873,19 @@ void actionsOnSleepCountFinish(void) {
                     temporaryBytesArray[1] = field_No + 39;
                 }
 
+                if (!fertigationDry) {
 
+                    sendSms(SmsFert6, userMobileNo, 2);
+# 4090 "controllerActions.c"
+                    break;
+                }
+                else {
+                    fertigationDry = 0;
 
-                sendSms(SmsFert6, userMobileNo, 2);
-# 4072 "controllerActions.c"
-                break;
+                    sendSms(SmsFert7, userMobileNo, 2);
+# 4105 "controllerActions.c"
+                    break;
+                }
             }
 
             else if (fieldValve[field_No].status == 1) {
@@ -27940,7 +27968,7 @@ void actionsOnSleepCountFinish(void) {
         }
     }
 }
-# 4164 "controllerActions.c"
+# 4198 "controllerActions.c"
 void actionsOnDueValve(unsigned char field_No) {
     unsigned char last_Field_No = 0;
     wetSensor = 0;
@@ -27979,7 +28007,7 @@ void actionsOnDueValve(unsigned char field_No) {
 
 
         sendSms(SmsIrr6, userMobileNo, 2);
-# 4210 "controllerActions.c"
+# 4244 "controllerActions.c"
     }
 
     else if (!phaseFailure()){
@@ -28006,7 +28034,7 @@ void actionsOnDueValve(unsigned char field_No) {
 
 
             sendSms(SmsFert5, userMobileNo, 2);
-# 4246 "controllerActions.c"
+# 4280 "controllerActions.c"
         }
         if (fieldValve[field_No].cyclesExecuted == fieldValve[field_No].cycles) {
 
@@ -28034,7 +28062,7 @@ void actionsOnDueValve(unsigned char field_No) {
         }
     }
 }
-# 4283 "controllerActions.c"
+# 4317 "controllerActions.c"
 void deleteUserData(void) {
     sendSms(SmsSR14, userMobileNo, 0);
     systemAuthenticated = 0;
@@ -28044,7 +28072,7 @@ void deleteUserData(void) {
     }
     saveMobileNoIntoEeprom();
 }
-# 4302 "controllerActions.c"
+# 4336 "controllerActions.c"
 void deleteValveData(void) {
     sendSms(SmsSR14, userMobileNo, 0);
     filtrationDelay1 = 0;
@@ -28075,7 +28103,7 @@ void deleteValveData(void) {
         myMsDelay(100);
     }
 }
-# 4341 "controllerActions.c"
+# 4375 "controllerActions.c"
 void randomPasswordGeneration(void) {
 
 
@@ -28092,7 +28120,7 @@ void randomPasswordGeneration(void) {
     }
     factryPswrd[6] = '\0';
 }
-# 4365 "controllerActions.c"
+# 4399 "controllerActions.c"
 void deleteGsmResponse(void) {
 
 
@@ -28112,7 +28140,7 @@ void deleteGsmResponse(void) {
 
 
 }
-# 4392 "controllerActions.c"
+# 4426 "controllerActions.c"
 void deleteStringToDecode(void) {
 
 
@@ -28131,7 +28159,7 @@ void deleteStringToDecode(void) {
 
 
 }
-# 4418 "controllerActions.c"
+# 4452 "controllerActions.c"
 void deleteDecodedString(void) {
 
 

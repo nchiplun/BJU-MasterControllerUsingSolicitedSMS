@@ -140,13 +140,25 @@ void __interrupt(low_priority) timerInterrupt_handler(void) {
         TMR0H = 0xE3; // Load Timer0 Register Higher Byte 
         TMR0L = 0xB0; // Load Timer0 Register Lower Byte
         Timer0Overflow++;
-        // Control sleep count decrement for each one minute interrupt when motor is on 
+        // Control sleep count decrement for each one minute interrupt when Motor is ON i.e. Valve ON period 
         if (sleepCount > 0 && MotorControl == ON) {
             sleepCount--;
             if (dryRunCheckCount == 0 || dryRunCheckCount < 3) {
                 dryRunCheckCount++;
             }
-        } 
+        }
+        // Check Fertigation Level for each one minute interrupt when Fertigation Motor is ON during Valve ON period 
+        if (fertigationValveControl == ON) {
+            fertigationDry = false;
+            if (!moistureSensorFailed) {  // to avoid repeated fertigation level after sensor failure detected
+                if (isFieldMoistureSensorWet(12)==false) {
+                    if (!moistureSensorFailed) { // to avoid sensor dry detection due to sensor failure
+                        fertigationValveControl = OFF;
+                        fertigationDry = true;
+                    }
+                }
+            }
+        }
         //*To follow filtration  cycle sequence*/
         if (filtrationCycleSequence == 1 && Timer0Overflow == filtrationDelay1 ) { // 10 minute off
             Timer0Overflow = 0;

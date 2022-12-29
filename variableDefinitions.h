@@ -237,6 +237,7 @@ _Bool cmtiCmd = false;                           // Set to indicate cmti command
 _Bool DeviceBurnStatus = false;                 // To store Device program status
 _Bool gsmSetToLocalTime = false;                // To indicate if gsm set to local timezone
 _Bool wetSensor = false;                        // To indicate if sensor is wet
+_Bool fertigationDry = false;                   // To indicate fertigation level
 /************* BOOLeans definition#end ***********************************/
 
 /************* Strings definition#start **********************************/
@@ -312,6 +313,7 @@ const char SmsFert3[34] = "Fertigation enabled for field no."; // Acknowledge us
 const char SmsFert4[35] = "Fertigation disabled for field no."; // Acknowledge user about successful Fertigation disabled action
 const char SmsFert5[34] = "Fertigation started for field no."; // Acknowledge user about successful Fertigation started action
 const char SmsFert6[34] = "Fertigation stopped for field no."; // Acknowledge user about successful Fertigation stopped action
+const char SmsFert7[74] = "Fertigation sensor failure detected and fertigation stopped for field no."; // Acknowledge user about successful Fertigation stopped action
 
 const char SmsFilt1[27] = "Water filtration activated";
 const char SmsFilt2[29] = "Water filtration deactivated"; 
