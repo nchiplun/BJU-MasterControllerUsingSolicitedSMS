@@ -2210,7 +2210,7 @@ _Bool isFieldMoistureSensorWet(unsigned char FieldNo) {
     }
     checkMoistureSensor = false;
     setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
-    if (FieldNo == 12) {
+    if (FieldNo == 11) {
         if (moistureLevel >= 150) {
             #ifdef DEBUG_MODE_ON_H
             //********Debug log#start************//
@@ -4075,9 +4075,10 @@ void actionsOnSleepCountFinish(void) {
                     temporaryBytesArray[1] = field_No + 39; // To store field no. of valve in action 
                 }
                 /***************************/
-                if (!fertigationDry) {
+                if (fertigationDry) { // Fertigation executed with low fertigation level  detection
+                    fertigationDry = false;
                     /***************************/
-                    sendSms(SmsFert6, userMobileNo, fieldNoRequired); // Acknowledge user about successful Fertigation stopped action
+                    sendSms(SmsFert8, userMobileNo, fieldNoRequired); // Acknowledge user about successful Fertigation stopped action
                     #ifdef SMS_DELIVERY_REPORT_ON_H
                     sleepCount = 2; // Load sleep count for SMS transmission action
                     sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
@@ -4089,10 +4090,24 @@ void actionsOnSleepCountFinish(void) {
                     /*Send sms*/
                     break;
                 }
-                else {
-                    fertigationDry = false;
+                else if (moistureSensorFailed) { // Fertigation executed with level sensor failure
+                    moistureSensorFailed = false;
                     /***************************/
                     sendSms(SmsFert7, userMobileNo, fieldNoRequired); // Acknowledge user about successful Fertigation stopped action
+                    #ifdef SMS_DELIVERY_REPORT_ON_H
+                    sleepCount = 2; // Load sleep count for SMS transmission action
+                    sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
+                    setBCDdigit(0x05,0);
+                    deepSleep(); // Sleep until message transmission acknowledge SMS is received from service provider 
+                    setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+                    #endif
+                    /***************************/
+                    /*Send sms*/
+                    break;
+                }
+                else {  // Fertigation executed without low level detection and without level sensor failure
+                    /***************************/
+                    sendSms(SmsFert6, userMobileNo, fieldNoRequired); // Acknowledge user about successful Fertigation stopped action
                     #ifdef SMS_DELIVERY_REPORT_ON_H
                     sleepCount = 2; // Load sleep count for SMS transmission action
                     sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission

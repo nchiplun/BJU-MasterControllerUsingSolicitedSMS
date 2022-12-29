@@ -150,8 +150,8 @@ void __interrupt(low_priority) timerInterrupt_handler(void) {
         // Check Fertigation Level for each one minute interrupt when Fertigation Motor is ON during Valve ON period 
         if (fertigationValveControl == ON) {
             fertigationDry = false;
-            if (!moistureSensorFailed) {  // to avoid repeated fertigation level after sensor failure detected
-                if (isFieldMoistureSensorWet(12)==false) {
+            if (!moistureSensorFailed) {  // to avoid repeated fertigation level check after sensor failure detected
+                if (isFieldMoistureSensorWet(11)==false) {
                     if (!moistureSensorFailed) { // to avoid sensor dry detection due to sensor failure
                         fertigationValveControl = OFF;
                         fertigationDry = true;

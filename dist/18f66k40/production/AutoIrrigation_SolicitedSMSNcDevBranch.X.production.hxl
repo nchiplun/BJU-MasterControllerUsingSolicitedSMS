@@ -11,20 +11,20 @@
  Intel Hex-file ranges:
   0h - 3h		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
   8h - Dh		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
-  18h - B954h		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
-  B956h - D1E8h		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
-  D1EAh - D27Ch		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
-  F250h - FFFEh		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
+  18h - B986h		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
+  B988h - D21Ah		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
+  D21Ch - D2AEh		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
+  F218h - FFFFh		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
   200000h - 20000Fh		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
   300000h - 30000Bh		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
   310000h - 3103FFh		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
  Unused ranges:
   4h - 7h
   Eh - 17h
-  B955h - B955h
-  D1E9h - D1E9h
-  D27Dh - F24Fh
-  FFFFh - 1FFFFFh
+  B987h - B987h
+  D21Bh - D21Bh
+  D2AFh - F217h
+  10000h - 1FFFFFh
   200010h - 2FFFFFh
   30000Ch - 30FFFFh
 
@@ -3000,10 +3000,10 @@
 0000B920 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000B930 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000B940 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-0000B950 | H1 H1 H1 H1 H1 -- H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+0000B950 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000B960 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000B970 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-0000B980 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+0000B980 | H1 H1 H1 H1 H1 H1 H1 -- H1 H1 H1 H1 H1 H1 H1 H1
 0000B990 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000B9A0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000B9B0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
@@ -3393,17 +3393,24 @@
 0000D1B0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000D1C0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000D1D0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-0000D1E0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 -- H1 H1 H1 H1 H1 H1
+0000D1E0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000D1F0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000D200 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-0000D210 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+0000D210 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 -- H1 H1 H1 H1
 0000D220 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000D230 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000D240 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000D250 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000D260 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-0000D270 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 -- -- --
+0000D270 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+0000D280 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+0000D290 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+0000D2A0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 --
 ----------------------------------------------------------
+0000F210 | -- -- -- -- -- -- -- -- H1 H1 H1 H1 H1 H1 H1 H1
+0000F220 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+0000F230 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+0000F240 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000F250 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000F260 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000F270 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
@@ -3622,7 +3629,7 @@
 0000FFC0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000FFD0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000FFE0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-0000FFF0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 --
+0000FFF0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 ----------------------------------------------------------
 00200000 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 ----------------------------------------------------------

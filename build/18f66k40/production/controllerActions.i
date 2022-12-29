@@ -24562,7 +24562,8 @@ const char SmsFert3[34] = "Fertigation enabled for field no.";
 const char SmsFert4[35] = "Fertigation disabled for field no.";
 const char SmsFert5[34] = "Fertigation started for field no.";
 const char SmsFert6[34] = "Fertigation stopped for field no.";
-const char SmsFert7[74] = "Fertigation sensor failure detected and fertigation stopped for field no.";
+const char SmsFert7[71] = "Fertigation stopped with fertilizer level sensor failure for field no.";
+const char SmsFert8[60] = "Fertigation stopped with low fertilizer level for field no.";
 
 const char SmsFilt1[27] = "Water filtration activated";
 const char SmsFilt2[29] = "Water filtration deactivated";
@@ -26415,7 +26416,7 @@ _Bool isFieldMoistureSensorWet(unsigned char FieldNo) {
     }
     checkMoistureSensor = 0;
     setBCDdigit(0x0F,0);
-    if (FieldNo == 12) {
+    if (FieldNo == 11) {
         if (moistureLevel >= 150) {
 
 
@@ -27873,17 +27874,24 @@ void actionsOnSleepCountFinish(void) {
                     temporaryBytesArray[1] = field_No + 39;
                 }
 
-                if (!fertigationDry) {
+                if (fertigationDry) {
+                    fertigationDry = 0;
 
-                    sendSms(SmsFert6, userMobileNo, 2);
-# 4090 "controllerActions.c"
+                    sendSms(SmsFert8, userMobileNo, 2);
+# 4091 "controllerActions.c"
+                    break;
+                }
+                else if (moistureSensorFailed) {
+                    moistureSensorFailed = 0;
+
+                    sendSms(SmsFert7, userMobileNo, 2);
+# 4106 "controllerActions.c"
                     break;
                 }
                 else {
-                    fertigationDry = 0;
 
-                    sendSms(SmsFert7, userMobileNo, 2);
-# 4105 "controllerActions.c"
+                    sendSms(SmsFert6, userMobileNo, 2);
+# 4120 "controllerActions.c"
                     break;
                 }
             }
@@ -27968,7 +27976,7 @@ void actionsOnSleepCountFinish(void) {
         }
     }
 }
-# 4198 "controllerActions.c"
+# 4213 "controllerActions.c"
 void actionsOnDueValve(unsigned char field_No) {
     unsigned char last_Field_No = 0;
     wetSensor = 0;
@@ -28007,7 +28015,7 @@ void actionsOnDueValve(unsigned char field_No) {
 
 
         sendSms(SmsIrr6, userMobileNo, 2);
-# 4244 "controllerActions.c"
+# 4259 "controllerActions.c"
     }
 
     else if (!phaseFailure()){
@@ -28034,7 +28042,7 @@ void actionsOnDueValve(unsigned char field_No) {
 
 
             sendSms(SmsFert5, userMobileNo, 2);
-# 4280 "controllerActions.c"
+# 4295 "controllerActions.c"
         }
         if (fieldValve[field_No].cyclesExecuted == fieldValve[field_No].cycles) {
 
@@ -28062,7 +28070,7 @@ void actionsOnDueValve(unsigned char field_No) {
         }
     }
 }
-# 4317 "controllerActions.c"
+# 4332 "controllerActions.c"
 void deleteUserData(void) {
     sendSms(SmsSR14, userMobileNo, 0);
     systemAuthenticated = 0;
@@ -28072,7 +28080,7 @@ void deleteUserData(void) {
     }
     saveMobileNoIntoEeprom();
 }
-# 4336 "controllerActions.c"
+# 4351 "controllerActions.c"
 void deleteValveData(void) {
     sendSms(SmsSR14, userMobileNo, 0);
     filtrationDelay1 = 0;
@@ -28103,7 +28111,7 @@ void deleteValveData(void) {
         myMsDelay(100);
     }
 }
-# 4375 "controllerActions.c"
+# 4390 "controllerActions.c"
 void randomPasswordGeneration(void) {
 
 
@@ -28120,7 +28128,7 @@ void randomPasswordGeneration(void) {
     }
     factryPswrd[6] = '\0';
 }
-# 4399 "controllerActions.c"
+# 4414 "controllerActions.c"
 void deleteGsmResponse(void) {
 
 
@@ -28140,7 +28148,7 @@ void deleteGsmResponse(void) {
 
 
 }
-# 4426 "controllerActions.c"
+# 4441 "controllerActions.c"
 void deleteStringToDecode(void) {
 
 
@@ -28159,7 +28167,7 @@ void deleteStringToDecode(void) {
 
 
 }
-# 4452 "controllerActions.c"
+# 4467 "controllerActions.c"
 void deleteDecodedString(void) {
 
 
