@@ -7186,146 +7186,152 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! && && ! != -> _valveDue `i -> 0 `i ! != -> _phaseFailureDetected `i -> 0 `i ! != -> _lowPhaseCurrentDetected `i -> 0 `i 2074  ]
 {
 "242
-[; ;main_1.c: 242:             myMsDelay(50);
-[e ( _myMsDelay (1 -> -> 50 `i `ui ]
+[; ;main_1.c: 242:             wetSensor = 0;
+[e = _wetSensor -> -> 0 `i `a ]
 "243
-[; ;main_1.c: 243:             scanValveScheduleAndGetSleepCount();
-[e ( _scanValveScheduleAndGetSleepCount ..  ]
-"244
-[; ;main_1.c: 244:             myMsDelay(50);
+[; ;main_1.c: 243:             myMsDelay(50);
 [e ( _myMsDelay (1 -> -> 50 `i `ui ]
+"244
+[; ;main_1.c: 244:             scanValveScheduleAndGetSleepCount();
+[e ( _scanValveScheduleAndGetSleepCount ..  ]
 "245
-[; ;main_1.c: 245:             dueValveChecked = 1;
-[e = _dueValveChecked -> -> 1 `i `a ]
+[; ;main_1.c: 245:             myMsDelay(50);
+[e ( _myMsDelay (1 -> -> 50 `i `ui ]
 "246
-[; ;main_1.c: 246:         }
+[; ;main_1.c: 246:             dueValveChecked = 1;
+[e = _dueValveChecked -> -> 1 `i `a ]
+"247
+[; ;main_1.c: 247:         }
 }
 [e :U 2074 ]
-"247
-[; ;main_1.c: 247:         if (valveDue && dueValveChecked) {
+"248
+[; ;main_1.c: 248:         if (valveDue && dueValveChecked) {
 [e $ ! && != -> _valveDue `i -> 0 `i != -> _dueValveChecked `i -> 0 `i 2075  ]
 {
-"253
-[; ;main_1.c: 253:             dueValveChecked = 0;
-[e = _dueValveChecked -> -> 0 `i `a ]
 "254
-[; ;main_1.c: 254:             actionsOnDueValve(iterator);
+[; ;main_1.c: 254:             dueValveChecked = 0;
+[e = _dueValveChecked -> -> 0 `i `a ]
+"255
+[; ;main_1.c: 255:             actionsOnDueValve(iterator);
 [e ( _actionsOnDueValve (1 _iterator ]
-"260
-[; ;main_1.c: 260:         }
+"261
+[; ;main_1.c: 261:         }
 }
 [e $U 2076  ]
-"262
-[; ;main_1.c: 262:         else if (valveExecuted) {
+"263
+[; ;main_1.c: 263:         else if (valveExecuted) {
 [e :U 2075 ]
 [e $ ! != -> _valveExecuted `i -> 0 `i 2077  ]
 {
-"263
-[; ;main_1.c: 263:             powerOffMotor();
-[e ( _powerOffMotor ..  ]
 "264
-[; ;main_1.c: 264:             last_Field_No = readFieldIrrigationValveNoFromEeprom();
-[e = _last_Field_No ( _readFieldIrrigationValveNoFromEeprom ..  ]
+[; ;main_1.c: 264:             wetSensor = 0;
+[e = _wetSensor -> -> 0 `i `a ]
 "265
-[; ;main_1.c: 265:             deActivateValve(last_Field_No);
-[e ( _deActivateValve (1 _last_Field_No ]
+[; ;main_1.c: 265:             powerOffMotor();
+[e ( _powerOffMotor ..  ]
 "266
-[; ;main_1.c: 266:             valveExecuted = 0;
-[e = _valveExecuted -> -> 0 `i `a ]
+[; ;main_1.c: 266:             last_Field_No = readFieldIrrigationValveNoFromEeprom();
+[e = _last_Field_No ( _readFieldIrrigationValveNoFromEeprom ..  ]
+"267
+[; ;main_1.c: 267:             deActivateValve(last_Field_No);
+[e ( _deActivateValve (1 _last_Field_No ]
 "268
-[; ;main_1.c: 268:             sendSms(SmsMotor1, userMobileNo, 0);
+[; ;main_1.c: 268:             valveExecuted = 0;
+[e = _valveExecuted -> -> 0 `i `a ]
+"270
+[; ;main_1.c: 270:             sendSms(SmsMotor1, userMobileNo, 0);
 [e ( _sendSms (3 , , &U _SmsMotor1 &U _userMobileNo -> -> 0 `i `uc ]
-"277
-[; ;main_1.c: 277:             startFieldNo = 0;
-[e = _startFieldNo -> -> 0 `i `uc ]
 "279
-[; ;main_1.c: 279:         }
+[; ;main_1.c: 279:             startFieldNo = 0;
+[e = _startFieldNo -> -> 0 `i `uc ]
+"281
+[; ;main_1.c: 281:         }
 }
 [e :U 2077 ]
 [e :U 2076 ]
-"281
-[; ;main_1.c: 281:         if (onHold) {
+"283
+[; ;main_1.c: 283:         if (onHold) {
 [e $ ! != -> _onHold `i -> 0 `i 2078  ]
 {
-"282
-[; ;main_1.c: 282:             sleepCount = 0;
+"284
+[; ;main_1.c: 284:             sleepCount = 0;
 [e = _sleepCount -> -> 0 `i `ui ]
-"283
-[; ;main_1.c: 283:         }
+"285
+[; ;main_1.c: 285:         }
 }
 [e :U 2078 ]
-"284
-[; ;main_1.c: 284:         if (!wetSensor) {
+"286
+[; ;main_1.c: 286:         if (!wetSensor) {
 [e $ ! ! != -> _wetSensor `i -> 0 `i 2079  ]
 {
-"286
-[; ;main_1.c: 286:             deepSleep();
+"288
+[; ;main_1.c: 288:             deepSleep();
 [e ( _deepSleep ..  ]
-"295
-[; ;main_1.c: 295:             if (newSMSRcvd) {
+"297
+[; ;main_1.c: 297:             if (newSMSRcvd) {
 [e $ ! != -> _newSMSRcvd `i -> 0 `i 2080  ]
 {
-"301
-[; ;main_1.c: 301:                 setBCDdigit(0x02,1);
-[e ( _setBCDdigit (2 , -> -> 2 `i `uc -> -> 1 `i `a ]
-"302
-[; ;main_1.c: 302:                 myMsDelay(500);
-[e ( _myMsDelay (1 -> -> 500 `i `ui ]
 "303
-[; ;main_1.c: 303:                 newSMSRcvd = 0;
-[e = _newSMSRcvd -> -> 0 `i `a ]
+[; ;main_1.c: 303:                 setBCDdigit(0x02,1);
+[e ( _setBCDdigit (2 , -> -> 2 `i `uc -> -> 1 `i `a ]
 "304
-[; ;main_1.c: 304:                 extractReceivedSms();
-[e ( _extractReceivedSms ..  ]
-"305
-[; ;main_1.c: 305:                 setBCDdigit(0x0F,0);
-[e ( _setBCDdigit (2 , -> -> 15 `i `uc -> -> 0 `i `a ]
-"306
-[; ;main_1.c: 306:                 myMsDelay(500);
+[; ;main_1.c: 304:                 myMsDelay(500);
 [e ( _myMsDelay (1 -> -> 500 `i `ui ]
+"305
+[; ;main_1.c: 305:                 newSMSRcvd = 0;
+[e = _newSMSRcvd -> -> 0 `i `a ]
+"306
+[; ;main_1.c: 306:                 extractReceivedSms();
+[e ( _extractReceivedSms ..  ]
 "307
-[; ;main_1.c: 307:                 deleteMsgFromSIMStorage();
+[; ;main_1.c: 307:                 setBCDdigit(0x0F,0);
+[e ( _setBCDdigit (2 , -> -> 15 `i `uc -> -> 0 `i `a ]
+"308
+[; ;main_1.c: 308:                 myMsDelay(500);
+[e ( _myMsDelay (1 -> -> 500 `i `ui ]
+"309
+[; ;main_1.c: 309:                 deleteMsgFromSIMStorage();
 [e ( _deleteMsgFromSIMStorage ..  ]
-"313
-[; ;main_1.c: 313:             }
+"315
+[; ;main_1.c: 315:             }
 }
 [e $U 2081  ]
-"315
-[; ;main_1.c: 315:             else {
+"317
+[; ;main_1.c: 317:             else {
 [e :U 2080 ]
 {
-"321
-[; ;main_1.c: 321:                 actionsOnSleepCountFinish();
+"323
+[; ;main_1.c: 323:                 actionsOnSleepCountFinish();
 [e ( _actionsOnSleepCountFinish ..  ]
-"327
-[; ;main_1.c: 327:                 if (isRTCBatteryDrained() && !rtcBatteryLevelChecked){
+"329
+[; ;main_1.c: 329:                 if (isRTCBatteryDrained() && !rtcBatteryLevelChecked){
 [e $ ! && != -> ( _isRTCBatteryDrained ..  `i -> 0 `i ! != -> _rtcBatteryLevelChecked `i -> 0 `i 2082  ]
 {
-"329
-[; ;main_1.c: 329:                     sendSms(SmsRTC1, userMobileNo, 0);
+"331
+[; ;main_1.c: 331:                     sendSms(SmsRTC1, userMobileNo, 0);
 [e ( _sendSms (3 , , &U _SmsRTC1 &U _userMobileNo -> -> 0 `i `uc ]
-"330
-[; ;main_1.c: 330:                     rtcBatteryLevelChecked = 1;
+"332
+[; ;main_1.c: 332:                     rtcBatteryLevelChecked = 1;
 [e = _rtcBatteryLevelChecked -> -> 1 `i `a ]
-"339
-[; ;main_1.c: 339:                 }
+"341
+[; ;main_1.c: 341:                 }
 }
 [e :U 2082 ]
-"340
-[; ;main_1.c: 340:             }
+"342
+[; ;main_1.c: 342:             }
 }
 [e :U 2081 ]
-"341
-[; ;main_1.c: 341:         }
+"343
+[; ;main_1.c: 343:         }
 }
 [e :U 2079 ]
-"342
-[; ;main_1.c: 342:     }
+"344
+[; ;main_1.c: 344:     }
 }
 [e :U 2070 ]
 [e $U 2071  ]
 [e :U 2072 ]
-"343
-[; ;main_1.c: 343: }
+"345
+[; ;main_1.c: 345: }
 [e :UE 2069 ]
 }

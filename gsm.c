@@ -78,7 +78,7 @@ The purpose of this function is to transmit AT commands which enables Receive mo
 
  **************************************************************************************************************************/
 void configureGSM(void) {
-    timer3Count = 15;
+    timer3Count = 15; // 15 sec window
     setBCDdigit(0x0A,0); // (c.) BCD indication for configureGSM
     controllerCommandExecuted = false;
     msgIndex = 1;
@@ -131,7 +131,7 @@ The purpose of this function is to reset GSM until GSM responds OK to AT command
  **************************************************************************************************************************/
 /*
 void checkGsmConnection(void) {
-    timer3Count = 15;
+    timer3Count = 15;  // 15 sec window
     setBCDdigit(0x0A,0);  // (c.) BCD indication for checkGsmConnection
     controllerCommandExecuted = false;
     msgIndex = 1;
@@ -154,7 +154,7 @@ The purpose of this function is to send AT commands to GSM in order to set it at
  **************************************************************************************************************************/
 
 void setGsmToLocalTime(void) {
-    timer3Count = 15;
+    timer3Count = 15; // 15 sec window
     setBCDdigit(0x0B,0);  // (].) BCD indication for setGsmToLocalTime Action
     gsmSetToLocalTime = false;
     controllerCommandExecuted = false;
@@ -207,7 +207,7 @@ The purpose of this function is to send AT commands to GSM in order delete messa
 
  **************************************************************************************************************************/
 void deleteMsgFromSIMStorage(void) {
-    timer3Count = 15;
+    timer3Count = 15; // 15 sec window
     setBCDdigit(0x09,1);  // (9) BCD indication Delete SMS action
     controllerCommandExecuted = false;
     msgIndex = 1;
@@ -228,7 +228,7 @@ The purpose of this function is to Notify sender regarding its Action in SMS for
 
  **************************************************************************************************************************/
 void sendSms(const char *message, unsigned char phoneNumber[], unsigned char info) {
-    timer3Count = 15;
+    timer3Count = 15; // 15 sec window
     //myMsDelay(100);
     transmitStringToGSM("AT+CMGS=\""); // Command to send an SMS message to GSM mobile
     myMsDelay(50);
@@ -599,7 +599,7 @@ void checkSignalStrength(void) {
         setBCDdigit(0x0F,1); // BCD Indication for Flash
         myMsDelay(1000);
         digit = 0;
-        timer3Count = 15;
+        timer3Count = 15; // 15 sec window
         setBCDdigit(0x0A,1);  // (c) BCD indication for checkSignalStrength Action
         controllerCommandExecuted = false;
         msgIndex = CLEAR;

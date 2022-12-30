@@ -24845,7 +24845,7 @@ void setBCDdigit(unsigned char digit, _Bool dp_1) {
 # 128 "controllerActions.c"
 void getDateFromGSM(void) {
     unsigned char index = 0;
-    timer3Count = 15;
+    timer3Count = 30;
 
 
 
@@ -25242,7 +25242,7 @@ unsigned char fetchFieldNo(unsigned char index) {
 void extractReceivedSms(void) {
     unsigned char count = 0, onHour = 0, onMinute = 0;
     unsigned int digit = 0;
-    timer3Count = 15;
+    timer3Count = 30;
 
 
 

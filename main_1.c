@@ -239,6 +239,7 @@ void __interrupt(low_priority) timerInterrupt_handler(void) {
     actionsOnSystemReset();
     while (1) {
 nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
+            wetSensor = false; // reset wet sensor for first wet field detection
             myMsDelay(50);
             scanValveScheduleAndGetSleepCount(); // get sleep count for next valve action
             myMsDelay(50);
@@ -260,6 +261,7 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
         }
         // DeActivate last valve and switch off motor pump
         else if (valveExecuted) {
+            wetSensor = false; // reset wet sensor for last wet field detection
             powerOffMotor();
             last_Field_No = readFieldIrrigationValveNoFromEeprom();
             deActivateValve(last_Field_No);      // Successful Deactivate valve

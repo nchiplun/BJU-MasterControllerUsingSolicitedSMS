@@ -24968,6 +24968,7 @@ void __attribute__((picinterrupt(("low_priority")))) timerInterrupt_handler(void
     actionsOnSystemReset();
     while (1) {
 nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
+            wetSensor = 0;
             myMsDelay(50);
             scanValveScheduleAndGetSleepCount();
             myMsDelay(50);
@@ -24989,13 +24990,14 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
         }
 
         else if (valveExecuted) {
+            wetSensor = 0;
             powerOffMotor();
             last_Field_No = readFieldIrrigationValveNoFromEeprom();
             deActivateValve(last_Field_No);
             valveExecuted = 0;
 
             sendSms(SmsMotor1, userMobileNo, 0);
-# 277 "main_1.c"
+# 279 "main_1.c"
             startFieldNo = 0;
 
         }
@@ -25006,7 +25008,7 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
         if (!wetSensor) {
 
             deepSleep();
-# 295 "main_1.c"
+# 297 "main_1.c"
             if (newSMSRcvd) {
 
 
@@ -25043,7 +25045,7 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
 
                     sendSms(SmsRTC1, userMobileNo, 0);
                     rtcBatteryLevelChecked = 1;
-# 339 "main_1.c"
+# 341 "main_1.c"
                 }
             }
         }
