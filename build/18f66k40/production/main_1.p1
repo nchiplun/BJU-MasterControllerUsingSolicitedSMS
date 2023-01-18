@@ -6921,135 +6921,135 @@ Version 4.0 HI-TECH Software Intermediate Code
 }
 [e :U 2044 ]
 "163
-[; ;main_1.c: 163:         if (filtrationCycleSequence == 1 && Timer0Overflow == filtrationDelay1 ) {
-[e $ ! && == -> _filtrationCycleSequence `i -> 1 `i == -> _Timer0Overflow `i -> _filtrationDelay1 `i 2048  ]
+[; ;main_1.c: 163:         if (filtrationCycleSequence == 99) {
+[e $ ! == -> _filtrationCycleSequence `i -> 99 `i 2048  ]
 {
 "164
 [; ;main_1.c: 164:             Timer0Overflow = 0;
 [e = _Timer0Overflow -> -> 0 `i `uc ]
 "165
-[; ;main_1.c: 165:             PORTGbits.RG7 = 1;
-[e = . . _PORTGbits 0 7 -> -> 1 `i `uc ]
-"166
-[; ;main_1.c: 166:             filtrationCycleSequence = 2;
-[e = _filtrationCycleSequence -> -> 2 `i `uc ]
-"167
-[; ;main_1.c: 167:         }
+[; ;main_1.c: 165:         }
 }
 [e $U 2049  ]
-"168
-[; ;main_1.c: 168:         else if (filtrationCycleSequence == 2 && Timer0Overflow == filtrationOnTime ) {
+"166
+[; ;main_1.c: 166:         else if (filtrationCycleSequence == 1 && Timer0Overflow == filtrationDelay1 ) {
 [e :U 2048 ]
-[e $ ! && == -> _filtrationCycleSequence `i -> 2 `i == -> _Timer0Overflow `i -> _filtrationOnTime `i 2050  ]
+[e $ ! && == -> _filtrationCycleSequence `i -> 1 `i == -> _Timer0Overflow `i -> _filtrationDelay1 `i 2050  ]
 {
-"169
-[; ;main_1.c: 169:             Timer0Overflow = 0;
+"167
+[; ;main_1.c: 167:             Timer0Overflow = 0;
 [e = _Timer0Overflow -> -> 0 `i `uc ]
+"168
+[; ;main_1.c: 168:             PORTGbits.RG7 = 1;
+[e = . . _PORTGbits 0 7 -> -> 1 `i `uc ]
+"169
+[; ;main_1.c: 169:             filtrationCycleSequence = 2;
+[e = _filtrationCycleSequence -> -> 2 `i `uc ]
 "170
-[; ;main_1.c: 170:             PORTGbits.RG7 = 0;
-[e = . . _PORTGbits 0 7 -> -> 0 `i `uc ]
-"171
-[; ;main_1.c: 171:             filtrationCycleSequence = 3;
-[e = _filtrationCycleSequence -> -> 3 `i `uc ]
-"172
-[; ;main_1.c: 172:         }
+[; ;main_1.c: 170:         }
 }
 [e $U 2051  ]
-"173
-[; ;main_1.c: 173:         else if (filtrationCycleSequence == 3 && Timer0Overflow == filtrationDelay2 ) {
+"171
+[; ;main_1.c: 171:         else if (filtrationCycleSequence == 2 && Timer0Overflow == filtrationOnTime ) {
 [e :U 2050 ]
-[e $ ! && == -> _filtrationCycleSequence `i -> 3 `i == -> _Timer0Overflow `i -> _filtrationDelay2 `i 2052  ]
+[e $ ! && == -> _filtrationCycleSequence `i -> 2 `i == -> _Timer0Overflow `i -> _filtrationOnTime `i 2052  ]
 {
-"174
-[; ;main_1.c: 174:             Timer0Overflow = 0;
+"172
+[; ;main_1.c: 172:             Timer0Overflow = 0;
 [e = _Timer0Overflow -> -> 0 `i `uc ]
+"173
+[; ;main_1.c: 173:             PORTGbits.RG7 = 0;
+[e = . . _PORTGbits 0 7 -> -> 0 `i `uc ]
+"174
+[; ;main_1.c: 174:             filtrationCycleSequence = 3;
+[e = _filtrationCycleSequence -> -> 3 `i `uc ]
 "175
-[; ;main_1.c: 175:             PORTEbits.RE2 = 1;
-[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
-"176
-[; ;main_1.c: 176:             filtrationCycleSequence = 4;
-[e = _filtrationCycleSequence -> -> 4 `i `uc ]
-"177
-[; ;main_1.c: 177:         }
+[; ;main_1.c: 175:         }
 }
 [e $U 2053  ]
-"178
-[; ;main_1.c: 178:         else if (filtrationCycleSequence == 4 && Timer0Overflow == filtrationOnTime ) {
+"176
+[; ;main_1.c: 176:         else if (filtrationCycleSequence == 3 && Timer0Overflow == filtrationDelay2 ) {
 [e :U 2052 ]
-[e $ ! && == -> _filtrationCycleSequence `i -> 4 `i == -> _Timer0Overflow `i -> _filtrationOnTime `i 2054  ]
+[e $ ! && == -> _filtrationCycleSequence `i -> 3 `i == -> _Timer0Overflow `i -> _filtrationDelay2 `i 2054  ]
 {
-"179
-[; ;main_1.c: 179:             Timer0Overflow = 0;
+"177
+[; ;main_1.c: 177:             Timer0Overflow = 0;
 [e = _Timer0Overflow -> -> 0 `i `uc ]
+"178
+[; ;main_1.c: 178:             PORTEbits.RE2 = 1;
+[e = . . _PORTEbits 0 2 -> -> 1 `i `uc ]
+"179
+[; ;main_1.c: 179:             filtrationCycleSequence = 4;
+[e = _filtrationCycleSequence -> -> 4 `i `uc ]
 "180
-[; ;main_1.c: 180:             PORTEbits.RE2 = 0;
-[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
-"181
-[; ;main_1.c: 181:             filtrationCycleSequence = 5;
-[e = _filtrationCycleSequence -> -> 5 `i `uc ]
-"182
-[; ;main_1.c: 182:         }
+[; ;main_1.c: 180:         }
 }
 [e $U 2055  ]
-"183
-[; ;main_1.c: 183:         else if (filtrationCycleSequence == 5 && Timer0Overflow == filtrationDelay2 ) {
+"181
+[; ;main_1.c: 181:         else if (filtrationCycleSequence == 4 && Timer0Overflow == filtrationOnTime ) {
 [e :U 2054 ]
-[e $ ! && == -> _filtrationCycleSequence `i -> 5 `i == -> _Timer0Overflow `i -> _filtrationDelay2 `i 2056  ]
+[e $ ! && == -> _filtrationCycleSequence `i -> 4 `i == -> _Timer0Overflow `i -> _filtrationOnTime `i 2056  ]
 {
-"184
-[; ;main_1.c: 184:             Timer0Overflow = 0;
+"182
+[; ;main_1.c: 182:             Timer0Overflow = 0;
 [e = _Timer0Overflow -> -> 0 `i `uc ]
+"183
+[; ;main_1.c: 183:             PORTEbits.RE2 = 0;
+[e = . . _PORTEbits 0 2 -> -> 0 `i `uc ]
+"184
+[; ;main_1.c: 184:             filtrationCycleSequence = 5;
+[e = _filtrationCycleSequence -> -> 5 `i `uc ]
 "185
-[; ;main_1.c: 185:             PORTEbits.RE3 = 1;
-[e = . . _PORTEbits 0 3 -> -> 1 `i `uc ]
-"186
-[; ;main_1.c: 186:             filtrationCycleSequence = 6;
-[e = _filtrationCycleSequence -> -> 6 `i `uc ]
-"187
-[; ;main_1.c: 187:         }
+[; ;main_1.c: 185:         }
 }
 [e $U 2057  ]
-"188
-[; ;main_1.c: 188:         else if (filtrationCycleSequence == 6 && Timer0Overflow == filtrationOnTime ) {
+"186
+[; ;main_1.c: 186:         else if (filtrationCycleSequence == 5 && Timer0Overflow == filtrationDelay2 ) {
 [e :U 2056 ]
-[e $ ! && == -> _filtrationCycleSequence `i -> 6 `i == -> _Timer0Overflow `i -> _filtrationOnTime `i 2058  ]
+[e $ ! && == -> _filtrationCycleSequence `i -> 5 `i == -> _Timer0Overflow `i -> _filtrationDelay2 `i 2058  ]
 {
-"189
-[; ;main_1.c: 189:             Timer0Overflow = 0;
+"187
+[; ;main_1.c: 187:             Timer0Overflow = 0;
 [e = _Timer0Overflow -> -> 0 `i `uc ]
+"188
+[; ;main_1.c: 188:             PORTEbits.RE3 = 1;
+[e = . . _PORTEbits 0 3 -> -> 1 `i `uc ]
+"189
+[; ;main_1.c: 189:             filtrationCycleSequence = 6;
+[e = _filtrationCycleSequence -> -> 6 `i `uc ]
 "190
-[; ;main_1.c: 190:             PORTEbits.RE3 = 0;
-[e = . . _PORTEbits 0 3 -> -> 0 `i `uc ]
-"191
-[; ;main_1.c: 191:             filtrationCycleSequence = 7;
-[e = _filtrationCycleSequence -> -> 7 `i `uc ]
-"192
-[; ;main_1.c: 192:         }
+[; ;main_1.c: 190:         }
 }
 [e $U 2059  ]
-"193
-[; ;main_1.c: 193:         else if (filtrationCycleSequence == 7 && Timer0Overflow == filtrationSeperationTime ) {
+"191
+[; ;main_1.c: 191:         else if (filtrationCycleSequence == 6 && Timer0Overflow == filtrationOnTime ) {
 [e :U 2058 ]
-[e $ ! && == -> _filtrationCycleSequence `i -> 7 `i == -> _Timer0Overflow `i -> _filtrationSeperationTime `i 2060  ]
+[e $ ! && == -> _filtrationCycleSequence `i -> 6 `i == -> _Timer0Overflow `i -> _filtrationOnTime `i 2060  ]
 {
-"194
-[; ;main_1.c: 194:             Timer0Overflow = 0;
+"192
+[; ;main_1.c: 192:             Timer0Overflow = 0;
 [e = _Timer0Overflow -> -> 0 `i `uc ]
+"193
+[; ;main_1.c: 193:             PORTEbits.RE3 = 0;
+[e = . . _PORTEbits 0 3 -> -> 0 `i `uc ]
+"194
+[; ;main_1.c: 194:             filtrationCycleSequence = 7;
+[e = _filtrationCycleSequence -> -> 7 `i `uc ]
 "195
-[; ;main_1.c: 195:             filtrationCycleSequence = 1;
-[e = _filtrationCycleSequence -> -> 1 `i `uc ]
-"196
-[; ;main_1.c: 196:         }
+[; ;main_1.c: 195:         }
 }
 [e $U 2061  ]
-"197
-[; ;main_1.c: 197:         else if (filtrationCycleSequence == 99) {
+"196
+[; ;main_1.c: 196:         else if (filtrationCycleSequence == 7 && Timer0Overflow == filtrationSeperationTime ) {
 [e :U 2060 ]
-[e $ ! == -> _filtrationCycleSequence `i -> 99 `i 2062  ]
+[e $ ! && == -> _filtrationCycleSequence `i -> 7 `i == -> _Timer0Overflow `i -> _filtrationSeperationTime `i 2062  ]
 {
-"198
-[; ;main_1.c: 198:             Timer0Overflow = 0;
+"197
+[; ;main_1.c: 197:             Timer0Overflow = 0;
 [e = _Timer0Overflow -> -> 0 `i `uc ]
+"198
+[; ;main_1.c: 198:             filtrationCycleSequence = 1;
+[e = _filtrationCycleSequence -> -> 1 `i `uc ]
 "199
 [; ;main_1.c: 199:         }
 }

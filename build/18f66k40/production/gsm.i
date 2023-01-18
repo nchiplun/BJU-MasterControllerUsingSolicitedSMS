@@ -24780,14 +24780,14 @@ void transmitNumberToGSM(unsigned char *number, unsigned char index) {
 
 
 void configureGSM(void) {
-    timer3Count = 30;
+    timer3Count = 5;
     setBCDdigit(0x0A,0);
     controllerCommandExecuted = 0;
     msgIndex = 1;
     T3CONbits.TMR3ON = 1;
     while (!controllerCommandExecuted) {
         transmitStringToGSM("ATE0\r\n");
-        myMsDelay(200);
+        myMsDelay(500);
     }
     PIR5bits.TMR3IF = 1;
     controllerCommandExecuted = 0;
@@ -24795,7 +24795,7 @@ void configureGSM(void) {
     T3CONbits.TMR3ON = 1;
     while (!controllerCommandExecuted) {
         transmitStringToGSM("AT+CMGF=1\r\n");
-        myMsDelay(200);
+        myMsDelay(500);
     }
     PIR5bits.TMR3IF = 1;
     controllerCommandExecuted = 0;
@@ -24803,7 +24803,7 @@ void configureGSM(void) {
     T3CONbits.TMR3ON = 1;
     while (!controllerCommandExecuted) {
         transmitStringToGSM("AT+CNMI=1,1,0,0,0\r\n");
-        myMsDelay(200);
+        myMsDelay(500);
     }
     PIR5bits.TMR3IF = 1;
     controllerCommandExecuted = 0;
@@ -24811,7 +24811,7 @@ void configureGSM(void) {
     T3CONbits.TMR3ON = 1;
     while (!controllerCommandExecuted) {
         transmitStringToGSM("AT+SCLASS0=1\r\n");
-        myMsDelay(200);
+        myMsDelay(500);
     }
     PIR5bits.TMR3IF = 1;
     controllerCommandExecuted = 0;
@@ -24819,14 +24819,14 @@ void configureGSM(void) {
     T3CONbits.TMR3ON = 1;
     while (!controllerCommandExecuted) {
         transmitStringToGSM("AT+CSCS=\"GSM\"\r\n");
-        myMsDelay(200);
+        myMsDelay(500);
     }
     PIR5bits.TMR3IF = 1;
     setBCDdigit(0x0F,0);
 }
 # 156 "gsm.c"
 void setGsmToLocalTime(void) {
-    timer3Count = 30;
+    timer3Count = 5;
     setBCDdigit(0x0B,0);
     gsmSetToLocalTime = 0;
     controllerCommandExecuted = 0;
@@ -24879,7 +24879,7 @@ void setGsmToLocalTime(void) {
 
 
 void deleteMsgFromSIMStorage(void) {
-    timer3Count = 30;
+    timer3Count = 5;
     setBCDdigit(0x09,1);
     controllerCommandExecuted = 0;
     msgIndex = 1;
@@ -24900,7 +24900,7 @@ void deleteMsgFromSIMStorage(void) {
 
 
 void sendSms(const char *message, unsigned char phoneNumber[], unsigned char info) {
-    timer3Count = 30;
+    timer3Count = 15;
 
     transmitStringToGSM("AT+CMGS=\"");
     myMsDelay(50);
@@ -25249,7 +25249,7 @@ void checkSignalStrength(void) {
         setBCDdigit(0x0F,1);
         myMsDelay(1000);
         digit = 0;
-        timer3Count = 30;
+        timer3Count = 15;
         setBCDdigit(0x0A,1);
         controllerCommandExecuted = 0;
         msgIndex = 0;

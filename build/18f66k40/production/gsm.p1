@@ -6550,8 +6550,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U _configureGSM ]
 [f ]
 "81
-[; ;gsm.c: 81:     timer3Count = 30;
-[e = _timer3Count -> -> 30 `i `uc ]
+[; ;gsm.c: 81:     timer3Count = 5;
+[e = _timer3Count -> -> 5 `i `uc ]
 "82
 [; ;gsm.c: 82:     setBCDdigit(0x0A,0);
 [e ( _setBCDdigit (2 , -> -> 10 `i `uc -> -> 0 `i `a ]
@@ -6573,8 +6573,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;gsm.c: 87:         transmitStringToGSM("ATE0\r\n");
 [e ( _transmitStringToGSM (1 :s 1C ]
 "88
-[; ;gsm.c: 88:         myMsDelay(200);
-[e ( _myMsDelay (1 -> -> 200 `i `ui ]
+[; ;gsm.c: 88:         myMsDelay(500);
+[e ( _myMsDelay (1 -> -> 500 `i `ui ]
 "89
 [; ;gsm.c: 89:     }
 }
@@ -6604,8 +6604,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;gsm.c: 95:         transmitStringToGSM("AT+CMGF=1\r\n");
 [e ( _transmitStringToGSM (1 :s 2C ]
 "96
-[; ;gsm.c: 96:         myMsDelay(200);
-[e ( _myMsDelay (1 -> -> 200 `i `ui ]
+[; ;gsm.c: 96:         myMsDelay(500);
+[e ( _myMsDelay (1 -> -> 500 `i `ui ]
 "97
 [; ;gsm.c: 97:     }
 }
@@ -6635,8 +6635,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;gsm.c: 103:         transmitStringToGSM("AT+CNMI=1,1,0,0,0\r\n");
 [e ( _transmitStringToGSM (1 :s 3C ]
 "104
-[; ;gsm.c: 104:         myMsDelay(200);
-[e ( _myMsDelay (1 -> -> 200 `i `ui ]
+[; ;gsm.c: 104:         myMsDelay(500);
+[e ( _myMsDelay (1 -> -> 500 `i `ui ]
 "105
 [; ;gsm.c: 105:     }
 }
@@ -6666,8 +6666,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;gsm.c: 111:         transmitStringToGSM("AT+SCLASS0=1\r\n");
 [e ( _transmitStringToGSM (1 :s 4C ]
 "112
-[; ;gsm.c: 112:         myMsDelay(200);
-[e ( _myMsDelay (1 -> -> 200 `i `ui ]
+[; ;gsm.c: 112:         myMsDelay(500);
+[e ( _myMsDelay (1 -> -> 500 `i `ui ]
 "113
 [; ;gsm.c: 113:     }
 }
@@ -6697,8 +6697,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;gsm.c: 119:         transmitStringToGSM("AT+CSCS=\"GSM\"\r\n");
 [e ( _transmitStringToGSM (1 :s 5C ]
 "120
-[; ;gsm.c: 120:         myMsDelay(200);
-[e ( _myMsDelay (1 -> -> 200 `i `ui ]
+[; ;gsm.c: 120:         myMsDelay(500);
+[e ( _myMsDelay (1 -> -> 500 `i `ui ]
 "121
 [; ;gsm.c: 121:     }
 }
@@ -6724,8 +6724,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U _setGsmToLocalTime ]
 [f ]
 "157
-[; ;gsm.c: 157:     timer3Count = 30;
-[e = _timer3Count -> -> 30 `i `uc ]
+[; ;gsm.c: 157:     timer3Count = 5;
+[e = _timer3Count -> -> 5 `i `uc ]
 "158
 [; ;gsm.c: 158:     setBCDdigit(0x0B,0);
 [e ( _setBCDdigit (2 , -> -> 11 `i `uc -> -> 0 `i `a ]
@@ -6882,8 +6882,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U _deleteMsgFromSIMStorage ]
 [f ]
 "210
-[; ;gsm.c: 210:     timer3Count = 30;
-[e = _timer3Count -> -> 30 `i `uc ]
+[; ;gsm.c: 210:     timer3Count = 5;
+[e = _timer3Count -> -> 5 `i `uc ]
 "211
 [; ;gsm.c: 211:     setBCDdigit(0x09,1);
 [e ( _setBCDdigit (2 , -> -> 9 `i `uc -> -> 1 `i `a ]
@@ -6935,8 +6935,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _info `uc ~T0 @X0 1 r3 ]
 [f ]
 "231
-[; ;gsm.c: 231:     timer3Count = 30;
-[e = _timer3Count -> -> 30 `i `uc ]
+[; ;gsm.c: 231:     timer3Count = 15;
+[e = _timer3Count -> -> 15 `i `uc ]
 "233
 [; ;gsm.c: 233:     transmitStringToGSM("AT+CMGS=\"");
 [e ( _transmitStringToGSM (1 :s 13C ]
@@ -7910,8 +7910,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;gsm.c: 601:         digit = 0;
 [e = _digit -> -> 0 `i `uc ]
 "602
-[; ;gsm.c: 602:         timer3Count = 30;
-[e = _timer3Count -> -> 30 `i `uc ]
+[; ;gsm.c: 602:         timer3Count = 15;
+[e = _timer3Count -> -> 15 `i `uc ]
 "603
 [; ;gsm.c: 603:         setBCDdigit(0x0A,1);
 [e ( _setBCDdigit (2 , -> -> 10 `i `uc -> -> 1 `i `a ]

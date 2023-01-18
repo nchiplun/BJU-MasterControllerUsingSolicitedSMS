@@ -160,42 +160,42 @@ void __interrupt(low_priority) timerInterrupt_handler(void) {
             }
         }
         //*To follow filtration  cycle sequence*/
-        if (filtrationCycleSequence == 1 && Timer0Overflow == filtrationDelay1 ) { // 10 minute off
+        if (filtrationCycleSequence == 99) {    // Filtration is disabled
+            Timer0Overflow = 0;
+        }
+        else if (filtrationCycleSequence == 1 && Timer0Overflow == filtrationDelay1 ) { // Filtration1 Start Delay
             Timer0Overflow = 0;
             filtration1ValveControl = ON;
             filtrationCycleSequence = 2;
         }
-        else if (filtrationCycleSequence == 2 && Timer0Overflow == filtrationOnTime ) {  // 1 minute on
+        else if (filtrationCycleSequence == 2 && Timer0Overflow == filtrationOnTime ) {  // Filtration1 On Period
             Timer0Overflow = 0;
             filtration1ValveControl = OFF;
             filtrationCycleSequence = 3;
         }
-        else if (filtrationCycleSequence == 3 && Timer0Overflow == filtrationDelay2 ) { // 1 minute off
+        else if (filtrationCycleSequence == 3 && Timer0Overflow == filtrationDelay2 ) { // Filtration2 Start Delay
             Timer0Overflow = 0;
             filtration2ValveControl = ON;
             filtrationCycleSequence = 4;
         }
-        else if (filtrationCycleSequence == 4 && Timer0Overflow == filtrationOnTime ) { // 1 minute on
+        else if (filtrationCycleSequence == 4 && Timer0Overflow == filtrationOnTime ) { // Filtration2 On Period
             Timer0Overflow = 0;
             filtration2ValveControl = OFF;
             filtrationCycleSequence = 5;
         }
-        else if (filtrationCycleSequence == 5 && Timer0Overflow == filtrationDelay2 ) { // 1 minute off 
+        else if (filtrationCycleSequence == 5 && Timer0Overflow == filtrationDelay2 ) { // Filtration3 Start Delay
             Timer0Overflow = 0;
             filtration3ValveControl = ON;
             filtrationCycleSequence = 6;
         }
-        else if (filtrationCycleSequence == 6 && Timer0Overflow == filtrationOnTime ) { // 1 minute on
+        else if (filtrationCycleSequence == 6 && Timer0Overflow == filtrationOnTime ) { // Filtration3 On Period
             Timer0Overflow = 0;
             filtration3ValveControl = OFF;
             filtrationCycleSequence = 7;
         }
-        else if (filtrationCycleSequence == 7 && Timer0Overflow == filtrationSeperationTime ) { // 30 minutes all off
+        else if (filtrationCycleSequence == 7 && Timer0Overflow == filtrationSeperationTime ) { //Filtration Repeat Delay
             Timer0Overflow = 0;
             filtrationCycleSequence = 1;
-        }
-        else if (filtrationCycleSequence == 99) {
-            Timer0Overflow = 0;
         }
     }
 /*To measure pulse width of moisture sensor output*/

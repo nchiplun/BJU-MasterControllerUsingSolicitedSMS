@@ -90,15 +90,15 @@ Version 4.0 HI-TECH Software Intermediate Code
 "54 ./controllerActions.h
 [; ;./controllerActions.h: 54: void deleteStringToDecode(void);
 [v _deleteStringToDecode `(v ~T0 @X0 0 ef ]
+"53
+[; ;./controllerActions.h: 53: void deleteGsmResponse(void);
+[v _deleteGsmResponse `(v ~T0 @X0 0 ef ]
 "55
 [; ;./controllerActions.h: 55: void deleteDecodedString(void);
 [v _deleteDecodedString `(v ~T0 @X0 0 ef ]
 "19 ./dataEncryption.h
 [; ;./dataEncryption.h: 19: void base64Decoder(void);
 [v _base64Decoder `(v ~T0 @X0 0 ef ]
-"53 ./controllerActions.h
-[; ;./controllerActions.h: 53: void deleteGsmResponse(void);
-[v _deleteGsmResponse `(v ~T0 @X0 0 ef ]
 "21 ./gsm.h
 [; ;./gsm.h: 21: void sendSms(const char*, unsigned char[], unsigned char);
 [v _sendSms `(v ~T0 @X0 0 ef3`*Cuc`*uc`uc ]
@@ -7452,8 +7452,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _index `uc ~T0 @X0 1 a ]
 [e = _index -> -> 0 `i `uc ]
 "130
-[; ;controllerActions.c: 130:     timer3Count = 30;
-[e = _timer3Count -> -> 30 `i `uc ]
+[; ;controllerActions.c: 130:     timer3Count = 15;
+[e = _timer3Count -> -> 15 `i `uc ]
 "136
 [; ;controllerActions.c: 136:     controllerCommandExecuted = 0;
 [e = _controllerCommandExecuted -> -> 0 `i `a ]
@@ -7482,8 +7482,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! ! != -> _controllerCommandExecuted `i -> 0 `i 2044  ]
 {
 "144
-[; ;controllerActions.c: 144:             myMsDelay(30000);
-[e ( _myMsDelay (1 -> -> 30000 `i `ui ]
+[; ;controllerActions.c: 144:             myMsDelay(5000);
+[e ( _myMsDelay (1 -> -> 5000 `i `ui ]
 "145
 [; ;controllerActions.c: 145:         }
 }
@@ -8633,8 +8633,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _digit `ui ~T0 @X0 1 a ]
 [e = _digit -> -> 0 `i `ui ]
 "669
-[; ;controllerActions.c: 669:     timer3Count = 30;
-[e = _timer3Count -> -> 30 `i `uc ]
+[; ;controllerActions.c: 669:     timer3Count = 15;
+[e = _timer3Count -> -> 15 `i `uc ]
 "676
 [; ;controllerActions.c: 676:     if (temporaryBytesArray[0] > '0' && temporaryBytesArray[0] <= '9') {
 [e $ ! && > -> *U + &U _temporaryBytesArray * -> -> -> 0 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux `ui -> 48 `ui <= -> *U + &U _temporaryBytesArray * -> -> -> 0 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux `ui -> 57 `ui 2156  ]
@@ -8706,6 +8706,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "698
 [; ;controllerActions.c: 698:             strcpyCustom((char *)stringToDecode,(const char *)gsmResponse + 63);
 [e ( _strcpyCustom (2 , -> &U _stringToDecode `*uc + -> &U _gsmResponse `*Cuc * -> -> 63 `i `x -> -> # *U -> &U _gsmResponse `*Cuc `i `x ]
+"707
+[; ;controllerActions.c: 707:             deleteGsmResponse();
+[e ( _deleteGsmResponse ..  ]
 "708
 [; ;controllerActions.c: 708:             if (isBase64String((char *)stringToDecode)) {
 [e $ ! != -> ( _isBase64String (1 -> &U _stringToDecode `*uc `i -> 0 `i 2162  ]
@@ -8724,9 +8727,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;controllerActions.c: 712:             else {
 [e :U 2162 ]
 {
-"713
-[; ;controllerActions.c: 713:                 deleteGsmResponse();
-[e ( _deleteGsmResponse ..  ]
 "714
 [; ;controllerActions.c: 714:                 setBCDdigit(0x05,0);
 [e ( _setBCDdigit (2 , -> -> 5 `i `uc -> -> 0 `i `a ]
@@ -11028,8 +11028,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;controllerActions.c: 1920:     moistureSensorFailed = 0;
 [e = _moistureSensorFailed -> -> 0 `i `a ]
 "1921
-[; ;controllerActions.c: 1921:     timer3Count = 15;
-[e = _timer3Count -> -> 15 `i `uc ]
+[; ;controllerActions.c: 1921:     timer3Count = 5;
+[e = _timer3Count -> -> 5 `i `uc ]
 "1923
 [; ;controllerActions.c: 1923:     for (itr = 1; itr <= avg && !moistureSensorFailed; itr++) {
 {

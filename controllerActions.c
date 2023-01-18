@@ -141,7 +141,7 @@ void getDateFromGSM(void) {
         transmitStringToGSM("AT+CCLK?\r\n"); // To get local time stamp  +CCLK: "18/05/26,12:00:06+22"   ok
         myMsDelay(1000);
         if (!controllerCommandExecuted) {
-            myMsDelay(30000);
+            myMsDelay(5000);
         }
     }
     setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
@@ -703,14 +703,14 @@ void extractReceivedSms(void) {
             transmitStringToDebug((char *)stringToDecode);
             transmitStringToDebug("\r\n");
             //********Debug log#end**************//
-            deleteGsmResponse();
             #endif
+            deleteGsmResponse();
             if (isBase64String((char *)stringToDecode)) {
                 deleteDecodedString();
                 base64Decoder();
             }
             else {
-                deleteGsmResponse();
+                //deleteGsmResponse();
                 setBCDdigit(0x05,0);  // (5.) BCD indication for Incorrect SMS format
                 myMsDelay(2000);
                 /***************************/ 
@@ -1918,7 +1918,7 @@ _Bool isFieldMoistureSensorWet(unsigned char FieldNo) {
     moistureLevel = LOW;
     checkMoistureSensor = true;
     moistureSensorFailed = false;
-    timer3Count = 15; // 15 second window
+    timer3Count = 5; // 5 second window
     // Averaging measured pulse width
     for (itr = 1; itr <= avg && !moistureSensorFailed; itr++) {
         T1CONbits.TMR1ON = OFF;
@@ -3427,7 +3427,7 @@ void configureController(void) {
     ADRPT = 0X00;
     ADACT = 0X00;
 
-    //-----------Timer0_Config (60 sec) used for sleep and filtration  cycle sequence followup during valve on period----------------------//
+    //-----------Timer0_Config (60 sec) used for SLEEP Count control during Motor ON period and to control filtration  cycle sequence followup----------------------//
     //-----------Timer will not halt in sleep mode------------------------------------------------------//
 
     T0CON0 = 0b00010000; // 16 bit Timer 
@@ -4222,7 +4222,7 @@ void actionsOnDueValve(unsigned char field_No) {
         startFieldNo = field_No+1;               // scan for next field no.
         myMsDelay(50);
         getDueDate(fieldValve[field_No].offPeriod); // calculate next due date of valve
-        myMsDelay(50); // Today's date is not known for next due date
+        myMsDelay(500); // Today's date is not known for next due date
         fieldValve[field_No].nextDueDD = (unsigned char)dueDD;
         fieldValve[field_No].nextDueMM = dueMM;
         fieldValve[field_No].nextDueYY = dueYY;

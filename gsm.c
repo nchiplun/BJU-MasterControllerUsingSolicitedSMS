@@ -78,14 +78,14 @@ The purpose of this function is to transmit AT commands which enables Receive mo
 
  **************************************************************************************************************************/
 void configureGSM(void) {
-    timer3Count = 15; // 15 sec window
+    timer3Count = 5; // 5 sec window
     setBCDdigit(0x0A,0); // (c.) BCD indication for configureGSM
     controllerCommandExecuted = false;
     msgIndex = 1;
     T3CONbits.TMR3ON = ON; // Start timer thread to unlock system if GSM fails to respond within 15 sec
     while (!controllerCommandExecuted) {
         transmitStringToGSM("ATE0\r\n"); // Echo off command
-        myMsDelay(200);
+        myMsDelay(500);
     }
     PIR5bits.TMR3IF = SET; //Stop timer thread
     controllerCommandExecuted = false;
@@ -93,7 +93,7 @@ void configureGSM(void) {
     T3CONbits.TMR3ON = ON; // Start timer thread to unlock system if GSM fails to respond within 15 sec
     while (!controllerCommandExecuted) {
         transmitStringToGSM("AT+CMGF=1\r\n"); // Text Mode command
-        myMsDelay(200);
+        myMsDelay(500);
     }
     PIR5bits.TMR3IF = SET;
     controllerCommandExecuted = false;
@@ -101,7 +101,7 @@ void configureGSM(void) {
     T3CONbits.TMR3ON = ON; // Start timer thread to unlock system if GSM fails to respond within 15 sec
     while (!controllerCommandExecuted) {
         transmitStringToGSM("AT+CNMI=1,1,0,0,0\r\n"); // enable new sms message indication
-        myMsDelay(200);
+        myMsDelay(500);
     }
     PIR5bits.TMR3IF = SET;
     controllerCommandExecuted = false;
@@ -109,7 +109,7 @@ void configureGSM(void) {
     T3CONbits.TMR3ON = ON; // Start timer thread to unlock system if GSM fails to respond within 15 sec
     while (!controllerCommandExecuted) {
         transmitStringToGSM("AT+SCLASS0=1\r\n"); // Store class 0 SMS to SIM memory when received class 0 SMS
-        myMsDelay(200);
+        myMsDelay(500);
     }
     PIR5bits.TMR3IF = SET;
     controllerCommandExecuted = false;
@@ -117,7 +117,7 @@ void configureGSM(void) {
     T3CONbits.TMR3ON = ON; // Start timer thread to unlock system if GSM fails to respond within 15 sec
     while (!controllerCommandExecuted) {
         transmitStringToGSM("AT+CSCS=\"GSM\"\r\n"); // send to GSM
-        myMsDelay(200);
+        myMsDelay(500);
     }
     PIR5bits.TMR3IF = SET;
     setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
@@ -154,7 +154,7 @@ The purpose of this function is to send AT commands to GSM in order to set it at
  **************************************************************************************************************************/
 
 void setGsmToLocalTime(void) {
-    timer3Count = 15; // 15 sec window
+    timer3Count = 5; // 5 sec window
     setBCDdigit(0x0B,0);  // (].) BCD indication for setGsmToLocalTime Action
     gsmSetToLocalTime = false;
     controllerCommandExecuted = false;
@@ -207,7 +207,7 @@ The purpose of this function is to send AT commands to GSM in order delete messa
 
  **************************************************************************************************************************/
 void deleteMsgFromSIMStorage(void) {
-    timer3Count = 15; // 15 sec window
+    timer3Count = 5; // 5 sec window
     setBCDdigit(0x09,1);  // (9) BCD indication Delete SMS action
     controllerCommandExecuted = false;
     msgIndex = 1;
@@ -355,30 +355,30 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
         transmitStringToGSM(" Dry:");
         myMsDelay(10);
         lower8bits = fieldValve[iterator].dryValue;
-        temporaryBytesArray[0] = (unsigned char)((lower8bits / 100) + 48);
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        myMsDelay(10);
+        temporaryBytesArray[0] = (unsigned char) ((lower8bits / 10000) + 48);
+        lower8bits = lower8bits % 10000;
+        temporaryBytesArray[1] = (unsigned char) ((lower8bits / 1000) + 48);
+        lower8bits = lower8bits % 1000;
+        temporaryBytesArray[2] = (unsigned char) ((lower8bits / 100) + 48);
         lower8bits = lower8bits % 100;
-        temporaryBytesArray[0] = (unsigned char)((lower8bits / 10) + 48);
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        myMsDelay(10);
+        temporaryBytesArray[3] = (unsigned char) ((lower8bits / 10) + 48);
         lower8bits = lower8bits % 10;
-        temporaryBytesArray[0] = (unsigned char)(lower8bits + 48);
-        transmitNumberToGSM(temporaryBytesArray, 1);
+        temporaryBytesArray[4] = (unsigned char) (lower8bits + 48);
+        transmitNumberToGSM(temporaryBytesArray,5);
         myMsDelay(10);
         transmitStringToGSM(" Wet:");
         myMsDelay(10);
         lower8bits = fieldValve[iterator].wetValue;
-        temporaryBytesArray[0] = (unsigned char)((lower8bits / 100) + 48);
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        myMsDelay(10);
+        temporaryBytesArray[0] = (unsigned char) ((lower8bits / 10000) + 48);
+        lower8bits = lower8bits % 10000;
+        temporaryBytesArray[1] = (unsigned char) ((lower8bits / 1000) + 48);
+        lower8bits = lower8bits % 1000;
+        temporaryBytesArray[2] = (unsigned char) ((lower8bits / 100) + 48);
         lower8bits = lower8bits % 100;
-        temporaryBytesArray[0] = (unsigned char)((lower8bits / 10) + 48);
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        myMsDelay(10);
+        temporaryBytesArray[3] = (unsigned char) ((lower8bits / 10) + 48);
         lower8bits = lower8bits % 10;
-        temporaryBytesArray[0] = (unsigned char)(lower8bits + 48);
-        transmitNumberToGSM(temporaryBytesArray, 1);
+        temporaryBytesArray[4] = (unsigned char) (lower8bits + 48);
+        transmitNumberToGSM(temporaryBytesArray,5);
         myMsDelay(10);
         transmitStringToGSM(" DueDate: ");
         myMsDelay(10);

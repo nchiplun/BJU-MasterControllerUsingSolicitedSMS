@@ -24845,7 +24845,7 @@ void setBCDdigit(unsigned char digit, _Bool dp_1) {
 # 128 "controllerActions.c"
 void getDateFromGSM(void) {
     unsigned char index = 0;
-    timer3Count = 30;
+    timer3Count = 15;
 
 
 
@@ -24859,7 +24859,7 @@ void getDateFromGSM(void) {
         transmitStringToGSM("AT+CCLK?\r\n");
         myMsDelay(1000);
         if (!controllerCommandExecuted) {
-            myMsDelay(30000);
+            myMsDelay(5000);
         }
     }
     setBCDdigit(0x0F,0);
@@ -25242,7 +25242,7 @@ unsigned char fetchFieldNo(unsigned char index) {
 void extractReceivedSms(void) {
     unsigned char count = 0, onHour = 0, onMinute = 0;
     unsigned int digit = 0;
-    timer3Count = 30;
+    timer3Count = 15;
 
 
 
@@ -25272,13 +25272,14 @@ void extractReceivedSms(void) {
 
 
             strcpyCustom((char *)stringToDecode,(const char *)gsmResponse + 63);
-# 708 "controllerActions.c"
+# 707 "controllerActions.c"
+            deleteGsmResponse();
             if (isBase64String((char *)stringToDecode)) {
                 deleteDecodedString();
                 base64Decoder();
             }
             else {
-                deleteGsmResponse();
+
                 setBCDdigit(0x05,0);
                 myMsDelay(2000);
 
@@ -26124,7 +26125,7 @@ _Bool isFieldMoistureSensorWet(unsigned char FieldNo) {
     moistureLevel = 0;
     checkMoistureSensor = 1;
     moistureSensorFailed = 0;
-    timer3Count = 15;
+    timer3Count = 5;
 
     for (itr = 1; itr <= avg && !moistureSensorFailed; itr++) {
         T1CONbits.TMR1ON = 0;

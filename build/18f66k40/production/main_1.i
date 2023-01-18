@@ -24889,7 +24889,10 @@ void __attribute__((picinterrupt(("low_priority")))) timerInterrupt_handler(void
             }
         }
 
-        if (filtrationCycleSequence == 1 && Timer0Overflow == filtrationDelay1 ) {
+        if (filtrationCycleSequence == 99) {
+            Timer0Overflow = 0;
+        }
+        else if (filtrationCycleSequence == 1 && Timer0Overflow == filtrationDelay1 ) {
             Timer0Overflow = 0;
             PORTGbits.RG7 = 1;
             filtrationCycleSequence = 2;
@@ -24922,9 +24925,6 @@ void __attribute__((picinterrupt(("low_priority")))) timerInterrupt_handler(void
         else if (filtrationCycleSequence == 7 && Timer0Overflow == filtrationSeperationTime ) {
             Timer0Overflow = 0;
             filtrationCycleSequence = 1;
-        }
-        else if (filtrationCycleSequence == 99) {
-            Timer0Overflow = 0;
         }
     }
 
