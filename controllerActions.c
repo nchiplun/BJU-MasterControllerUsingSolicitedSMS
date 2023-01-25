@@ -4220,9 +4220,9 @@ void actionsOnDueValve(unsigned char field_No) {
         fieldValve[field_No].status = OFF;
         fieldValve[field_No].cyclesExecuted = fieldValve[field_No].cycles;
         startFieldNo = field_No+1;               // scan for next field no.
-        myMsDelay(50);
+        myMsDelay(100);
         getDueDate(fieldValve[field_No].offPeriod); // calculate next due date of valve
-        myMsDelay(500); // Today's date is not known for next due date
+        myMsDelay(100);
         fieldValve[field_No].nextDueDD = (unsigned char)dueDD;
         fieldValve[field_No].nextDueMM = dueMM;
         fieldValve[field_No].nextDueYY = dueYY;

@@ -16092,14 +16092,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;controllerActions.c: 4222:         startFieldNo = field_No+1;
 [e = _startFieldNo -> + -> _field_No `i -> 1 `i `uc ]
 "4223
-[; ;controllerActions.c: 4223:         myMsDelay(50);
-[e ( _myMsDelay (1 -> -> 50 `i `ui ]
+[; ;controllerActions.c: 4223:         myMsDelay(100);
+[e ( _myMsDelay (1 -> -> 100 `i `ui ]
 "4224
 [; ;controllerActions.c: 4224:         getDueDate(fieldValve[field_No].offPeriod);
 [e ( _getDueDate (1 . *U + &U _fieldValve * -> _field_No `ux -> -> # *U &U _fieldValve `ui `ux 3 ]
 "4225
-[; ;controllerActions.c: 4225:         myMsDelay(50);
-[e ( _myMsDelay (1 -> -> 50 `i `ui ]
+[; ;controllerActions.c: 4225:         myMsDelay(100);
+[e ( _myMsDelay (1 -> -> 100 `i `ui ]
 "4226
 [; ;controllerActions.c: 4226:         fieldValve[field_No].nextDueDD = (unsigned char)dueDD;
 [e = . *U + &U _fieldValve * -> _field_No `ux -> -> # *U &U _fieldValve `ui `ux 6 -> _dueDD `uc ]

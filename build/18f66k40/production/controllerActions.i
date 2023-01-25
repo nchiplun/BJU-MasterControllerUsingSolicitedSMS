@@ -27988,9 +27988,9 @@ void actionsOnDueValve(unsigned char field_No) {
         fieldValve[field_No].status = 0;
         fieldValve[field_No].cyclesExecuted = fieldValve[field_No].cycles;
         startFieldNo = field_No+1;
-        myMsDelay(50);
+        myMsDelay(100);
         getDueDate(fieldValve[field_No].offPeriod);
-        myMsDelay(50);
+        myMsDelay(100);
         fieldValve[field_No].nextDueDD = (unsigned char)dueDD;
         fieldValve[field_No].nextDueMM = dueMM;
         fieldValve[field_No].nextDueYY = dueYY;

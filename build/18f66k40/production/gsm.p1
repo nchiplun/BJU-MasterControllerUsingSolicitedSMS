@@ -7236,35 +7236,35 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;gsm.c: 357:         lower8bits = fieldValve[iterator].dryValue;
 [e = _lower8bits . *U + &U _fieldValve * -> _iterator `ux -> -> # *U &U _fieldValve `ui `ux 0 ]
 "358
-[; ;gsm.c: 358:         temporaryBytesArray[0] = (unsigned char)((lower8bits / 100) + 48);
-[e = *U + &U _temporaryBytesArray * -> -> -> 0 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux -> + / _lower8bits -> -> 100 `i `ui -> -> 48 `i `ui `uc ]
+[; ;gsm.c: 358:         temporaryBytesArray[0] = (unsigned char) ((lower8bits / 10000) + 48);
+[e = *U + &U _temporaryBytesArray * -> -> -> 0 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux -> + / _lower8bits -> -> 10000 `i `ui -> -> 48 `i `ui `uc ]
 "359
-[; ;gsm.c: 359:         transmitNumberToGSM(temporaryBytesArray, 1);
-[e ( _transmitNumberToGSM (2 , &U _temporaryBytesArray -> -> 1 `i `uc ]
+[; ;gsm.c: 359:         lower8bits = lower8bits % 10000;
+[e = _lower8bits % _lower8bits -> -> 10000 `i `ui ]
 "360
-[; ;gsm.c: 360:         myMsDelay(10);
-[e ( _myMsDelay (1 -> -> 10 `i `ui ]
+[; ;gsm.c: 360:         temporaryBytesArray[1] = (unsigned char) ((lower8bits / 1000) + 48);
+[e = *U + &U _temporaryBytesArray * -> -> -> 1 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux -> + / _lower8bits -> -> 1000 `i `ui -> -> 48 `i `ui `uc ]
 "361
-[; ;gsm.c: 361:         lower8bits = lower8bits % 100;
-[e = _lower8bits % _lower8bits -> -> 100 `i `ui ]
+[; ;gsm.c: 361:         lower8bits = lower8bits % 1000;
+[e = _lower8bits % _lower8bits -> -> 1000 `i `ui ]
 "362
-[; ;gsm.c: 362:         temporaryBytesArray[0] = (unsigned char)((lower8bits / 10) + 48);
-[e = *U + &U _temporaryBytesArray * -> -> -> 0 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux -> + / _lower8bits -> -> 10 `i `ui -> -> 48 `i `ui `uc ]
+[; ;gsm.c: 362:         temporaryBytesArray[2] = (unsigned char) ((lower8bits / 100) + 48);
+[e = *U + &U _temporaryBytesArray * -> -> -> 2 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux -> + / _lower8bits -> -> 100 `i `ui -> -> 48 `i `ui `uc ]
 "363
-[; ;gsm.c: 363:         transmitNumberToGSM(temporaryBytesArray, 1);
-[e ( _transmitNumberToGSM (2 , &U _temporaryBytesArray -> -> 1 `i `uc ]
+[; ;gsm.c: 363:         lower8bits = lower8bits % 100;
+[e = _lower8bits % _lower8bits -> -> 100 `i `ui ]
 "364
-[; ;gsm.c: 364:         myMsDelay(10);
-[e ( _myMsDelay (1 -> -> 10 `i `ui ]
+[; ;gsm.c: 364:         temporaryBytesArray[3] = (unsigned char) ((lower8bits / 10) + 48);
+[e = *U + &U _temporaryBytesArray * -> -> -> 3 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux -> + / _lower8bits -> -> 10 `i `ui -> -> 48 `i `ui `uc ]
 "365
 [; ;gsm.c: 365:         lower8bits = lower8bits % 10;
 [e = _lower8bits % _lower8bits -> -> 10 `i `ui ]
 "366
-[; ;gsm.c: 366:         temporaryBytesArray[0] = (unsigned char)(lower8bits + 48);
-[e = *U + &U _temporaryBytesArray * -> -> -> 0 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux -> + _lower8bits -> -> 48 `i `ui `uc ]
+[; ;gsm.c: 366:         temporaryBytesArray[4] = (unsigned char) (lower8bits + 48);
+[e = *U + &U _temporaryBytesArray * -> -> -> 4 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux -> + _lower8bits -> -> 48 `i `ui `uc ]
 "367
-[; ;gsm.c: 367:         transmitNumberToGSM(temporaryBytesArray, 1);
-[e ( _transmitNumberToGSM (2 , &U _temporaryBytesArray -> -> 1 `i `uc ]
+[; ;gsm.c: 367:         transmitNumberToGSM(temporaryBytesArray,5);
+[e ( _transmitNumberToGSM (2 , &U _temporaryBytesArray -> -> 5 `i `uc ]
 "368
 [; ;gsm.c: 368:         myMsDelay(10);
 [e ( _myMsDelay (1 -> -> 10 `i `ui ]
@@ -7278,35 +7278,35 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;gsm.c: 371:         lower8bits = fieldValve[iterator].wetValue;
 [e = _lower8bits . *U + &U _fieldValve * -> _iterator `ux -> -> # *U &U _fieldValve `ui `ux 1 ]
 "372
-[; ;gsm.c: 372:         temporaryBytesArray[0] = (unsigned char)((lower8bits / 100) + 48);
-[e = *U + &U _temporaryBytesArray * -> -> -> 0 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux -> + / _lower8bits -> -> 100 `i `ui -> -> 48 `i `ui `uc ]
+[; ;gsm.c: 372:         temporaryBytesArray[0] = (unsigned char) ((lower8bits / 10000) + 48);
+[e = *U + &U _temporaryBytesArray * -> -> -> 0 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux -> + / _lower8bits -> -> 10000 `i `ui -> -> 48 `i `ui `uc ]
 "373
-[; ;gsm.c: 373:         transmitNumberToGSM(temporaryBytesArray, 1);
-[e ( _transmitNumberToGSM (2 , &U _temporaryBytesArray -> -> 1 `i `uc ]
+[; ;gsm.c: 373:         lower8bits = lower8bits % 10000;
+[e = _lower8bits % _lower8bits -> -> 10000 `i `ui ]
 "374
-[; ;gsm.c: 374:         myMsDelay(10);
-[e ( _myMsDelay (1 -> -> 10 `i `ui ]
+[; ;gsm.c: 374:         temporaryBytesArray[1] = (unsigned char) ((lower8bits / 1000) + 48);
+[e = *U + &U _temporaryBytesArray * -> -> -> 1 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux -> + / _lower8bits -> -> 1000 `i `ui -> -> 48 `i `ui `uc ]
 "375
-[; ;gsm.c: 375:         lower8bits = lower8bits % 100;
-[e = _lower8bits % _lower8bits -> -> 100 `i `ui ]
+[; ;gsm.c: 375:         lower8bits = lower8bits % 1000;
+[e = _lower8bits % _lower8bits -> -> 1000 `i `ui ]
 "376
-[; ;gsm.c: 376:         temporaryBytesArray[0] = (unsigned char)((lower8bits / 10) + 48);
-[e = *U + &U _temporaryBytesArray * -> -> -> 0 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux -> + / _lower8bits -> -> 10 `i `ui -> -> 48 `i `ui `uc ]
+[; ;gsm.c: 376:         temporaryBytesArray[2] = (unsigned char) ((lower8bits / 100) + 48);
+[e = *U + &U _temporaryBytesArray * -> -> -> 2 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux -> + / _lower8bits -> -> 100 `i `ui -> -> 48 `i `ui `uc ]
 "377
-[; ;gsm.c: 377:         transmitNumberToGSM(temporaryBytesArray, 1);
-[e ( _transmitNumberToGSM (2 , &U _temporaryBytesArray -> -> 1 `i `uc ]
+[; ;gsm.c: 377:         lower8bits = lower8bits % 100;
+[e = _lower8bits % _lower8bits -> -> 100 `i `ui ]
 "378
-[; ;gsm.c: 378:         myMsDelay(10);
-[e ( _myMsDelay (1 -> -> 10 `i `ui ]
+[; ;gsm.c: 378:         temporaryBytesArray[3] = (unsigned char) ((lower8bits / 10) + 48);
+[e = *U + &U _temporaryBytesArray * -> -> -> 3 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux -> + / _lower8bits -> -> 10 `i `ui -> -> 48 `i `ui `uc ]
 "379
 [; ;gsm.c: 379:         lower8bits = lower8bits % 10;
 [e = _lower8bits % _lower8bits -> -> 10 `i `ui ]
 "380
-[; ;gsm.c: 380:         temporaryBytesArray[0] = (unsigned char)(lower8bits + 48);
-[e = *U + &U _temporaryBytesArray * -> -> -> 0 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux -> + _lower8bits -> -> 48 `i `ui `uc ]
+[; ;gsm.c: 380:         temporaryBytesArray[4] = (unsigned char) (lower8bits + 48);
+[e = *U + &U _temporaryBytesArray * -> -> -> 4 `i `ui `ux -> -> # *U &U _temporaryBytesArray `ui `ux -> + _lower8bits -> -> 48 `i `ui `uc ]
 "381
-[; ;gsm.c: 381:         transmitNumberToGSM(temporaryBytesArray, 1);
-[e ( _transmitNumberToGSM (2 , &U _temporaryBytesArray -> -> 1 `i `uc ]
+[; ;gsm.c: 381:         transmitNumberToGSM(temporaryBytesArray,5);
+[e ( _transmitNumberToGSM (2 , &U _temporaryBytesArray -> -> 5 `i `uc ]
 "382
 [; ;gsm.c: 382:         myMsDelay(10);
 [e ( _myMsDelay (1 -> -> 10 `i `ui ]
