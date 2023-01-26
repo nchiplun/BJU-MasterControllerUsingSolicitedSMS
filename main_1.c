@@ -140,50 +140,62 @@ void __interrupt(low_priority) timerInterrupt_handler(void) {
         TMR0H = 0xE3; // Load Timer0 Register Higher Byte 
         TMR0L = 0xB0; // Load Timer0 Register Lower Byte
         Timer0Overflow++;
-        // Control sleep count decrement for each one minute interrupt when motor is on 
+        // Control sleep count decrement for each one minute interrupt when Motor is ON i.e. Valve ON period 
         if (sleepCount > 0 && MotorControl == ON) {
             sleepCount--;
             if (dryRunCheckCount == 0 || dryRunCheckCount < 3) {
                 dryRunCheckCount++;
             }
-        } 
+        }
+        // Check Fertigation Level for each one minute interrupt when Fertigation Motor is ON during Valve ON period 
+        if (fertigationValveControl == ON) {
+            fertigationDry = false;
+            if (!moistureSensorFailed) {  // to avoid repeated fertigation level check after sensor failure detected
+                if (isFieldMoistureSensorWet(11)==false) {
+                    if (!moistureSensorFailed) { // to avoid sensor dry detection due to sensor failure
+                        fertigationValveControl = OFF;
+                        fertigationDry = true;
+                    }
+                }
+            }
+        }
         //*To follow filtration  cycle sequence*/
-        if (filtrationCycleSequence == 1 && Timer0Overflow == filtrationDelay1 ) { // 10 minute off
+        if (filtrationCycleSequence == 99) {    // Filtration is disabled
+            Timer0Overflow = 0;
+        }
+        else if (filtrationCycleSequence == 1 && Timer0Overflow == filtrationDelay1 ) { // Filtration1 Start Delay
             Timer0Overflow = 0;
             filtration1ValveControl = ON;
             filtrationCycleSequence = 2;
         }
-        else if (filtrationCycleSequence == 2 && Timer0Overflow == filtrationOnTime ) {  // 1 minute on
+        else if (filtrationCycleSequence == 2 && Timer0Overflow == filtrationOnTime ) {  // Filtration1 On Period
             Timer0Overflow = 0;
             filtration1ValveControl = OFF;
             filtrationCycleSequence = 3;
         }
-        else if (filtrationCycleSequence == 3 && Timer0Overflow == filtrationDelay2 ) { // 1 minute off
+        else if (filtrationCycleSequence == 3 && Timer0Overflow == filtrationDelay2 ) { // Filtration2 Start Delay
             Timer0Overflow = 0;
             filtration2ValveControl = ON;
             filtrationCycleSequence = 4;
         }
-        else if (filtrationCycleSequence == 4 && Timer0Overflow == filtrationOnTime ) { // 1 minute on
+        else if (filtrationCycleSequence == 4 && Timer0Overflow == filtrationOnTime ) { // Filtration2 On Period
             Timer0Overflow = 0;
             filtration2ValveControl = OFF;
             filtrationCycleSequence = 5;
         }
-        else if (filtrationCycleSequence == 5 && Timer0Overflow == filtrationDelay2 ) { // 1 minute off 
+        else if (filtrationCycleSequence == 5 && Timer0Overflow == filtrationDelay2 ) { // Filtration3 Start Delay
             Timer0Overflow = 0;
             filtration3ValveControl = ON;
             filtrationCycleSequence = 6;
         }
-        else if (filtrationCycleSequence == 6 && Timer0Overflow == filtrationOnTime ) { // 1 minute on
+        else if (filtrationCycleSequence == 6 && Timer0Overflow == filtrationOnTime ) { // Filtration3 On Period
             Timer0Overflow = 0;
             filtration3ValveControl = OFF;
             filtrationCycleSequence = 7;
         }
-        else if (filtrationCycleSequence == 7 && Timer0Overflow == filtrationSeperationTime ) { // 30 minutes all off
+        else if (filtrationCycleSequence == 7 && Timer0Overflow == filtrationSeperationTime ) { //Filtration Repeat Delay
             Timer0Overflow = 0;
             filtrationCycleSequence = 1;
-        }
-        else if (filtrationCycleSequence == 99) {
-            Timer0Overflow = 0;
         }
     }
 /*To measure pulse width of moisture sensor output*/
@@ -227,6 +239,7 @@ void __interrupt(low_priority) timerInterrupt_handler(void) {
     actionsOnSystemReset();
     while (1) {
 nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
+            wetSensor = false; // reset wet sensor for first wet field detection
             myMsDelay(50);
             scanValveScheduleAndGetSleepCount(); // get sleep count for next valve action
             myMsDelay(50);
@@ -248,6 +261,7 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
         }
         // DeActivate last valve and switch off motor pump
         else if (valveExecuted) {
+            wetSensor = false; // reset wet sensor for last wet field detection
             powerOffMotor();
             last_Field_No = readFieldIrrigationValveNoFromEeprom();
             deActivateValve(last_Field_No);      // Successful Deactivate valve
@@ -269,60 +283,62 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
         if (onHold) {
             sleepCount = 0; // Skip Next sleep for performing hold operation
         }
-        /****************************/
-        deepSleep(); // sleep for given sleep count (	default/calculated )
-        /****************************/
-        // check if Sleep count executed with interrupt occurred due to new SMS command reception
-        #ifdef DEBUG_MODE_ON_H
-        //********Debug log#start************//
-        transmitStringToDebug((const char *)gsmResponse);
-        transmitStringToDebug("\r\n");
-        //********Debug log#end**************//
-        #endif
-        if (newSMSRcvd) {
+        if (!wetSensor) {
+            /****************************/
+            deepSleep(); // sleep for given sleep count (	default/calculated )
+            /****************************/
+            // check if Sleep count executed with interrupt occurred due to new SMS command reception
             #ifdef DEBUG_MODE_ON_H
             //********Debug log#start************//
-            transmitStringToDebug("newSMSRcvd_IN\r\n");
+            transmitStringToDebug((const char *)gsmResponse);
+            transmitStringToDebug("\r\n");
             //********Debug log#end**************//
             #endif
-            setBCDdigit(0x02,1); // "2" BCD indication for New SMS Received 
-            myMsDelay(500);
-            newSMSRcvd = false; // received command is processed										
-            extractReceivedSms(); // Read received SMS
-            setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
-            myMsDelay(500);
-            deleteMsgFromSIMStorage();
-            #ifdef DEBUG_MODE_ON_H
-            //********Debug log#start************//
-            transmitStringToDebug("newSMSRcvd_OUT\r\n");
-            //********Debug log#end**************//
-            #endif
-        } 
-        //check if Sleep count executed without external interrupt
-        else {
-            #ifdef DEBUG_MODE_ON_H
-            //********Debug log#start************//
-            transmitStringToDebug("actionsOnSleepCountFinish_IN\r\n");
-            //********Debug log#end**************//
-            #endif
-            actionsOnSleepCountFinish();
-            #ifdef DEBUG_MODE_ON_H
-            //********Debug log#start************//
-            transmitStringToDebug("actionsOnSleepCountFinish_OUT\r\n");
-            //********Debug log#end**************//
-            #endif
-            if (isRTCBatteryDrained() && !rtcBatteryLevelChecked){
-                /***************************/
-                sendSms(SmsRTC1, userMobileNo, noInfo); // Acknowledge user about replace RTC battery
-                rtcBatteryLevelChecked = true;
-                #ifdef SMS_DELIVERY_REPORT_ON_H
-                sleepCount = 2; // Load sleep count for SMS transmission action
-                sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
-                setBCDdigit(0x05,0);
-                deepSleep(); // Sleep until message transmission acknowledge SMS is received from service provider
-                setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+            if (newSMSRcvd) {
+                #ifdef DEBUG_MODE_ON_H
+                //********Debug log#start************//
+                transmitStringToDebug("newSMSRcvd_IN\r\n");
+                //********Debug log#end**************//
                 #endif
-                /***************************/
+                setBCDdigit(0x02,1); // "2" BCD indication for New SMS Received 
+                myMsDelay(500);
+                newSMSRcvd = false; // received command is processed										
+                extractReceivedSms(); // Read received SMS
+                setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+                myMsDelay(500);
+                deleteMsgFromSIMStorage();
+                #ifdef DEBUG_MODE_ON_H
+                //********Debug log#start************//
+                transmitStringToDebug("newSMSRcvd_OUT\r\n");
+                //********Debug log#end**************//
+                #endif
+            } 
+            //check if Sleep count executed without external interrupt
+            else {
+                #ifdef DEBUG_MODE_ON_H
+                //********Debug log#start************//
+                transmitStringToDebug("actionsOnSleepCountFinish_IN\r\n");
+                //********Debug log#end**************//
+                #endif
+                actionsOnSleepCountFinish();
+                #ifdef DEBUG_MODE_ON_H
+                //********Debug log#start************//
+                transmitStringToDebug("actionsOnSleepCountFinish_OUT\r\n");
+                //********Debug log#end**************//
+                #endif
+                if (isRTCBatteryDrained() && !rtcBatteryLevelChecked){
+                    /***************************/
+                    sendSms(SmsRTC1, userMobileNo, noInfo); // Acknowledge user about replace RTC battery
+                    rtcBatteryLevelChecked = true;
+                    #ifdef SMS_DELIVERY_REPORT_ON_H
+                    sleepCount = 2; // Load sleep count for SMS transmission action
+                    sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
+                    setBCDdigit(0x05,0);
+                    deepSleep(); // Sleep until message transmission acknowledge SMS is received from service provider
+                    setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+                    #endif
+                    /***************************/
+                }
             }
         }
     }

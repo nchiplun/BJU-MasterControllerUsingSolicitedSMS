@@ -24484,6 +24484,8 @@ _Bool filtrationEnabled = 0;
 _Bool cmtiCmd = 0;
 _Bool DeviceBurnStatus = 0;
 _Bool gsmSetToLocalTime = 0;
+_Bool wetSensor = 0;
+_Bool fertigationDry = 0;
 
 
 
@@ -24559,6 +24561,8 @@ const char SmsFert3[34] = "Fertigation enabled for field no.";
 const char SmsFert4[35] = "Fertigation disabled for field no.";
 const char SmsFert5[34] = "Fertigation started for field no.";
 const char SmsFert6[34] = "Fertigation stopped for field no.";
+const char SmsFert7[71] = "Fertigation stopped with fertilizer level sensor failure for field no.";
+const char SmsFert8[60] = "Fertigation stopped with low fertilizer level for field no.";
 
 const char SmsFilt1[27] = "Water filtration activated";
 const char SmsFilt2[29] = "Water filtration deactivated";
@@ -24776,14 +24780,14 @@ void transmitNumberToGSM(unsigned char *number, unsigned char index) {
 
 
 void configureGSM(void) {
-    timer3Count = 30;
+    timer3Count = 5;
     setBCDdigit(0x0A,0);
     controllerCommandExecuted = 0;
     msgIndex = 1;
     T3CONbits.TMR3ON = 1;
     while (!controllerCommandExecuted) {
         transmitStringToGSM("ATE0\r\n");
-        myMsDelay(200);
+        myMsDelay(500);
     }
     PIR5bits.TMR3IF = 1;
     controllerCommandExecuted = 0;
@@ -24791,7 +24795,7 @@ void configureGSM(void) {
     T3CONbits.TMR3ON = 1;
     while (!controllerCommandExecuted) {
         transmitStringToGSM("AT+CMGF=1\r\n");
-        myMsDelay(200);
+        myMsDelay(500);
     }
     PIR5bits.TMR3IF = 1;
     controllerCommandExecuted = 0;
@@ -24799,7 +24803,7 @@ void configureGSM(void) {
     T3CONbits.TMR3ON = 1;
     while (!controllerCommandExecuted) {
         transmitStringToGSM("AT+CNMI=1,1,0,0,0\r\n");
-        myMsDelay(200);
+        myMsDelay(500);
     }
     PIR5bits.TMR3IF = 1;
     controllerCommandExecuted = 0;
@@ -24807,7 +24811,7 @@ void configureGSM(void) {
     T3CONbits.TMR3ON = 1;
     while (!controllerCommandExecuted) {
         transmitStringToGSM("AT+SCLASS0=1\r\n");
-        myMsDelay(200);
+        myMsDelay(500);
     }
     PIR5bits.TMR3IF = 1;
     controllerCommandExecuted = 0;
@@ -24815,14 +24819,14 @@ void configureGSM(void) {
     T3CONbits.TMR3ON = 1;
     while (!controllerCommandExecuted) {
         transmitStringToGSM("AT+CSCS=\"GSM\"\r\n");
-        myMsDelay(200);
+        myMsDelay(500);
     }
     PIR5bits.TMR3IF = 1;
     setBCDdigit(0x0F,0);
 }
 # 156 "gsm.c"
 void setGsmToLocalTime(void) {
-    timer3Count = 30;
+    timer3Count = 5;
     setBCDdigit(0x0B,0);
     gsmSetToLocalTime = 0;
     controllerCommandExecuted = 0;
@@ -24875,7 +24879,7 @@ void setGsmToLocalTime(void) {
 
 
 void deleteMsgFromSIMStorage(void) {
-    timer3Count = 30;
+    timer3Count = 5;
     setBCDdigit(0x09,1);
     controllerCommandExecuted = 0;
     msgIndex = 1;
@@ -24896,7 +24900,7 @@ void deleteMsgFromSIMStorage(void) {
 
 
 void sendSms(const char *message, unsigned char phoneNumber[], unsigned char info) {
-    timer3Count = 30;
+    timer3Count = 15;
 
     transmitStringToGSM("AT+CMGS=\"");
     myMsDelay(50);
@@ -25023,30 +25027,30 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
         transmitStringToGSM(" Dry:");
         myMsDelay(10);
         lower8bits = fieldValve[iterator].dryValue;
-        temporaryBytesArray[0] = (unsigned char)((lower8bits / 100) + 48);
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        myMsDelay(10);
+        temporaryBytesArray[0] = (unsigned char) ((lower8bits / 10000) + 48);
+        lower8bits = lower8bits % 10000;
+        temporaryBytesArray[1] = (unsigned char) ((lower8bits / 1000) + 48);
+        lower8bits = lower8bits % 1000;
+        temporaryBytesArray[2] = (unsigned char) ((lower8bits / 100) + 48);
         lower8bits = lower8bits % 100;
-        temporaryBytesArray[0] = (unsigned char)((lower8bits / 10) + 48);
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        myMsDelay(10);
+        temporaryBytesArray[3] = (unsigned char) ((lower8bits / 10) + 48);
         lower8bits = lower8bits % 10;
-        temporaryBytesArray[0] = (unsigned char)(lower8bits + 48);
-        transmitNumberToGSM(temporaryBytesArray, 1);
+        temporaryBytesArray[4] = (unsigned char) (lower8bits + 48);
+        transmitNumberToGSM(temporaryBytesArray,5);
         myMsDelay(10);
         transmitStringToGSM(" Wet:");
         myMsDelay(10);
         lower8bits = fieldValve[iterator].wetValue;
-        temporaryBytesArray[0] = (unsigned char)((lower8bits / 100) + 48);
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        myMsDelay(10);
+        temporaryBytesArray[0] = (unsigned char) ((lower8bits / 10000) + 48);
+        lower8bits = lower8bits % 10000;
+        temporaryBytesArray[1] = (unsigned char) ((lower8bits / 1000) + 48);
+        lower8bits = lower8bits % 1000;
+        temporaryBytesArray[2] = (unsigned char) ((lower8bits / 100) + 48);
         lower8bits = lower8bits % 100;
-        temporaryBytesArray[0] = (unsigned char)((lower8bits / 10) + 48);
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        myMsDelay(10);
+        temporaryBytesArray[3] = (unsigned char) ((lower8bits / 10) + 48);
         lower8bits = lower8bits % 10;
-        temporaryBytesArray[0] = (unsigned char)(lower8bits + 48);
-        transmitNumberToGSM(temporaryBytesArray, 1);
+        temporaryBytesArray[4] = (unsigned char) (lower8bits + 48);
+        transmitNumberToGSM(temporaryBytesArray,5);
         myMsDelay(10);
         transmitStringToGSM(" DueDate: ");
         myMsDelay(10);
@@ -25245,7 +25249,7 @@ void checkSignalStrength(void) {
         setBCDdigit(0x0F,1);
         myMsDelay(1000);
         digit = 0;
-        timer3Count = 30;
+        timer3Count = 15;
         setBCDdigit(0x0A,1);
         controllerCommandExecuted = 0;
         msgIndex = 0;

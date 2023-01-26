@@ -24485,6 +24485,8 @@ _Bool filtrationEnabled = 0;
 _Bool cmtiCmd = 0;
 _Bool DeviceBurnStatus = 0;
 _Bool gsmSetToLocalTime = 0;
+_Bool wetSensor = 0;
+_Bool fertigationDry = 0;
 
 
 
@@ -24560,6 +24562,8 @@ const char SmsFert3[34] = "Fertigation enabled for field no.";
 const char SmsFert4[35] = "Fertigation disabled for field no.";
 const char SmsFert5[34] = "Fertigation started for field no.";
 const char SmsFert6[34] = "Fertigation stopped for field no.";
+const char SmsFert7[71] = "Fertigation stopped with fertilizer level sensor failure for field no.";
+const char SmsFert8[60] = "Fertigation stopped with low fertilizer level for field no.";
 
 const char SmsFilt1[27] = "Water filtration activated";
 const char SmsFilt2[29] = "Water filtration deactivated";
@@ -24873,7 +24877,22 @@ void __attribute__((picinterrupt(("low_priority")))) timerInterrupt_handler(void
             }
         }
 
-        if (filtrationCycleSequence == 1 && Timer0Overflow == filtrationDelay1 ) {
+        if (PORTFbits.RF6 == 1) {
+            fertigationDry = 0;
+            if (!moistureSensorFailed) {
+                if (isFieldMoistureSensorWet(11)==0) {
+                    if (!moistureSensorFailed) {
+                        PORTFbits.RF6 = 0;
+                        fertigationDry = 1;
+                    }
+                }
+            }
+        }
+
+        if (filtrationCycleSequence == 99) {
+            Timer0Overflow = 0;
+        }
+        else if (filtrationCycleSequence == 1 && Timer0Overflow == filtrationDelay1 ) {
             Timer0Overflow = 0;
             PORTGbits.RG7 = 1;
             filtrationCycleSequence = 2;
@@ -24906,9 +24925,6 @@ void __attribute__((picinterrupt(("low_priority")))) timerInterrupt_handler(void
         else if (filtrationCycleSequence == 7 && Timer0Overflow == filtrationSeperationTime ) {
             Timer0Overflow = 0;
             filtrationCycleSequence = 1;
-        }
-        else if (filtrationCycleSequence == 99) {
-            Timer0Overflow = 0;
         }
     }
 
@@ -24952,6 +24968,7 @@ void __attribute__((picinterrupt(("low_priority")))) timerInterrupt_handler(void
     actionsOnSystemReset();
     while (1) {
 nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
+            wetSensor = 0;
             myMsDelay(50);
             scanValveScheduleAndGetSleepCount();
             myMsDelay(50);
@@ -24973,13 +24990,14 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
         }
 
         else if (valveExecuted) {
+            wetSensor = 0;
             powerOffMotor();
             last_Field_No = readFieldIrrigationValveNoFromEeprom();
             deActivateValve(last_Field_No);
             valveExecuted = 0;
 
             sendSms(SmsMotor1, userMobileNo, 0);
-# 265 "main_1.c"
+# 279 "main_1.c"
             startFieldNo = 0;
 
         }
@@ -24987,46 +25005,48 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
         if (onHold) {
             sleepCount = 0;
         }
+        if (!wetSensor) {
 
-        deepSleep();
-# 282 "main_1.c"
-        if (newSMSRcvd) {
-
-
-
-
-
-            setBCDdigit(0x02,1);
-            myMsDelay(500);
-            newSMSRcvd = 0;
-            extractReceivedSms();
-            setBCDdigit(0x0F,0);
-            myMsDelay(500);
-            deleteMsgFromSIMStorage();
+            deepSleep();
+# 297 "main_1.c"
+            if (newSMSRcvd) {
 
 
 
 
 
-        }
-
-        else {
-
-
-
-
-
-            actionsOnSleepCountFinish();
+                setBCDdigit(0x02,1);
+                myMsDelay(500);
+                newSMSRcvd = 0;
+                extractReceivedSms();
+                setBCDdigit(0x0F,0);
+                myMsDelay(500);
+                deleteMsgFromSIMStorage();
 
 
 
 
 
-            if (isRTCBatteryDrained() && !rtcBatteryLevelChecked){
+            }
 
-                sendSms(SmsRTC1, userMobileNo, 0);
-                rtcBatteryLevelChecked = 1;
-# 326 "main_1.c"
+            else {
+
+
+
+
+
+                actionsOnSleepCountFinish();
+
+
+
+
+
+                if (isRTCBatteryDrained() && !rtcBatteryLevelChecked){
+
+                    sendSms(SmsRTC1, userMobileNo, 0);
+                    rtcBatteryLevelChecked = 1;
+# 341 "main_1.c"
+                }
             }
         }
     }
