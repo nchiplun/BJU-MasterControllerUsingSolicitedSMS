@@ -4,5 +4,4 @@ congfigBits.h  \
 variableDefinitions.h  \
 controllerActions.h  \
 eeprom.h  \
-gsm.h  \
-serialMonitor.h 
+gsm.h 
