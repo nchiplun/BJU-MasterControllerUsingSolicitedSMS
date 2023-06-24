@@ -3528,8 +3528,8 @@ void configureController(void) {
     RC1STA = 0b10000000; // 8 Bit Serial Port Enabled with Reception Disabled
     BAUD1CON = 0b00001000; // 16 Bit Baud Rate Register used
     SP1BRG = 0x0681; // XTAL=16MHz, Fosc=64Mhz for SYNC=0 BRGH=1 BRG16=1 (Asynchronous high 16 bit baud rate)
-    RC7PPS = 0x17; //EUSART3 Receive
-    RC6PPS = 0x0C; //EUSART3 Transmit
+    RC7PPS = 0x17; //EUSART1 Receive
+    RC6PPS = 0x0C; //EUSART1 Transmit
     temp = RC1REG; // Empty buffer
     PIE3bits.RC1IE = DISABLED; // Disables the EUSART Receive Interrupt
     PIE3bits.TX1IE = DISABLED; // Disables the EUSART Transmit Interrupt
@@ -3548,7 +3548,7 @@ void configureController(void) {
     PIE3bits.TX2IE = DISABLED; // Disables the EUSART Transmit Interrupt
     #endif
 
-    //-----------UART3_Config PRODUCTION-----------------------//
+    //-----------UART3_Config PRODUCTION GSM-----------------------//
   
     TX3STA = 0b00100100; // 8 Bit Transmission Enabled with High Baud Rate
     RC3STA = 0b10010000; // 8 Bit Reception Enabled with Continuous Reception
@@ -4071,8 +4071,7 @@ void actionsOnSleepCountFinish(void) {
             if (fieldValve[field_No].status == ON && fieldValve[field_No].isFertigationEnabled && fieldValve[field_No].fertigationStage == wetPeriod) {
                 myMsDelay(1000);
                 fertigationValveControl = ON; // switch on fertigation valve for given field after start period
-                //Injector code
-                
+                // Injector code
                 // Initialize all count to zero
                 injector1OnPeriodCnt = CLEAR;
                 injector2OnPeriodCnt = CLEAR;
@@ -4090,7 +4089,6 @@ void actionsOnSleepCountFinish(void) {
                 injector4CycleCnt = CLEAR;
                                               
                 // Initialize Injectors values to configured values
-                
                 injector1OnPeriod = fieldValve[field_No].injector1OnPeriod; 
                 injector2OnPeriod = fieldValve[field_No].injector2OnPeriod; 
                 injector3OnPeriod = fieldValve[field_No].injector3OnPeriod; 
@@ -4106,27 +4104,23 @@ void actionsOnSleepCountFinish(void) {
                 injector3Cycle = fieldValve[field_No].injector3Cycle;
                 injector4Cycle = fieldValve[field_No].injector4Cycle;
                 
-                //Initialize injector cycle
+                // Initialize injector cycle
                 if(injector1OnPeriod > 0) {
                     field9ValveControl = ON;
                     injector1OnPeriodCnt++;
                 }
-
                 if(injector2OnPeriod > 0) {
                     field10ValveControl = ON;
                     injector2OnPeriodCnt++;
                 }
-
                 if(injector3OnPeriod > 0) {
                     field11ValveControl = ON;
                     injector3OnPeriodCnt++;
                 }
-
                 if(injector4OnPeriod > 0) {
                     field12ValveControl = ON;
                     injector4OnPeriodCnt++;
-                }
-                
+                }    
                 fieldValve[field_No].fertigationStage = injectPeriod;
                 if (fieldValve[field_No].fertigationValveInterrupted) {
                     fieldValve[field_No].fertigationValveInterrupted = false;
@@ -4259,7 +4253,7 @@ void actionsOnSleepCountFinish(void) {
                     fieldValve[field_No].cyclesExecuted++; //Cycles execution record
                 }
                 valveDue = false;
-                valveExecuted = true;
+                valveExecuted = true;					 // Valve successfully executed
                 startFieldNo = field_No+1;               // scan for next field no.
                 myMsDelay(100);
                 saveIrrigationValveNoIntoEeprom(field_No);
@@ -4302,7 +4296,7 @@ void actionsOnSleepCountFinish(void) {
                         myMsDelay(100);
                     }
                     valveDue = false;
-                    valveExecuted = true;
+                    valveExecuted = true;					 // complete valve for hold
                     startFieldNo = field_No+1;               // scan for next field no.
                     myMsDelay(100);
                     saveIrrigationValveNoIntoEeprom(field_No);
@@ -4401,15 +4395,12 @@ void actionsOnDueValve(unsigned char field_No) {
         myMsDelay(100);
         activateValve(field_No); // Activate valve for field
         myMsDelay(100);
-
         //Switch ON Fertigation valve interrupted due to power on same day
         if (fieldValve[field_No].fertigationStage == injectPeriod) {
             powerOnMotor(); // Power On Motor
             myMsDelay(1000);
             fertigationValveControl = ON;
-            
-            //Injector code
-            
+            // Injector code
             // Initialize all count to zero
             injector1OnPeriodCnt = CLEAR;
             injector2OnPeriodCnt = CLEAR;
@@ -4427,7 +4418,6 @@ void actionsOnDueValve(unsigned char field_No) {
             injector4CycleCnt = CLEAR;
 
             // Initialize Injectors values to configured values
-
             injector1OnPeriod = fieldValve[field_No].injector1OnPeriod; 
             injector2OnPeriod = fieldValve[field_No].injector2OnPeriod; 
             injector3OnPeriod = fieldValve[field_No].injector3OnPeriod; 
@@ -4443,19 +4433,23 @@ void actionsOnDueValve(unsigned char field_No) {
             injector3Cycle = fieldValve[field_No].injector3Cycle;
             injector4Cycle = fieldValve[field_No].injector4Cycle;
 
-            //Initialize injector cycle
-            field9ValveControl = ON;
-            injector1OnPeriodCnt++;
-
-            field10ValveControl = ON;
-            injector2OnPeriodCnt++;
-
-            field11ValveControl = ON;
-            injector3OnPeriodCnt++;
-
-            field12ValveControl = ON;
-            injector4OnPeriodCnt++;
-
+            // Initialize injector cycle
+			if(injector1OnPeriod > 0) {
+				field9ValveControl = ON;
+				injector1OnPeriodCnt++;
+			}
+			if(injector2OnPeriod > 0) {
+				field10ValveControl = ON;
+				injector2OnPeriodCnt++;
+			}
+			if(injector3OnPeriod > 0) {
+				field11ValveControl = ON;
+				injector3OnPeriodCnt++;
+			}
+			if(injector4OnPeriod > 0) {
+				field12ValveControl = ON;
+				injector4OnPeriodCnt++;
+			}
             /***************************/
             // for field no. 01 to 09
             if (field_No<9){
