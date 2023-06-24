@@ -11,8 +11,8 @@
  Intel Hex-file ranges:
   0h - 3h		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
   8h - Dh		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
-  18h - B464h		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
-  B466h - CD11h		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
+  18h - B4ACh		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
+  B4AEh - CD59h		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
   F21Ah - FFFEh		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
   200000h - 20000Fh		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
   300000h - 30000Bh		(dist/18f66k40/production\AutoIrrigation_SolicitedSMSNcDevBranch.X.production.hex)
@@ -20,8 +20,8 @@
  Unused ranges:
   4h - 7h
   Eh - 17h
-  B465h - B465h
-  CD12h - F219h
+  B4ADh - B4ADh
+  CD5Ah - F219h
   FFFFh - 1FFFFFh
   200010h - 2FFFFFh
   30000Ch - 30FFFFh
@@ -2919,11 +2919,11 @@
 0000B430 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000B440 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000B450 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-0000B460 | H1 H1 H1 H1 H1 -- H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+0000B460 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000B470 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000B480 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000B490 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-0000B4A0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+0000B4A0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 -- H1 H1
 0000B4B0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000B4C0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000B4D0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
@@ -3314,7 +3314,11 @@
 0000CCE0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000CCF0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000CD00 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-0000CD10 | H1 H1 -- -- -- -- -- -- -- -- -- -- -- -- -- --
+0000CD10 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+0000CD20 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+0000CD30 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+0000CD40 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+0000CD50 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 -- -- -- -- -- --
 ----------------------------------------------------------
 0000F210 | -- -- -- -- -- -- -- -- -- -- H1 H1 H1 H1 H1 H1
 0000F220 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1

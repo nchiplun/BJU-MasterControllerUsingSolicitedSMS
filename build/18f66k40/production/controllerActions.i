@@ -27945,18 +27945,25 @@ void actionsOnSleepCountFinish(void) {
                 injector4Cycle = fieldValve[field_No].injector4Cycle;
 
 
+                if(injector1OnPeriod > 0) {
+                    PORTFbits.RF2 = 1;
+                    injector1OnPeriodCnt++;
+                }
 
-                PORTFbits.RF2 = 1;
-                injector1OnPeriodCnt++;
+                if(injector2OnPeriod > 0) {
+                    PORTFbits.RF3 = 1;
+                    injector2OnPeriodCnt++;
+                }
 
-                PORTFbits.RF3 = 1;
-                injector2OnPeriodCnt++;
+                if(injector3OnPeriod > 0) {
+                    PORTFbits.RF4 = 1;
+                    injector3OnPeriodCnt++;
+                }
 
-                PORTFbits.RF4 = 1;
-                injector3OnPeriodCnt++;
-
-                PORTFbits.RF5 = 1;
-                injector4OnPeriodCnt++;
+                if(injector4OnPeriod > 0) {
+                    PORTFbits.RF5 = 1;
+                    injector4OnPeriodCnt++;
+                }
 
                 fieldValve[field_No].fertigationStage = 2;
                 if (fieldValve[field_No].fertigationValveInterrupted) {
@@ -27987,7 +27994,7 @@ void actionsOnSleepCountFinish(void) {
                 if (fieldValve[field_No].fertigationInstance == 1) {
 
                     sendSms(SmsFert5, userMobileNo, 2);
-# 4161 "controllerActions.c"
+# 4168 "controllerActions.c"
                     break;
                 }
                 break;
@@ -28029,20 +28036,20 @@ void actionsOnSleepCountFinish(void) {
                         fertigationDry = 0;
 
                         sendSms(SmsFert8, userMobileNo, 2);
-# 4211 "controllerActions.c"
+# 4218 "controllerActions.c"
                         break;
                     }
                     else if (moistureSensorFailed) {
                         moistureSensorFailed = 0;
 
                         sendSms(SmsFert7, userMobileNo, 2);
-# 4226 "controllerActions.c"
+# 4233 "controllerActions.c"
                         break;
                     }
                     else {
 
                         sendSms(SmsFert6, userMobileNo, 2);
-# 4240 "controllerActions.c"
+# 4247 "controllerActions.c"
                         break;
                     }
                 }
@@ -28139,7 +28146,7 @@ void actionsOnSleepCountFinish(void) {
         }
     }
 }
-# 4345 "controllerActions.c"
+# 4352 "controllerActions.c"
 void actionsOnDueValve(unsigned char field_No) {
     unsigned char last_Field_No = 0;
     wetSensor = 0;
@@ -28178,7 +28185,7 @@ void actionsOnDueValve(unsigned char field_No) {
 
 
         sendSms(SmsIrr6, userMobileNo, 2);
-# 4391 "controllerActions.c"
+# 4398 "controllerActions.c"
     }
 
     else if (!phaseFailure()){
@@ -28254,7 +28261,7 @@ void actionsOnDueValve(unsigned char field_No) {
 
 
             sendSms(SmsFert5, userMobileNo, 2);
-# 4476 "controllerActions.c"
+# 4483 "controllerActions.c"
         }
         else if (valveExecuted) {
             last_Field_No = readFieldIrrigationValveNoFromEeprom();
@@ -28280,7 +28287,7 @@ void actionsOnDueValve(unsigned char field_No) {
         }
     }
 }
-# 4511 "controllerActions.c"
+# 4518 "controllerActions.c"
 void deleteUserData(void) {
     sendSms(SmsSR14, userMobileNo, 0);
     systemAuthenticated = 0;
@@ -28290,7 +28297,7 @@ void deleteUserData(void) {
     }
     saveMobileNoIntoEeprom();
 }
-# 4530 "controllerActions.c"
+# 4537 "controllerActions.c"
 void deleteValveData(void) {
     sendSms(SmsSR14, userMobileNo, 0);
     filtrationDelay1 = 0;
@@ -28321,7 +28328,7 @@ void deleteValveData(void) {
         myMsDelay(100);
     }
 }
-# 4569 "controllerActions.c"
+# 4576 "controllerActions.c"
 void randomPasswordGeneration(void) {
 
 
@@ -28338,7 +28345,7 @@ void randomPasswordGeneration(void) {
     }
     factryPswrd[6] = '\0';
 }
-# 4593 "controllerActions.c"
+# 4600 "controllerActions.c"
 void deleteGsmResponse(void) {
 
 
@@ -28358,7 +28365,7 @@ void deleteGsmResponse(void) {
 
 
 }
-# 4620 "controllerActions.c"
+# 4627 "controllerActions.c"
 void deleteStringToDecode(void) {
 
 
@@ -28377,7 +28384,7 @@ void deleteStringToDecode(void) {
 
 
 }
-# 4646 "controllerActions.c"
+# 4653 "controllerActions.c"
 void deleteDecodedString(void) {
 
 

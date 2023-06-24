@@ -4107,18 +4107,25 @@ void actionsOnSleepCountFinish(void) {
                 injector4Cycle = fieldValve[field_No].injector4Cycle;
                 
                 //Initialize injector cycle
+                if(injector1OnPeriod > 0) {
+                    field9ValveControl = ON;
+                    injector1OnPeriodCnt++;
+                }
 
-                field9ValveControl = ON;
-                injector1OnPeriodCnt++;
+                if(injector2OnPeriod > 0) {
+                    field10ValveControl = ON;
+                    injector2OnPeriodCnt++;
+                }
 
-                field10ValveControl = ON;
-                injector2OnPeriodCnt++;
+                if(injector3OnPeriod > 0) {
+                    field11ValveControl = ON;
+                    injector3OnPeriodCnt++;
+                }
 
-                field11ValveControl = ON;
-                injector3OnPeriodCnt++;
-
-                field12ValveControl = ON;
-                injector4OnPeriodCnt++;
+                if(injector4OnPeriod > 0) {
+                    field12ValveControl = ON;
+                    injector4OnPeriodCnt++;
+                }
                 
                 fieldValve[field_No].fertigationStage = injectPeriod;
                 if (fieldValve[field_No].fertigationValveInterrupted) {
