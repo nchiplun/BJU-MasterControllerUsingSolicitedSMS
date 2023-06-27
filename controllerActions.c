@@ -3836,34 +3836,35 @@ void actionsOnSystemReset(void) {
                 // check if any field valve status was true after reset
                 if (fieldValve[iterator].status == ON) {
                     //getDueDate(fieldValve[iterator].offPeriod); // calculate next due date of valve
-                    fetchTimefromRTC();
+                    //fetchTimefromRTC();
                     /*** Check if System Restarted on next day of Due date ***/
-                    // if year over passes ||  if month  over passes ||  if day over passes 
-                    if ((currentYY > fieldValve[iterator].nextDueYY)||(currentMM > fieldValve[iterator].nextDueMM && currentYY == fieldValve[iterator].nextDueYY)||(currentDD > fieldValve[iterator].nextDueDD && currentMM == fieldValve[iterator].nextDueMM && currentYY == fieldValve[iterator].nextDueYY) || (currentHour > fieldValve[iterator].motorOnTimeHour && currentDD == fieldValve[iterator].nextDueDD && currentMM == fieldValve[iterator].nextDueMM && currentYY == fieldValve[iterator].nextDueYY)) {
-                        valveDue = false; // Clear Valve Due
-                        fieldValve[iterator].status = OFF;
-                        fieldValve[iterator].cyclesExecuted = fieldValve[iterator].cycles;
-                        startFieldNo = iterator;  // start action from interrupted field irrigation valve
-                        if (fieldValve[iterator].isFertigationEnabled) {  
-                            if (fieldValve[iterator].fertigationStage == injectPeriod) {
-                                fieldValve[iterator].fertigationStage = OFF;
-                                fieldValve[iterator].fertigationValveInterrupted = true;
-                                remainingFertigationOnPeriod = readActiveSleepCountFromEeprom();
-                                saveRemainingFertigationOnPeriod();
-                            }
-                            else if (fieldValve[iterator].fertigationStage == flushPeriod || fieldValve[iterator].fertigationStage == wetPeriod) {
-                                fieldValve[iterator].fertigationStage = OFF;
-                            }
-                        }
-                        myMsDelay(100);
-                        #ifdef DEBUG_MODE_ON_H
-                        //********Debug log#start************//
-                        transmitStringToDebug("System restarted with Due valve on next day\r\n");
-                        //********Debug log#end**************//
-                        #endif
-                        break;
-                    }
-                    else { // if system restarted on same day with due valve
+                    // if year over passes ||  if month  over passes ||  if day over passes
+                    
+                    //if ((currentYY > fieldValve[iterator].nextDueYY)||(currentMM > fieldValve[iterator].nextDueMM && currentYY == fieldValve[iterator].nextDueYY)||(currentDD > fieldValve[iterator].nextDueDD && currentMM == fieldValve[iterator].nextDueMM && currentYY == fieldValve[iterator].nextDueYY) || (currentHour > fieldValve[iterator].motorOnTimeHour && currentDD == fieldValve[iterator].nextDueDD && currentMM == fieldValve[iterator].nextDueMM && currentYY == fieldValve[iterator].nextDueYY)) {
+                    //    valveDue = false; // Clear Valve Due
+                    //    fieldValve[iterator].status = OFF;
+                    //    fieldValve[iterator].cyclesExecuted = fieldValve[iterator].cycles;
+                    //    startFieldNo = iterator;  // start action from interrupted field irrigation valve
+                    //    if (fieldValve[iterator].isFertigationEnabled) {  
+                    //        if (fieldValve[iterator].fertigationStage == injectPeriod) {
+                    //            fieldValve[iterator].fertigationStage = OFF;
+                    //            fieldValve[iterator].fertigationValveInterrupted = true;
+                    //            remainingFertigationOnPeriod = readActiveSleepCountFromEeprom();
+                    //            saveRemainingFertigationOnPeriod();
+                    //        }
+                    //        else if (fieldValve[iterator].fertigationStage == flushPeriod || fieldValve[iterator].fertigationStage == wetPeriod) {
+                    //            fieldValve[iterator].fertigationStage = OFF;
+                    //        }
+                    //    }
+                    //    myMsDelay(100);
+                    //    #ifdef DEBUG_MODE_ON_H
+                    //    //********Debug log#start************//
+                    //    transmitStringToDebug("System restarted with Due valve on next day\r\n");
+                    //    //********Debug log#end**************//
+                    //    #endif
+                    //    break;
+                    //}
+                    //else { // if system restarted on same day with due valve
                         valveDue = true; // Set valve ON status
                         startFieldNo = iterator;  // start action form interrupted field irrigation valve
                         #ifdef DEBUG_MODE_ON_H
@@ -3872,7 +3873,7 @@ void actionsOnSystemReset(void) {
                         //********Debug log#end**************//
                         #endif
                         break;
-                    }   
+                    //}   
                 }
             }
             if (valveDue) {
