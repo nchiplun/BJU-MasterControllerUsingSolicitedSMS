@@ -424,7 +424,7 @@ void scanValveScheduleAndGetSleepCount(void) {
         }*/
     
     if (valveDue) {
-        /* check Fertigation status and set sleep count to delay start*/
+        /* check Fertigation status and set sleep count to fertigation wet period*/
         if(fieldValve[iterator].isFertigationEnabled && fieldValve[iterator].fertigationInstance != 0) {
             sleepCount = fieldValve[iterator].fertigationDelay; // calculate sleep count for fertigation delay 
             fieldValve[iterator].fertigationStage = wetPeriod;
@@ -2596,7 +2596,7 @@ void doDryRunAction(void) {
 					/***************************/
 
 					/***************************/
-					sendSms(SmsDR1, userMobileNo, fieldNoRequired); // Acknowledge user about dry run detected again
+					sendSms(SmsDR1, userMobileNo, fieldNoRequired); // Acknowledge user about dry run detected and action taken
 					#ifdef SMS_DELIVERY_REPORT_ON_H
 					sleepCount = 2; // Load sleep count for SMS transmission action
 					sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
@@ -2628,7 +2628,7 @@ void doDryRunAction(void) {
                     /***************************/
 
                     /***************************/
-                    sendSms(SmsDR2, userMobileNo, fieldNoRequired); // Acknowledge user about dry run detected again
+                    sendSms(SmsDR2, userMobileNo, fieldNoRequired); // Acknowledge user about dry run detected and action taken
                     #ifdef SMS_DELIVERY_REPORT_ON_H
                     sleepCount = 2; // Load sleep count for SMS transmission action
                     sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
@@ -2662,7 +2662,7 @@ void doDryRunAction(void) {
                     /***************************/
 
                     /***************************/
-					sendSms(SmsDR3, userMobileNo, fieldNoRequired); // Acknowledge user about dry run detected again
+					sendSms(SmsDR3, userMobileNo, fieldNoRequired); // Acknowledge user about dry run detected and action taken
 					#ifdef SMS_DELIVERY_REPORT_ON_H
 					sleepCount = 2; // Load sleep count for SMS transmission action
 					sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
@@ -2686,7 +2686,7 @@ void doDryRunAction(void) {
                     /***************************/
 
                     /***************************/
-					sendSms(SmsDR4, userMobileNo, fieldNoRequired); // Acknowledge user about dry run detected again
+					sendSms(SmsDR4, userMobileNo, fieldNoRequired); // Acknowledge user about dry run detected and action taken
 					#ifdef SMS_DELIVERY_REPORT_ON_H
 					sleepCount = 2; // Load sleep count for SMS transmission action
 					sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
@@ -2699,7 +2699,7 @@ void doDryRunAction(void) {
             }
             if (phaseR) {
                 /***************************/
-                sendSms(SmsPh3, userMobileNo, noInfo); // Acknowledge user about dry run detected again
+                sendSms(SmsPh3, userMobileNo, noInfo); // Acknowledge user about Phase failure detected and action taken
                 #ifdef SMS_DELIVERY_REPORT_ON_H
                 sleepCount = 2; // Load sleep count for SMS transmission action
                 sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
@@ -2711,7 +2711,7 @@ void doDryRunAction(void) {
             }
             else if (phaseY) {
                 /***************************/
-                sendSms(SmsPh4, userMobileNo, noInfo); // Acknowledge user about dry run detected again
+                sendSms(SmsPh4, userMobileNo, noInfo); // Acknowledge user about Phase failure detected and action taken
                 #ifdef SMS_DELIVERY_REPORT_ON_H
                 sleepCount = 2; // Load sleep count for SMS transmission action
                 sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
@@ -2723,7 +2723,7 @@ void doDryRunAction(void) {
             }
             else if (phaseB) {
                 /***************************/
-                sendSms(SmsPh5, userMobileNo, noInfo); // Acknowledge user about dry run detected again
+                sendSms(SmsPh5, userMobileNo, noInfo); // Acknowledge user about Phase failure detected and action taken
                 #ifdef SMS_DELIVERY_REPORT_ON_H
                 sleepCount = 2; // Load sleep count for SMS transmission action
                 sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
@@ -2735,7 +2735,7 @@ void doDryRunAction(void) {
             }
             else {
                 /***************************/
-                sendSms(SmsPh6, userMobileNo, noInfo); // Acknowledge user about dry run detected again
+                sendSms(SmsPh6, userMobileNo, noInfo); // Acknowledge user about Phase failure detected and action taken
                 #ifdef SMS_DELIVERY_REPORT_ON_H
                 sleepCount = 2; // Load sleep count for SMS transmission action
                 sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
@@ -2825,7 +2825,7 @@ void doLowPhaseAction(void) {
                     /***************************/
 
                     /***************************/
-                    sendSms(SmsFert6, userMobileNo, fieldNoRequired); // Acknowledge user about successful Fertigation stopped action
+                    sendSms(SmsFert6, userMobileNo, fieldNoRequired); // Acknowledge user about successful Fertigation stopped action due to low phase detection
                     #ifdef SMS_DELIVERY_REPORT_ON_H
                     sleepCount = 2; // Load sleep count for SMS transmission action
                     sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
@@ -2903,7 +2903,7 @@ void doPhaseFailureAction(void) {
                     /***************************/
 
                     /***************************/
-                    sendSms(SmsFert6, userMobileNo, fieldNoRequired); // Acknowledge user about successful Fertigation stopped action
+                    sendSms(SmsFert6, userMobileNo, fieldNoRequired); // Acknowledge user about successful Fertigation stopped action due to PhaseFailure
                     #ifdef SMS_DELIVERY_REPORT_ON_H
                     sleepCount = 2; // Load sleep count for SMS transmission action
                     sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
@@ -3835,6 +3835,7 @@ void actionsOnSystemReset(void) {
             for (iterator = 0; iterator < fieldCount; iterator++) {
                 // check if any field valve status was true after reset
                 if (fieldValve[iterator].status == ON) {
+                    startFieldNo = iterator;  // start action from interrupted field irrigation valve
                     //getDueDate(fieldValve[iterator].offPeriod); // calculate next due date of valve
                     fetchTimefromRTC();
                     /*** Check if System Restarted on next day of Due date ***/
@@ -3843,7 +3844,6 @@ void actionsOnSystemReset(void) {
                         valveDue = false; // Clear Valve Due
                         fieldValve[iterator].status = OFF;
                         fieldValve[iterator].cyclesExecuted = fieldValve[iterator].cycles;
-                        startFieldNo = iterator;  // start action from interrupted field irrigation valve
                         if (fieldValve[iterator].isFertigationEnabled) {  
                             if (fieldValve[iterator].fertigationStage == injectPeriod) {
                                 fieldValve[iterator].fertigationStage = OFF;
@@ -3865,7 +3865,6 @@ void actionsOnSystemReset(void) {
                     }
                     else { // if system restarted on same day with due valve
                         valveDue = true; // Set valve ON status
-                        startFieldNo = iterator;  // start action form interrupted field irrigation valve
                         #ifdef DEBUG_MODE_ON_H
                         //********Debug log#start************//
                         transmitStringToDebug("System restarted with Due valve on same day\r\n");
@@ -4347,7 +4346,7 @@ void actionsOnDueValve(unsigned char field_No) {
     unsigned char last_Field_No = CLEAR;
     wetSensor = false;
     // Check if Field is wet
-    if (isFieldMoistureSensorWet(field_No)) {
+    if (isFieldMoistureSensorWet(field_No)) {  //Skip current valve execution and go for next
         wetSensor = true;
         valveDue = false;
         fieldValve[field_No].status = OFF;
@@ -4397,7 +4396,7 @@ void actionsOnDueValve(unsigned char field_No) {
         myMsDelay(100);
         //Switch ON Fertigation valve interrupted due to power on same day
         if (fieldValve[field_No].fertigationStage == injectPeriod) {
-            powerOnMotor(); // Power On Motor
+            powerOnMotor(); // Power ON Motor
             myMsDelay(1000);
             fertigationValveControl = ON;
             // Injector code
@@ -4473,17 +4472,16 @@ void actionsOnDueValve(unsigned char field_No) {
             #endif
             /***************************/
             /*Send sms*/
-
         }
         else if (valveExecuted) { // DeActivate previous executed field valve
             last_Field_No = readFieldIrrigationValveNoFromEeprom();
-            if(last_Field_No != field_No) {
+            if(last_Field_No != field_No) { // if not multiple cycles for same valve
                deActivateValve(last_Field_No); // Successful Deactivate valve 
             }
             valveExecuted = false;            
         } 
         else { // Switch on Motor for First Valve activation
-            powerOnMotor(); // Power On Motor
+            powerOnMotor(); // Power ON Motor
         }
         
         if (fieldValve[field_No].cyclesExecuted == fieldValve[field_No].cycles) {
