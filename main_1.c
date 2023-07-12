@@ -148,15 +148,98 @@ void __interrupt(low_priority) timerInterrupt_handler(void) {
             }
         }
         // Check Fertigation Level for each one minute interrupt when Fertigation Motor is ON during Valve ON period 
+        //if (fertigationValveControl == ON) {
+        //    fertigationDry = false;
+        //    if (!moistureSensorFailed) {  // to avoid repeated fertigation level check after sensor failure detected
+        //        if (isFieldMoistureSensorWet(11)==false) {
+        //            if (!moistureSensorFailed) { // to avoid sensor dry detection due to sensor failure
+        //                fertigationValveControl = OFF;
+        //                fertigationDry = true;
+        //            }
+        //        }
+        //    }
+        //}
+        //To follow fertigation cycle sequence
         if (fertigationValveControl == ON) {
-            fertigationDry = false;
-            if (!moistureSensorFailed) {  // to avoid repeated fertigation level check after sensor failure detected
-                if (isFieldMoistureSensorWet(11)==false) {
-                    if (!moistureSensorFailed) { // to avoid sensor dry detection due to sensor failure
-                        fertigationValveControl = OFF;
-                        fertigationDry = true;
-                    }
+            if (field9ValveControl == ON) {
+                if(injector1OnPeriodCnt == injector1OnPeriod) {
+                    field9ValveControl = OFF;
+                    injector1OnPeriodCnt = CLEAR;
+                    injector1OffPeriodCnt++;
+                    injector1CycleCnt++;
                 }
+                else injector1OnPeriodCnt++;
+            }
+            else if (field9ValveControl == OFF) {
+                if(injector1OffPeriodCnt == injector1OffPeriod) {
+                    if (injector1CycleCnt < injector1Cycle) {
+                        field9ValveControl = ON;
+                        injector1OnPeriodCnt++;
+                        injector1OffPeriodCnt = CLEAR;
+                    }
+                    else injector1OffPeriodCnt = injector1OffPeriod + 1;
+                }
+                else injector1OffPeriodCnt++;
+            }
+            if (field10ValveControl == ON) {
+                if(injector2OnPeriodCnt == injector2OnPeriod) {
+                    field10ValveControl = OFF;
+                    injector2OnPeriodCnt = CLEAR;
+                    injector2OffPeriodCnt++;
+                    injector2CycleCnt++;
+                }
+                else injector2OnPeriodCnt++;
+            }
+            else if (field10ValveControl == OFF) {
+                if(injector2OffPeriodCnt == injector2OffPeriod) {
+                    if (injector2CycleCnt < injector2Cycle) {
+                        field10ValveControl = ON;
+                        injector2OnPeriodCnt++;
+                        injector2OffPeriodCnt = CLEAR;
+                    }
+                    else injector2OffPeriodCnt = injector2OffPeriod + 1;
+                }
+                else injector2OffPeriodCnt++;
+            }
+            if (field11ValveControl == ON) {
+                if(injector3OnPeriodCnt == injector3OnPeriod) {
+                    field11ValveControl = OFF;
+                    injector3OnPeriodCnt = CLEAR;
+                    injector3OffPeriodCnt++;
+                    injector3CycleCnt++;
+                }
+                else injector3OnPeriodCnt++;
+            }
+            else if (field11ValveControl == OFF) {
+                if(injector3OffPeriodCnt == injector3OffPeriod) {
+                    if (injector3CycleCnt < injector3Cycle) {
+                        field11ValveControl = ON;
+                        injector3OnPeriodCnt++;
+                        injector3OffPeriodCnt = CLEAR;
+                    }
+                    else injector3OffPeriodCnt = injector3OffPeriod + 1;
+                }
+                else injector3OffPeriodCnt++;
+            }
+            if (field12ValveControl == ON) {
+                if(injector4OnPeriodCnt == injector4OnPeriod) {
+                    field12ValveControl = OFF;
+                    injector4OnPeriodCnt = CLEAR;
+                    injector4OffPeriodCnt++;
+                    injector4CycleCnt++;
+                }
+                else injector4OnPeriodCnt++;
+            }
+            else if (field12ValveControl == OFF) {
+                if(injector4OffPeriodCnt == injector4OffPeriod) {
+                    if (injector4CycleCnt < injector4Cycle) {
+                        field12ValveControl = ON;
+                        injector4OnPeriodCnt++;
+                        injector4OffPeriodCnt = CLEAR;
+                    }
+                    else injector4OffPeriodCnt = injector4OffPeriod + 1;
+                }
+                else injector4OffPeriodCnt++;
             }
         }
         //*To follow filtration  cycle sequence*/
