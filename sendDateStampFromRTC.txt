@@ -1,0 +1,45 @@
+/************************Get Current Clock Time From RTC#Start************************************/
+
+/*************************************************************************************************************************
+
+This function is called to get current local time
+The purpose of this function is to receive local time stamp from GSM module
+
+ **************************************************************************************************************************/
+void sendDateStampFromRTC(void) {
+    unsigned char index = 0;
+    timer3Count = 30;  // 30 sec window
+#ifdef DEBUG_MODE_ON_H
+    //********Debug log#start************//
+    transmitStringToDebug("sendDateStampFromRTC_IN\r\n");
+    //********Debug log#end**************//
+#endif
+    fetchTimefromRTC(); // Get today's date
+    temporaryBytesArray[0] = (currentDD / 10) + 48;
+    temporaryBytesArray[1] = (currentDD % 10) + 48;
+    temporaryBytesArray[2] = '/';
+    temporaryBytesArray[3] = (currentMM / 10) + 48;
+    temporaryBytesArray[4] = (currentMM % 10) + 48;
+    temporaryBytesArray[5] = '/';
+    temporaryBytesArray[6] = (currentYY / 10) + 48;
+    temporaryBytesArray[7] = (currentYY % 10) + 48;
+    temporaryBytesArray[8] = ' ';
+    temporaryBytesArray[9] = (currentHour / 10) + 48;
+    temporaryBytesArray[10] = (currentHour % 10) + 48;
+    temporaryBytesArray[11] = ':';
+    temporaryBytesArray[12] = (currentMinutes / 10) + 48;
+    temporaryBytesArray[13] = (currentMinutes % 10) + 48;
+    temporaryBytesArray[14] = ':';
+    temporaryBytesArray[15] = (currentSeconds / 10) + 48;
+    temporaryBytesArray[16] = (currentSeconds % 10) + 48;
+    msgIndex = CLEAR;
+    /***************************/
+    sendSms(SmsT3, userMobileNo, timeRequired);
+    /***************************/
+#ifdef DEBUG_MODE_ON_H
+    //********Debug log#start************//
+    transmitStringToDebug("sendDateStampFromRTC_OUT\r\n");
+    //********Debug log#end**************//
+#endif
+}
+/************************Get Current Clock Time From RTC#End************************************/

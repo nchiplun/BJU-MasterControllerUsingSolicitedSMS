@@ -147,101 +147,105 @@ void __interrupt(low_priority) timerInterrupt_handler(void) {
                 dryRunCheckCount++;
             }
         }
+        /*
         // Check Fertigation Level for each one minute interrupt when Fertigation Motor is ON during Valve ON period 
-        //if (fertigationValveControl == ON) {
-        //    fertigationDry = false;
-        //    if (!moistureSensorFailed) {  // to avoid repeated fertigation level check after sensor failure detected
-        //        if (isFieldMoistureSensorWet(11)==false) {
-        //            if (!moistureSensorFailed) { // to avoid sensor dry detection due to sensor failure
-        //                fertigationValveControl = OFF;
-        //                fertigationDry = true;
-        //            }
-        //        }
-        //    }
-        //}
-        //To follow fertigation cycle sequence
         if (fertigationValveControl == ON) {
-            if (field9ValveControl == ON) {
-                if(injector1OnPeriodCnt == injector1OnPeriod) {
-                    field9ValveControl = OFF;
-                    injector1OnPeriodCnt = CLEAR;
-                    injector1OffPeriodCnt++;
-                    injector1CycleCnt++;
-                }
-                else injector1OnPeriodCnt++;
-            }
-            else if (field9ValveControl == OFF) {
-                if(injector1OffPeriodCnt == injector1OffPeriod) {
-                    if (injector1CycleCnt < injector1Cycle) {
-                        field9ValveControl = ON;
-                        injector1OnPeriodCnt++;
-                        injector1OffPeriodCnt = CLEAR;
+           fertigationDry = false;
+            if (!moistureSensorFailed) {  // to avoid repeated fertigation level check after sensor failure detected
+                if (isFieldMoistureSensorWet(11)==false) {
+                    if (!moistureSensorFailed) { // to avoid sensor dry detection due to sensor failure
+                        fertigationValveControl = OFF;
+                        fertigationDry = true;
                     }
-                    else injector1OffPeriodCnt = injector1OffPeriod + 1;
                 }
-                else injector1OffPeriodCnt++;
-            }
-            if (field10ValveControl == ON) {
-                if(injector2OnPeriodCnt == injector2OnPeriod) {
-                    field10ValveControl = OFF;
-                    injector2OnPeriodCnt = CLEAR;
-                    injector2OffPeriodCnt++;
-                    injector2CycleCnt++;
-                }
-                else injector2OnPeriodCnt++;
-            }
-            else if (field10ValveControl == OFF) {
-                if(injector2OffPeriodCnt == injector2OffPeriod) {
-                    if (injector2CycleCnt < injector2Cycle) {
-                        field10ValveControl = ON;
-                        injector2OnPeriodCnt++;
-                        injector2OffPeriodCnt = CLEAR;
-                    }
-                    else injector2OffPeriodCnt = injector2OffPeriod + 1;
-                }
-                else injector2OffPeriodCnt++;
-            }
-            if (field11ValveControl == ON) {
-                if(injector3OnPeriodCnt == injector3OnPeriod) {
-                    field11ValveControl = OFF;
-                    injector3OnPeriodCnt = CLEAR;
-                    injector3OffPeriodCnt++;
-                    injector3CycleCnt++;
-                }
-                else injector3OnPeriodCnt++;
-            }
-            else if (field11ValveControl == OFF) {
-                if(injector3OffPeriodCnt == injector3OffPeriod) {
-                    if (injector3CycleCnt < injector3Cycle) {
-                        field11ValveControl = ON;
-                        injector3OnPeriodCnt++;
-                        injector3OffPeriodCnt = CLEAR;
-                    }
-                    else injector3OffPeriodCnt = injector3OffPeriod + 1;
-                }
-                else injector3OffPeriodCnt++;
-            }
-            if (field12ValveControl == ON) {
-                if(injector4OnPeriodCnt == injector4OnPeriod) {
-                    field12ValveControl = OFF;
-                    injector4OnPeriodCnt = CLEAR;
-                    injector4OffPeriodCnt++;
-                    injector4CycleCnt++;
-                }
-                else injector4OnPeriodCnt++;
-            }
-            else if (field12ValveControl == OFF) {
-                if(injector4OffPeriodCnt == injector4OffPeriod) {
-                    if (injector4CycleCnt < injector4Cycle) {
-                        field12ValveControl = ON;
-                        injector4OnPeriodCnt++;
-                        injector4OffPeriodCnt = CLEAR;
-                    }
-                    else injector4OffPeriodCnt = injector4OffPeriod + 1;
-                }
-                else injector4OffPeriodCnt++;
             }
         }
+        */
+		if (!fieldValve[8].isConfigured && !fieldValve[9].isConfigured && !fieldValve[10].isConfigured && !fieldValve[11].isConfigured) { // 9-12 used as injector
+            //To follow fertigation cycle sequence
+            if (fertigationValveControl == ON) {
+                if (injector1Control == ON) {
+                    if(injector1OnPeriodCnt == injector1OnPeriod) {
+                        injector1Control = OFF;
+                        injector1OnPeriodCnt = CLEAR;
+                        injector1OffPeriodCnt++;
+                        injector1CycleCnt++;
+                    }
+                    else injector1OnPeriodCnt++;
+                }
+                else if (injector1Control == OFF) {
+                    if(injector1OffPeriodCnt == injector1OffPeriod) {
+                        if (injector1CycleCnt < injector1Cycle) {
+                            injector1Control = ON;
+                            injector1OnPeriodCnt++;
+                            injector1OffPeriodCnt = CLEAR;
+                        }
+                        else injector1OffPeriodCnt = injector1OffPeriod + 1;
+                    }
+                    else injector1OffPeriodCnt++;
+                }
+                if (injector2Control == ON) {
+                    if(injector2OnPeriodCnt == injector2OnPeriod) {
+                        injector2Control = OFF;
+                        injector2OnPeriodCnt = CLEAR;
+                        injector2OffPeriodCnt++;
+                        injector2CycleCnt++;
+                    }
+                    else injector2OnPeriodCnt++;
+                }
+                else if (injector2Control == OFF) {
+                    if(injector2OffPeriodCnt == injector2OffPeriod) {
+                        if (injector2CycleCnt < injector2Cycle) {
+                            injector2Control = ON;
+                            injector2OnPeriodCnt++;
+                            injector2OffPeriodCnt = CLEAR;
+                        }
+                        else injector2OffPeriodCnt = injector2OffPeriod + 1;
+                    }
+                    else injector2OffPeriodCnt++;
+                }
+                if (injector3Control == ON) {
+                    if(injector3OnPeriodCnt == injector3OnPeriod) {
+                        injector3Control = OFF;
+                        injector3OnPeriodCnt = CLEAR;
+                        injector3OffPeriodCnt++;
+                        injector3CycleCnt++;
+                    }
+                    else injector3OnPeriodCnt++;
+                }
+                else if (injector3Control == OFF) {
+                    if(injector3OffPeriodCnt == injector3OffPeriod) {
+                        if (injector3CycleCnt < injector3Cycle) {
+                            injector3Control = ON;
+                            injector3OnPeriodCnt++;
+                            injector3OffPeriodCnt = CLEAR;
+                        }
+                        else injector3OffPeriodCnt = injector3OffPeriod + 1;
+                    }
+                    else injector3OffPeriodCnt++;
+                }
+                if (injector4Control == ON) {
+                    if(injector4OnPeriodCnt == injector4OnPeriod) {
+                        injector4Control = OFF;
+                        injector4OnPeriodCnt = CLEAR;
+                        injector4OffPeriodCnt++;
+                        injector4CycleCnt++;
+                    }
+                    else injector4OnPeriodCnt++;
+                }
+                else if (injector4Control == OFF) {
+                    if(injector4OffPeriodCnt == injector4OffPeriod) {
+                        if (injector4CycleCnt < injector4Cycle) {
+                            injector4Control = ON;
+                            injector4OnPeriodCnt++;
+                            injector4OffPeriodCnt = CLEAR;
+                        }
+                        else injector4OffPeriodCnt = injector4OffPeriod + 1;
+                    }
+                    else injector4OffPeriodCnt++;
+                }
+            }
+        } 
         //*To follow filtration  cycle sequence*/
         if (filtrationCycleSequence == 99) {    // Filtration is disabled
             Timer0Overflow = 0;
@@ -318,7 +322,7 @@ void __interrupt(low_priority) timerInterrupt_handler(void) {
     NOP();
     NOP();
     NOP();
-    unsigned char last_Field_No = CLEAR;
+    //unsigned char last_Field_No = CLEAR;
     actionsOnSystemReset();
     while (1) {
 nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
@@ -329,37 +333,65 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
             dueValveChecked = true;
         }
         if (valveDue && dueValveChecked) {
-            #ifdef DEBUG_MODE_ON_H
+        #ifdef DEBUG_MODE_ON_H
             //********Debug log#start************//
             transmitStringToDebug("actionsOnDueValve_IN\r\n");
             //********Debug log#end**************//
-            #endif
+        #endif
             dueValveChecked = false;
             actionsOnDueValve(iterator);// Copy field no. navigated through iterator. 
-            #ifdef DEBUG_MODE_ON_H
+        #ifdef DEBUG_MODE_ON_H
             //********Debug log#start************//
             transmitStringToDebug("actionsOnDueValve_OUT\r\n");
             //********Debug log#end**************//
-            #endif
+        #endif
         }
         // DeActivate last valve and switch off motor pump
         else if (valveExecuted) {
             wetSensor = false; // reset wet sensor for last wet field detection
             powerOffMotor();
-            last_Field_No = readFieldIrrigationValveNoFromEeprom();
-            deActivateValve(last_Field_No);      // Successful Deactivate valve
-            valveExecuted = false;
+            iterator = 0;
+            while(lastFieldList[iterator] != 255 && iterator < fieldCount) {
+                deActivateValve(lastFieldList[iterator]); // Successful Deactivate valve for not matched valve list
+                myMsDelay(100);
+                iterator++;
+            }
+            // Reset Active Valve list
+            iterator = 0;
+            while(iterator < fieldCount) {
+                fieldList[iterator] = 255;
+                iterator++;
+            }   
             /***************************/
-            sendSms(SmsMotor1, userMobileNo, noInfo); // Acknowledge user about successful action
-            #ifdef SMS_DELIVERY_REPORT_ON_H
+            sendSms(SmsIrr5, userMobileNo, commonInActiveFieldNoRequired); // Acknowledge user about successful Irrigation stopped action
+        #ifdef SMS_DELIVERY_REPORT_ON_H
             sleepCount = 2; // Load sleep count for SMS transmission action
             sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
             setBCDdigit(0x05,0);
             deepSleep(); // Sleep until message transmission acknowledge SMS is received from service provider
             setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
-            #endif
+        #endif
             /***************************/
-            startFieldNo = 0;
+            // Reset De-active Valve list
+            iterator = 0;
+            while(iterator < fieldCount) {
+                lastFieldList[iterator] = 255;
+                iterator++;
+            }
+            //last_Field_No = readFieldIrrigationValveNoFromEeprom();
+            //deActivateValve(last_Field_No);      // Successful Deactivate valve
+            valveExecuted = false;
+            /***************************/
+            sendSms(SmsMotor1, userMobileNo, noInfo); // Acknowledge user about successful action
+        #ifdef SMS_DELIVERY_REPORT_ON_H
+            sleepCount = 2; // Load sleep count for SMS transmission action
+            sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
+            setBCDdigit(0x05,0);
+            deepSleep(); // Sleep until message transmission acknowledge SMS is received from service provider
+            setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+        #endif
+            /***************************/
+            //startFieldNo = 0;
             //goto nxtVlv;
         }
         // system on hold
@@ -371,18 +403,18 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
             deepSleep(); // sleep for given sleep count (	default/calculated )
             /****************************/
             // check if Sleep count executed with interrupt occurred due to new SMS command reception
-            #ifdef DEBUG_MODE_ON_H
+        #ifdef DEBUG_MODE_ON_H
             //********Debug log#start************//
             transmitStringToDebug((const char *)gsmResponse);
             transmitStringToDebug("\r\n");
             //********Debug log#end**************//
-            #endif
+        #endif
             if (newSMSRcvd) {
-                #ifdef DEBUG_MODE_ON_H
+            #ifdef DEBUG_MODE_ON_H
                 //********Debug log#start************//
                 transmitStringToDebug("newSMSRcvd_IN\r\n");
                 //********Debug log#end**************//
-                #endif
+            #endif
                 setBCDdigit(0x02,1); // "2" BCD indication for New SMS Received 
                 myMsDelay(500);
                 newSMSRcvd = false; // received command is processed										
@@ -390,85 +422,40 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
                 setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
                 myMsDelay(500);
                 deleteMsgFromSIMStorage();
-                #ifdef DEBUG_MODE_ON_H
+            #ifdef DEBUG_MODE_ON_H
                 //********Debug log#start************//
                 transmitStringToDebug("newSMSRcvd_OUT\r\n");
                 //********Debug log#end**************//
-                #endif
+            #endif
             } 
             //check if Sleep count executed without external interrupt
             else {
-                #ifdef DEBUG_MODE_ON_H
+            #ifdef DEBUG_MODE_ON_H
                 //********Debug log#start************//
                 transmitStringToDebug("actionsOnSleepCountFinish_IN\r\n");
                 //********Debug log#end**************//
-                #endif
+            #endif
                 actionsOnSleepCountFinish();
-                #ifdef DEBUG_MODE_ON_H
+            #ifdef DEBUG_MODE_ON_H
                 //********Debug log#start************//
                 transmitStringToDebug("actionsOnSleepCountFinish_OUT\r\n");
                 //********Debug log#end**************//
-                #endif
+            #endif
                 if (isRTCBatteryDrained() && !rtcBatteryLevelChecked){
                     /***************************/
                     sendSms(SmsRTC1, userMobileNo, noInfo); // Acknowledge user about replace RTC battery
                     rtcBatteryLevelChecked = true;
-                    #ifdef SMS_DELIVERY_REPORT_ON_H
+                #ifdef SMS_DELIVERY_REPORT_ON_H
                     sleepCount = 2; // Load sleep count for SMS transmission action
                     sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
                     setBCDdigit(0x05,0);
                     deepSleep(); // Sleep until message transmission acknowledge SMS is received from service provider
                     setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
-                    #endif
+                #endif
                     /***************************/
                 }
             }
         }
     }
 }
-//****************************MAIN FUNCTION#End***************************************//
- /*Features Implemented*/
- // On hold fertigation and irrigation
- // Restart after phase/dry run detection -- check flow
- // Phase failure during sleep -- Done
- // filtration done but need to check flow -- Done
- // fertigation status eeprom read write -- Done
- // EEprom address need to be mapped -- Done
- // fertigation interrupt due to power and dry run -- Done
- // eeprom read write for fertigation values -- Done
- // save status in eeprom -- Done
- // Activate filtration and disabling message reception -- Done
- // Activate filtration and disabling  -- Done
- // eeprom read write for filtration values -- Done
- // Sleep count correction for next due valve. -- Done
- // Send Filtration status -- Done
- // actionsOnSystemReset
- // Sleep count correction for valve without filtration
- // Sleep count controlled by Timer0 during valve in action
- // phase failure at system start
- // Decision on valve interrupted due to dry run.
- 
- 
- 
-/*features remaining*/
- // RTC battery check -- unDone
- // RTC battery threshold not set
- // CT threshold not set
- // Separating fertigation cycle
- // Code Protection
- // Sensor calibration
- // cycles for field execution in dry run and phase failure
- /************High Priority**************/
- // due in hours
- // Onhold sms verify
- // random factory password
- // gsm get time
- 
- 
- /*Changes in New Board*/
- // RYB phase detection logic reversed i.e. 1 for no phase and 0 for phase
- // Rain Sensor 7 and 8 pin changed from RC0 and RC1 to RE4 and RD4 respectively
- // Added Priority and changed SMS format
- // decode of incoming sms required in extract receive function
- 
-             
+//****************************MAIN FUNCTION#End***************************************//    

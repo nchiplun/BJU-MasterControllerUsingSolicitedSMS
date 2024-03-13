@@ -316,6 +316,31 @@ void saveIrrigationValveConfigurationStatusIntoEeprom(unsigned int address, stru
 
 /*************************************************************************************************************************
 
+This function is called to save field valve priority status into EEPROM memory
+The purpose of this function is to load priority of Field valve into the assigned EEPROM memory
+
+ **************************************************************************************************************************/
+//Write field structure into eeprom 
+void saveIrrigationValvePriorityIntoEeprom(unsigned int address, struct FIELDVALVE *fieldptr) {
+#ifdef DEBUG_MODE_ON_H
+    //********Debug log#start************//
+    transmitStringToDebug("saveIrrigationValvePriorityIntoEeprom_IN\r\n");
+    //********Debug log#end**************//
+#endif
+    //setBCDdigit(0x04,0); //  "4." BCD Indication for EEPROM Memory Write Operation
+    myMsDelay(50);
+    eepromWrite(address + 37, fieldptr->priority);
+    myMsDelay(50);
+    //setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+#ifdef DEBUG_MODE_ON_H
+    //********Debug log#start************//
+    transmitStringToDebug("saveIrrigationValvePriorityIntoEeprom_OUT\r\n");
+    //********Debug log#end**************//
+#endif
+}
+
+/*************************************************************************************************************************
+
 This function is called to read field valve configuration from EEPROM memory
 The purpose of this function is to load entire Field valve structure from the assigned EEPROM memory
 
@@ -869,23 +894,23 @@ This function is called to save field no. into EEPROM memory
 The purpose of this function is to save field no. into assigned memory
 
  **************************************************************************************************************************/
-void saveIrrigationValveNoIntoEeprom(unsigned char field_no) {
-#ifdef DEBUG_MODE_ON_H
+//void saveIrrigationValveNoIntoEeprom(unsigned char field_no) {
+//#ifdef DEBUG_MODE_ON_H
     //********Debug log#start************//
-    transmitStringToDebug("saveIrrigationValveNoIntoEeprom_IN\r\n");
+//    transmitStringToDebug("saveIrrigationValveNoIntoEeprom_IN\r\n");
     //********Debug log#end**************//
-#endif
+//#endif
     //setBCDdigit(0x04,0); //  "4." BCD Indication for EEPROM Memory Write Operation
-    myMsDelay(50);
-    eepromWrite(eepromAddress[forSystem] + 5, field_no);
-    myMsDelay(50);
+//    myMsDelay(50);
+//    eepromWrite(eepromAddress[forSystem] + 5, field_no);
+//    myMsDelay(50);
     //setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
-#ifdef DEBUG_MODE_ON_H
+//#ifdef DEBUG_MODE_ON_H
     //********Debug log#start************//
-    transmitStringToDebug("saveIrrigationValveNoIntoEeprom_OUT\r\n");
+//    transmitStringToDebug("saveIrrigationValveNoIntoEeprom_OUT\r\n");
     //********Debug log#end**************//
-#endif
-}
+//#endif
+//}
 
 /*************************************************************************************************************************
 
@@ -928,25 +953,25 @@ This function is called to read field no. from EEPROM memory
 The purpose of this function is to read field no. from assigned memory
 
  **************************************************************************************************************************/
-unsigned char readFieldIrrigationValveNoFromEeprom(void) {
-    unsigned char field_no = 0;
-#ifdef DEBUG_MODE_ON_H
+//unsigned char readFieldIrrigationValveNoFromEeprom(void) {
+//    unsigned char field_no = 0;
+//#ifdef DEBUG_MODE_ON_H
     //********Debug log#start************//
-    transmitStringToDebug("readFieldIrrigationValveNoFromEeprom_IN\r\n");
+//    transmitStringToDebug("readFieldIrrigationValveNoFromEeprom_IN\r\n");
     //********Debug log#end**************//
-#endif
+//#endif
     //setBCDdigit(0x04,1); // "4" BCD Indication for EEPROM Memory Read Operation
-    myMsDelay(50);
-    field_no = eepromRead(eepromAddress[forSystem] + 5);
-    myMsDelay(50);
+//    myMsDelay(50);
+//    field_no = eepromRead(eepromAddress[forSystem] + 5);
+//    myMsDelay(50);
     //setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
-#ifdef DEBUG_MODE_ON_H
+//#ifdef DEBUG_MODE_ON_H
     //********Debug log#start************//
-    transmitStringToDebug("readFieldIrrigationValveNoFromEeprom_OUT\r\n");
+//    transmitStringToDebug("readFieldIrrigationValveNoFromEeprom_OUT\r\n");
     //********Debug log#end**************//
-#endif
-    return field_no;
-}
+//#endif
+//    return field_no;
+//}
 
 /*************************************************************************************************************************
 

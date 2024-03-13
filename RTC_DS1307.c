@@ -24,11 +24,11 @@ void feedTimeInRTC(void) {
     /* Convert time stamp to BCD format*/
     setBCDdigit(0x0E,1); // (t) BCD indication for RTC Clock feed Action
     myMsDelay(500);
-    #ifdef DEBUG_MODE_ON_H
+#ifdef DEBUG_MODE_ON_H
     //********Debug log#start************//
     transmitStringToDebug("feedTimeInRTC_IN\r\n");
     //********Debug log#end**************//
-    #endif
+#endif
     currentSeconds = decimal2BCD(currentSeconds); 
     currentMinutes = decimal2BCD(currentMinutes);
     currentHour = decimal2BCD(currentHour);
@@ -51,11 +51,11 @@ void feedTimeInRTC(void) {
     
     i2cStop();          /*i2c stop condition */
     setBCDdigit(0x0F,0); // Blank BCD Indication for Normal Condition
-    #ifdef DEBUG_MODE_ON_H
+#ifdef DEBUG_MODE_ON_H
     //********Debug log#start************//
     transmitStringToDebug("feedTimeInRTC_OUT\r\n");
     //********Debug log#end**************//
-    #endif
+#endif
 }
 
 /* convert the decimal values to BCD using below function */
@@ -80,11 +80,11 @@ void fetchTimefromRTC(void) {
     unsigned char day = 0x01; // Storing dummy day 'Monday'
     setBCDdigit(0x0E,0);  // (t.) BCD indication for RTC Clock fetch action
     myMsDelay(500);
-    #ifdef DEBUG_MODE_ON_H
+#ifdef DEBUG_MODE_ON_H
     //********Debug log#start************//
     transmitStringToDebug("fetchTimefromRTC_IN\r\n");
     //********Debug log#end**************//
-    #endif
+#endif
     i2cStart();
 	i2cSend(0xD0);
 	i2cSend(0x00);
@@ -107,11 +107,11 @@ void fetchTimefromRTC(void) {
     currentMM = bcd2Decimal(currentMM);
     currentYY = bcd2Decimal(currentYY);
     setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
-    #ifdef DEBUG_MODE_ON_H
+#ifdef DEBUG_MODE_ON_H
     //********Debug log#start************//
     transmitStringToDebug("fetchTimefromRTC_OUT\r\n");
     //********Debug log#end**************//
-    #endif
+#endif
 }
 
 /**********************************************/

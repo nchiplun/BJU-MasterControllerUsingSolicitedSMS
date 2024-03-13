@@ -21,35 +21,35 @@ void selectChannel(unsigned char channel) {
 	switch(channel) {
     case 0 :
         ADPCH = CT;
-        #ifdef DEBUG_MODE_ON_H
+    #ifdef DEBUG_MODE_ON_H
         //********Debug log#start************//
         transmitStringToDebug("CT Channel selected\r\n");
         //********Debug log#end**************//
-        #endif
+    #endif
         break;
     case 1 : 
         ADPCH = WindSpeed;
-        #ifdef DEBUG_MODE_ON_H
+    #ifdef DEBUG_MODE_ON_H
         //********Debug log#start************//
         transmitStringToDebug("Windspeed Channel selected\r\n");
         //********Debug log#end**************//
-        #endif
+    #endif
         break;
     case 2 : 
         ADPCH = Temperature;
-        #ifdef DEBUG_MODE_ON_H
+    #ifdef DEBUG_MODE_ON_H
         //********Debug log#start************//
         transmitStringToDebug("Temperature Channel selected\r\n");
         //********Debug log#end**************//
-        #endif
+    #endif
         break;
     case 3 : 
         ADPCH = RTCBattery;
-        #ifdef DEBUG_MODE_ON_H
+    #ifdef DEBUG_MODE_ON_H
         //********Debug log#start************//
         transmitStringToDebug("Analog Channel selected\r\n");
         //********Debug log#end**************//
-        #endif
+    #endif
         break;
 	}
 }
@@ -59,11 +59,11 @@ void selectChannel(unsigned char channel) {
 //to do conversion manually. It assumes conversion format is right adjusted
 unsigned int getADCResult(void) {
 	unsigned int adcResult=0;
-    #ifdef DEBUG_MODE_ON_H
+#ifdef DEBUG_MODE_ON_H
     //********Debug log#start************//
     transmitStringToDebug("GetADCResult_IN\r\n");
     //********Debug log#end**************//
-    #endif
+#endif
 	ADCON0bits.GO = 1; //Start conversion
     setBCDdigit(0x05,1); // (5) BCD Indication for ADC Action
 	while (ADCON0bits.GO)
@@ -72,10 +72,10 @@ unsigned int getADCResult(void) {
     setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
     adcResult = ADRESL;
 	adcResult|=((unsigned int)ADRESH) << 8;
-    #ifdef DEBUG_MODE_ON_H
+#ifdef DEBUG_MODE_ON_H
     //********Debug log#start************//
     transmitStringToDebug("GetADCResult_OUT\r\n");
     //********Debug log#end**************//
-    #endif
+#endif
 	return adcResult;
 } 

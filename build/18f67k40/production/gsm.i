@@ -24431,7 +24431,7 @@ int toupper_l(int, locale_t);
 # 43 "./variableDefinitions.h"
 # 1 "./congfigBits.h" 1
 # 43 "./variableDefinitions.h" 2
-# 143 "./variableDefinitions.h"
+# 147 "./variableDefinitions.h"
 struct FIELDVALVE {
     unsigned int dryValue;
     unsigned int wetValue;
@@ -24477,7 +24477,7 @@ struct FIELDVALVE fieldValve[12] = {0};
 
 #pragma idata eepromAddress
 const unsigned int eepromAddress[16] = {0x0000, 0x0030, 0x0060, 0x0090, 0x00C0, 0x00F0, 0x0120, 0x0150, 0x0180, 0x01B0, 0x01E0, 0x0210, 0x0240, 0x0270, 0x02A0, 0x2D0};
-# 230 "./variableDefinitions.h"
+# 238 "./variableDefinitions.h"
 unsigned int filtrationSeperationTime = 0;
 unsigned int dueDD = 0;
 unsigned int sleepCount = 0;
@@ -24503,6 +24503,8 @@ unsigned int injector3OffPeriodCnt = 0;
 unsigned int injector4OffPeriodCnt = 0;
 unsigned int noLoadCutOff = 0;
 unsigned int fullLoadCutOff = 0;
+unsigned char fieldList[12] = {'\0'};
+unsigned char lastFieldList[12] = {'\0'};
 unsigned char userMobileNo[11] = "";
 unsigned char temporaryBytesArray[20] = "";
 unsigned char null[11] = {'\0'};
@@ -24523,7 +24525,7 @@ unsigned char temp = 0;
 unsigned char iterator = 0;
 unsigned char fieldCount = 12;
 unsigned char resetCount = 0;
-unsigned char startFieldNo = 0;
+
 unsigned char space = 0x20;
 unsigned char terminateSms = 0x1A;
 unsigned char enter = 0x0D;
@@ -24548,6 +24550,7 @@ unsigned char filtrationDelay2 = 0;
 unsigned char filtrationDelay3 = 0;
 unsigned char filtrationOnTime = 0;
 unsigned char dryRunCheckCount = 0;
+unsigned char nxtPriority = 1;
 
 
 
@@ -24581,6 +24584,7 @@ unsigned static char inject[7] = "INJECT";
 unsigned static char ct[3] = "CT";
 unsigned static char setct[4] = "SCT";
 unsigned static char secret[12] = "12345678912";
+unsigned static char secret1[12] = "12345678913";
 unsigned static char getct[6] = "GETCT";
 unsigned static char getfreq[8] = "GETFREQ";
 unsigned static char countryCode[4] = "+91";
@@ -24596,22 +24600,22 @@ const char SmsPwd1[32] = "Login code changed successfully";
 const char SmsPwd2[23] = "Login code not changed";
 const char SmsPwd3[23] = "Wrong login code found";
 
-const char SmsIrr1[36] = "Irrigation configured for field no.";
-const char SmsIrr2[48] = "Irrigation configuration disabled for field no.";
-const char SmsIrr3[40] = "Irrigation not configured for field no.";
-const char SmsIrr4[33] = "Irrigation started for field no.";
-const char SmsIrr5[33] = "Irrigation stopped for field no.";
-const char SmsIrr6[60] = "Wet field detected.\r\nIrrigation not started for field no.";
+const char SmsIrr1[36] = "Irrigation configured for priority ";
+const char SmsIrr2[48] = "Irrigation configuration disabled for priority ";
+const char SmsIrr3[40] = "Irrigation not configured for priority ";
+const char SmsIrr4[30] = "Irrigation started for field ";
+const char SmsIrr5[30] = "Irrigation stopped for field ";
+const char SmsIrr6[57] = "Wet field detected.\r\nIrrigation not started for field ";
 const char SmsIrr7[15] = "Irrigation No:";
 
-const char SmsFert1[64] = "Irrigation is not Active. Fertigation not enabled for field no.";
-const char SmsFert2[56] = "Incorrect values. Fertigation not enabled for field no.";
-const char SmsFert3[34] = "Fertigation enabled for field no.";
-const char SmsFert4[35] = "Fertigation disabled for field no.";
-const char SmsFert5[34] = "Fertigation started for field no.";
-const char SmsFert6[34] = "Fertigation stopped for field no.";
-const char SmsFert7[71] = "Fertigation stopped with fertilizer level sensor failure for field no.";
-const char SmsFert8[60] = "Fertigation stopped with low fertilizer level for field no.";
+const char SmsFert1[64] = "Irrigation is not Active. Fertigation not enabled for priority ";
+const char SmsFert2[56] = "Incorrect values. Fertigation not enabled for priority ";
+const char SmsFert3[34] = "Fertigation enabled for priority ";
+const char SmsFert4[35] = "Fertigation disabled for priority ";
+const char SmsFert5[31] = "Fertigation started for field ";
+const char SmsFert6[31] = "Fertigation stopped for field ";
+const char SmsFert7[68] = "Fertigation stopped with fertilizer level sensor failure for field ";
+const char SmsFert8[57] = "Fertigation stopped with low fertilizer level for field ";
 
 const char SmsFilt1[27] = "Water filtration activated";
 const char SmsFilt2[29] = "Water filtration deactivated";
@@ -24619,18 +24623,13 @@ const char SmsFilt3[32] = "Water Filtration is not enabled";
 const char SmsFilt4[27] = "Water Filtration Sequence:";
 
 const char SmsSR01[60] = "System restarted with phase failure, suspending all actions";
-const char SmsSR02[78] = "System restarted for Power Interrupt with incomplete Irrigation for field no.";
-const char SmsSR03[75] = "System restarted for Low Power In with incomplete Irrigation for field no.";
-const char SmsSR04[77] = "System restarted in Diagnostic Mode with incomplete Irrigation for field no.";
-const char SmsSR05[82] = "System restarted for All Phase Detection with incomplete Irrigation for field no.";
-const char SmsSR06[74] = "System restarted for WDT Timeout with incomplete Irrigation for field no.";
-const char SmsSR07[74] = "System restarted for Stack Error with incomplete Irrigation for field no.";
-const char SmsSR08[37] = "System restarted for Power Interrupt";
-const char SmsSR09[31] = "System restarted for Low Power";
-const char SmsSR10[36] = "System restarted in Diagnostic mode";
-const char SmsSR11[41] = "System restarted for All Phase Detection";
-const char SmsSR12[33] = "System restarted for WDT timeout";
-const char SmsSR13[33] = "System restarted for stack error";
+const char SmsSR02[75] = "System restarted for Power Interrupt with incomplete Irrigation for field ";
+const char SmsSR03[72] = "System restarted for Low Power In with incomplete Irrigation for field ";
+const char SmsSR04[74] = "System restarted in Diagnostic Mode with incomplete Irrigation for field ";
+const char SmsSR05[79] = "System restarted for All Phase Detection with incomplete Irrigation for field ";
+const char SmsSR06[71] = "System restarted for WDT Timeout with incomplete Irrigation for field ";
+const char SmsSR07[71] = "System restarted for Stack Error with incomplete Irrigation for field ";
+# 397 "./variableDefinitions.h"
 const char SmsSR14[59] = "System reset occurred, login code reset to Factory setting";
 const char SmsSR15[50] = "System reset occurred, Irrigation setting deleted";
 
@@ -24639,13 +24638,16 @@ const char SmsRTC2[41] = "System time synced to current local time";
 const char SmsRTC3[56] = "New RTC battery found, system time is set to local time";
 const char SmsRTC4[56] = "New RTC battery found, please sync system time manually";
 
-const char SmsDR1[133] = "Dry Run detected, Motor, Irrigation and Fertigation switched off.\r\nIrrigation scheduled to next day with fertigation for field no.";
-const char SmsDR2[120] = "Dry Run detected, Motor and Irrigation switched off.\r\nIrrigation scheduled to next day with fertigation for field no.";
-const char SmsDR3[103] = "Dry Run detected, Motor and Irrigation switched off.\r\nIrrigation scheduled to next day for field no.";
-const char SmsDR4[108] = "Dry Run detected, Motor and Irrigation switched off.\r\nIrrigation scheduled to next due date for field no.";
+const char SmsDR1[130] = "Dry Run detected, Motor, Irrigation and Fertigation switched off.\r\nIrrigation scheduled to next day with fertigation for field ";
+const char SmsDR2[117] = "Dry Run detected, Motor and Irrigation switched off.\r\nIrrigation scheduled to next day with fertigation for field ";
+const char SmsDR3[100] = "Dry Run detected, Motor and Irrigation switched off.\r\nIrrigation scheduled to next day for field ";
+const char SmsDR4[105] = "Dry Run detected, Motor and Irrigation switched off.\r\nIrrigation scheduled to next due date for field ";
 
 const char SmsT1[27] = "Incorrect local time found";
 const char SmsT2[15] = "Current Time: ";
+
+const char SmsT3[2] = "-";
+
 
 const char SmsMotor1[58] = "Irrigation completed for due fields\r\nMotor switched off";
 const char SmsMotor2[35] = "Motorload cut-off set successfully";
@@ -24656,7 +24658,8 @@ const char SmsConnect[17] = "System Connected";
 
 const char SmsTest[19] = "Test Data Injected";
 
-const char SmsFact1[15] = "Factory Key : ";
+const char SmsKey1[15] = "Factory Key : ";
+const char SmsKey2[15] = "Current Key : ";
 
 const char SmsPh1[47] = "Phase failure detected, suspending all actions";
 const char SmsPh2[69] = "Low Phase current detected, actions suspended, please restart system";
@@ -24665,9 +24668,9 @@ const char SmsPh4[25] = "Phase Y failure detected";
 const char SmsPh5[25] = "Phase B failure detected";
 const char SmsPh6[19] = "All Phase detected";
 
-const char SmsMS1[60] = "Moisture sensor is failed, Irrigation started for field no.";
-const char SmsMS2[46] = "Moisture sensor frequency value for field no.";
-const char SmsMS3[40] = "Moisture sensor is failed for field no.";
+const char SmsMS1[57] = "Moisture sensor is failed, Irrigation started for field ";
+const char SmsMS2[43] = "Moisture sensor frequency value for field ";
+const char SmsMS3[37] = "Moisture sensor is failed for field ";
 
 
 
@@ -24706,8 +24709,9 @@ _Bool cmtiCmd = 0;
 _Bool DeviceBurnStatus = 0;
 _Bool gsmSetToLocalTime = 0;
 _Bool wetSensor = 0;
-_Bool fertigationDry = 0;
-_Bool fertigationStart = 0;
+
+_Bool fieldDueForCycles = 0;
+_Bool parallelValveFetched = 0;
 # 13 "gsm.c" 2
 # 1 "./controllerActions.h" 1
 # 20 "./controllerActions.h"
@@ -24716,7 +24720,7 @@ void configureController(void);
 void deepSleep(void);
 _Bool isSystemReady(void);
 _Bool isNumber(unsigned char);
-_Bool isBase64String(char *);
+_Bool isBase64String(unsigned char *);
 void extractReceivedSms(void);
 unsigned int days(unsigned char, unsigned char);
 void getDateFromGSM(void);
@@ -24734,6 +24738,7 @@ void doLowPhaseAction(void);
 void doPhaseFailureAction(void);
 _Bool isRTCBatteryDrained(void);
 unsigned char fetchFieldNo(unsigned char);
+void fetchParallelValveList(unsigned char);
 _Bool phaseFailure(void);
 void scanIrrigationValveForAction(void);
 void setBCDdigit(unsigned char, _Bool);
@@ -24744,9 +24749,9 @@ char *strcpyCustom(char *restrict dest, const char *restrict src);
 void deleteUserData(void);
 void deleteValveData(void);
 void randomPasswordGeneration(void);
-void deleteGsmResponse(void);
-void deleteStringToDecode(void);
-void deleteDecodedString(void);
+void clearGsmResponse(void);
+void clearStringToDecode(void);
+void clearDecodedString(void);
 # 14 "gsm.c" 2
 # 1 "./gsm.h" 1
 # 15 "./gsm.h"
@@ -24761,13 +24766,13 @@ void configureGSM(void);
 void deleteMsgFromSIMStorage(void);
 void checkSignalStrength(void);
 # 15 "gsm.c" 2
-# 25 "gsm.c"
+# 28 "gsm.c"
 unsigned char rxByte(void) {
     while (PIR4bits.RC3IF == 0);
 
     return RC3REG;
 }
-# 38 "gsm.c"
+# 41 "gsm.c"
 void txByte(unsigned char serialData) {
     TX3REG = serialData;
     while (PIR4bits.TX3IF == 0);
@@ -24784,7 +24789,7 @@ void transmitStringToGSM(const char *string) {
 
     while (*string) {
         txByte(*string++);
-        myMsDelay(50);
+        myMsDelay(5);
     }
 }
 
@@ -24799,8 +24804,8 @@ void transmitNumberToGSM(unsigned char *number, unsigned char index) {
 
     while (j < index) {
         txByte(*number++);
+        myMsDelay(5);
         j++;
-        myMsDelay(10);
     }
 }
 
@@ -24811,6 +24816,11 @@ void transmitNumberToGSM(unsigned char *number, unsigned char index) {
 
 
 void configureGSM(void) {
+
+
+
+
+
     timer3Count = 15;
     setBCDdigit(0x0A,0);
     controllerCommandExecuted = 0;
@@ -24854,9 +24864,19 @@ void configureGSM(void) {
     }
     PIR5bits.TMR3IF = 1;
     setBCDdigit(0x0F,0);
+
+
+
+
+
 }
-# 156 "gsm.c"
+# 169 "gsm.c"
 void setGsmToLocalTime(void) {
+
+
+
+
+
     timer3Count = 30;
     setBCDdigit(0x0B,0);
     gsmSetToLocalTime = 0;
@@ -24901,6 +24921,11 @@ void setGsmToLocalTime(void) {
 
 
     setBCDdigit(0x0F,0);
+
+
+
+
+
 }
 
 
@@ -24910,6 +24935,11 @@ void setGsmToLocalTime(void) {
 
 
 void deleteMsgFromSIMStorage(void) {
+
+
+
+
+
     timer3Count = 15;
     setBCDdigit(0x09,1);
     controllerCommandExecuted = 0;
@@ -24922,6 +24952,11 @@ void deleteMsgFromSIMStorage(void) {
     PIR5bits.TMR3IF = 1;
     setBCDdigit(0x0F,0);
 
+
+
+
+
+
 }
 
 
@@ -24931,6 +24966,13 @@ void deleteMsgFromSIMStorage(void) {
 
 
 void sendSms(const char *message, unsigned char phoneNumber[], unsigned char info) {
+    _Bool valveMatched = 0;
+    unsigned char index = 0;
+
+
+
+
+
     timer3Count = 30;
 
     transmitStringToGSM("AT+CMGS=\"");
@@ -24987,11 +25029,8 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
     case 5:
         lower8bits = noLoadCutOff;
         temporaryBytesArray[14] = (unsigned char) ((lower8bits / 1000) + 48);
-
         temporaryBytesArray[15] = (unsigned char) (((lower8bits % 1000) / 100) + 48);
-
         temporaryBytesArray[16] = (unsigned char) (((lower8bits % 100) / 10) + 48);
-
         temporaryBytesArray[17] = (unsigned char) ((lower8bits % 10) + 48);
         transmitNumberToGSM(temporaryBytesArray+14,4);
         myMsDelay(50);
@@ -24999,11 +25038,8 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
         myMsDelay(50);
         lower8bits = fullLoadCutOff;
         temporaryBytesArray[14] = (unsigned char) ((lower8bits / 1000) + 48);
-
         temporaryBytesArray[15] = (unsigned char) (((lower8bits % 1000) / 100) + 48);
-
         temporaryBytesArray[16] = (unsigned char) (((lower8bits % 100) / 10) + 48);
-
         temporaryBytesArray[17] = (unsigned char) ((lower8bits % 10) + 48);
         transmitNumberToGSM(temporaryBytesArray+14,4);
         myMsDelay(100);
@@ -25015,19 +25051,14 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
         myMsDelay(50);
         lower8bits = moistureLevel;
         temporaryBytesArray[14] = (unsigned char) ((lower8bits / 10000) + 48);
-
         temporaryBytesArray[15] = (unsigned char) (((lower8bits % 10000) / 1000) + 48);
-
         temporaryBytesArray[16] = (unsigned char) (((lower8bits % 1000) / 100) + 48);
-
         temporaryBytesArray[17] = (unsigned char) (((lower8bits % 100) / 10) + 48);
-
         temporaryBytesArray[18] = (unsigned char) ((lower8bits % 10) + 48);
         transmitNumberToGSM(temporaryBytesArray+14,5);
         myMsDelay(100);
         break;
     case 7:
-  myMsDelay(10);
         transmitNumberToGSM(temporaryBytesArray, 2);
         myMsDelay(10);
         transmitStringToGSM(" ONprd:");
@@ -25040,11 +25071,9 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
         myMsDelay(10);
         transmitStringToGSM(" OFFprd:");
         myMsDelay(10);
-
         temporaryBytesArray[0] = (fieldValve[iterator].offPeriod/10) + 48;
         temporaryBytesArray[1] = (fieldValve[iterator].offPeriod%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-# 355 "gsm.c"
         myMsDelay(10);
         transmitStringToGSM(" Dry:");
         myMsDelay(10);
@@ -25064,35 +25093,25 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
         myMsDelay(10);
         transmitStringToGSM(" DueDate: ");
         myMsDelay(10);
-
         temporaryBytesArray[0] = (fieldValve[iterator].nextDueDD/10) + 48;
         temporaryBytesArray[1] = (fieldValve[iterator].nextDueDD%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-# 389 "gsm.c"
         myMsDelay(10);
-
         temporaryBytesArray[0] = (fieldValve[iterator].nextDueMM/10) + 48;
         temporaryBytesArray[1] = (fieldValve[iterator].nextDueMM%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-# 405 "gsm.c"
         myMsDelay(10);
-
         temporaryBytesArray[0] = (fieldValve[iterator].nextDueYY/10) + 48;
         temporaryBytesArray[1] = (fieldValve[iterator].nextDueYY%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-# 423 "gsm.c"
         myMsDelay(10);
-
         temporaryBytesArray[0] = (fieldValve[iterator].motorOnTimeHour/10) + 48;
         temporaryBytesArray[1] = (fieldValve[iterator].motorOnTimeHour%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-# 441 "gsm.c"
         myMsDelay(10);
-
         temporaryBytesArray[0] = (fieldValve[iterator].motorOnTimeMinute/10) + 48;
         temporaryBytesArray[1] = (fieldValve[iterator].motorOnTimeMinute%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-# 457 "gsm.c"
         myMsDelay(10);
         transmitStringToGSM("\r\n");
         if (fieldValve[iterator].isFertigationEnabled) {
@@ -25113,11 +25132,9 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
             myMsDelay(10);
             transmitStringToGSM(" Iteration:");
             myMsDelay(10);
-
             temporaryBytesArray[0] = (fieldValve[iterator].fertigationInstance/10) + 48;
             temporaryBytesArray[1] = (fieldValve[iterator].fertigationInstance%10) + 48;
             transmitNumberToGSM(temporaryBytesArray,2);
-# 495 "gsm.c"
             myMsDelay(10);
             transmitStringToGSM("\r\n");
         }
@@ -25130,41 +25147,33 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
         myMsDelay(10);
         transmitStringToGSM("\r\nDelay1: ");
         myMsDelay(10);
-
         temporaryBytesArray[0] = (filtrationDelay1/10) + 48;
         temporaryBytesArray[1] = (filtrationDelay1%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-# 522 "gsm.c"
         myMsDelay(10);
         transmitStringToGSM("(Min) ");
         myMsDelay(10);
         transmitStringToGSM("Delay2: ");
         myMsDelay(10);
-
         temporaryBytesArray[0] = (filtrationDelay2/10) + 48;
         temporaryBytesArray[1] = (filtrationDelay2%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-# 542 "gsm.c"
         myMsDelay(10);
         transmitStringToGSM("(Min) ");
         myMsDelay(10);
         transmitStringToGSM("Delay3: ");
         myMsDelay(10);
-
         temporaryBytesArray[0] = (filtrationDelay3/10) + 48;
         temporaryBytesArray[1] = (filtrationDelay3%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-# 562 "gsm.c"
         myMsDelay(10);
         transmitStringToGSM("(Min)");
         myMsDelay(10);
         transmitStringToGSM("\r\nONTime: ");
         myMsDelay(10);
-
         temporaryBytesArray[0] = (filtrationOnTime/10) + 48;
         temporaryBytesArray[1] = (filtrationOnTime%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-# 582 "gsm.c"
         myMsDelay(10);
         transmitStringToGSM("(Min) ");
         myMsDelay(10);
@@ -25179,14 +25188,99 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
         transmitStringToGSM("(Min)");
         myMsDelay(10);
         break;
-    }
+    case 9:
+        iterator = 0;
+        while(fieldList[iterator] != 255 && iterator < fieldCount) {
+            for (index = 0; lastFieldList[index] != 255; index++) {
+                if (fieldList[iterator]==lastFieldList[index]) {
+                    valveMatched = 1;
+                    break;
+                }
+            }
+            if (valveMatched == 0) {
 
+
+                if (fieldList[iterator]<9){
+                    temporaryBytesArray[0] = 48;
+                    temporaryBytesArray[1] = fieldList[iterator] + 49;
+                }
+                else if (fieldList[iterator] > 8 && fieldList[iterator] < 12) {
+                    temporaryBytesArray[0] = 49;
+                    temporaryBytesArray[1] = fieldList[iterator] + 39;
+                }
+
+
+                transmitNumberToGSM(temporaryBytesArray,2);
+                txByte(' ');
+                myMsDelay(100);
+            }
+            valveMatched = 0;
+            iterator++;
+        }
+        break;
+    case 10:
+        iterator = 0;
+        while(lastFieldList[iterator] != 255 && iterator < fieldCount) {
+            for (index = 0; fieldList[index] != 255; index++) {
+                if (lastFieldList[iterator]==fieldList[index]) {
+                    valveMatched = 1;
+                    break;
+                }
+            }
+            if (valveMatched == 0) {
+
+
+                if (lastFieldList[iterator]<9){
+                    temporaryBytesArray[0] = 48;
+                    temporaryBytesArray[1] = lastFieldList[iterator] + 49;
+                }
+                else if (lastFieldList[iterator] > 8 && lastFieldList[iterator] < 12) {
+                    temporaryBytesArray[0] = 49;
+                    temporaryBytesArray[1] = lastFieldList[iterator] + 39;
+                }
+
+
+                transmitNumberToGSM(temporaryBytesArray,2);
+                txByte(' ');
+                myMsDelay(100);
+            }
+            valveMatched = 0;
+            iterator++;
+        }
+        break;
+    case 11:
+        iterator = 0;
+        while(fieldList[iterator] != 255 && iterator < fieldCount) {
+
+
+            if (fieldList[iterator]<9){
+                temporaryBytesArray[0] = 48;
+                temporaryBytesArray[1] = fieldList[iterator] + 49;
+            }
+            else if (fieldList[iterator] > 8 && fieldList[iterator] < 12) {
+                temporaryBytesArray[0] = 49;
+                temporaryBytesArray[1] = fieldList[iterator] + 39;
+            }
+
+
+            transmitNumberToGSM(temporaryBytesArray,2);
+            txByte(' ');
+            myMsDelay(100);
+   iterator++;
+        }
+        break;
+    case 12:
+
+
+
+
+
+        transmitNumberToGSM(pwd,6);
+        myMsDelay(100);
+        break;
+    }
     controllerCommandExecuted = 0;
     msgIndex = 0;
-
-
-
-
     txByte(terminateSms);
     myMsDelay(100);
     setBCDdigit(0x00,0);
@@ -25195,10 +25289,20 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
     PIR5bits.TMR3IF = 1;
     setBCDdigit(0x0F,0);
     myMsDelay(500);
+
+
+
+
+
 }
-# 636 "gsm.c"
+# 616 "gsm.c"
 void checkSignalStrength(void) {
  unsigned char digit = 0;
+
+
+
+
+
     while (1) {
         setBCDdigit(0x0F,1);
         myMsDelay(1000);
@@ -25277,4 +25381,9 @@ void checkSignalStrength(void) {
             myMsDelay(10000);
         }
     }
+
+
+
+
+
 }

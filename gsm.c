@@ -12,6 +12,9 @@
 #include "variableDefinitions.h"
 #include "controllerActions.h"
 #include "gsm.h"
+#ifdef DEBUG_MODE_ON_H
+#include "serialMonitor.h"
+#endif					  
 
 
 //*****************Serial communication function_Start****************//
@@ -51,7 +54,7 @@ void transmitStringToGSM(const char *string) {
     // Until it reaches null
     while (*string) {
         txByte(*string++); // Transmit Byte Data
-        myMsDelay(50);
+        myMsDelay(5);  // Delay reduced to 5 from 50
     }
 }
 
@@ -66,8 +69,8 @@ void transmitNumberToGSM(unsigned char *number, unsigned char index) {
     // Until it reaches index no.
     while (j < index) {
         txByte(*number++); // Transmit Byte Data
+        myMsDelay(5); // Delay reduced to 5 from 50
         j++;
-        myMsDelay(10);
     }
 }
 
@@ -78,6 +81,11 @@ The purpose of this function is to transmit AT commands which enables Receive mo
 
  **************************************************************************************************************************/
 void configureGSM(void) {
+#ifdef DEBUG_MODE_ON_H
+    //********Debug log#start************//
+    transmitStringToDebug("configureGSM_IN\r\n");
+    //********Debug log#end**************//
+#endif
     timer3Count = 15; // 15 sec window
     setBCDdigit(0x0A,0); // (c.) BCD indication for configureGSM
     controllerCommandExecuted = false;
@@ -121,6 +129,11 @@ void configureGSM(void) {
     }
     PIR5bits.TMR3IF = SET;
     setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+#ifdef DEBUG_MODE_ON_H
+    //********Debug log#start************//
+    transmitStringToDebug("configureGSM_OUT\r\n");
+    //********Debug log#end**************//
+#endif
 }
 
 /*************************************************************************************************************************
@@ -154,6 +167,11 @@ The purpose of this function is to send AT commands to GSM in order to set it at
  **************************************************************************************************************************/
 
 void setGsmToLocalTime(void) {
+#ifdef DEBUG_MODE_ON_H
+    //********Debug log#start************//
+    transmitStringToDebug("setGsmToLocalTime_IN\r\n");
+    //********Debug log#end**************//
+#endif
     timer3Count = 30; // 30 sec window
     setBCDdigit(0x0B,0);  // (].) BCD indication for setGsmToLocalTime Action
     gsmSetToLocalTime = false;
@@ -198,6 +216,11 @@ void setGsmToLocalTime(void) {
     //myMsDelay(1000);
     //checkGsmConnection(); // Check GSM connection after reset.
     setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+#ifdef DEBUG_MODE_ON_H
+    //********Debug log#start************//
+    transmitStringToDebug("setGsmToLocalTime_OUT\r\n");
+    //********Debug log#end**************//
+#endif
 }
 
 /*************************************************************************************************************************
@@ -207,6 +230,11 @@ The purpose of this function is to send AT commands to GSM in order delete messa
 
  **************************************************************************************************************************/
 void deleteMsgFromSIMStorage(void) {
+#ifdef DEBUG_MODE_ON_H
+    //********Debug log#start************//
+    transmitStringToDebug("deleteMsgFromSIMStorage_IN\r\n");
+    //********Debug log#end**************//
+#endif
     timer3Count = 15; // 15 sec window
     setBCDdigit(0x09,1);  // (9) BCD indication Delete SMS action
     controllerCommandExecuted = false;
@@ -219,6 +247,11 @@ void deleteMsgFromSIMStorage(void) {
     PIR5bits.TMR3IF = SET;
     setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
     // ADD indication if infinite
+#ifdef DEBUG_MODE_ON_H
+    //********Debug log#start************//
+    transmitStringToDebug("deleteMsgFromSIMStorage_OUT\r\n");
+    //********Debug log#end**************//
+#endif
 }
 
 /*************************************************************************************************************************
@@ -228,6 +261,13 @@ The purpose of this function is to Notify sender regarding its Action in SMS for
 
  **************************************************************************************************************************/
 void sendSms(const char *message, unsigned char phoneNumber[], unsigned char info) {
+    _Bool valveMatched = false;
+    unsigned char index = CLEAR;
+#ifdef DEBUG_MODE_ON_H
+    //********Debug log#start************//
+    transmitStringToDebug("sendSms_IN\r\n");
+    //********Debug log#end**************//
+#endif
     timer3Count = 30; // 30 sec window
     //myMsDelay(100);
     transmitStringToGSM("AT+CMGS=\""); // Command to send an SMS message to GSM mobile
@@ -280,15 +320,12 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
         */
         transmitNumberToGSM(factryPswrd,6);
         myMsDelay(100);
-        break;
+        break;						 
     case motorLoadRequired:
         lower8bits = noLoadCutOff;
         temporaryBytesArray[14] = (unsigned char) ((lower8bits / 1000) + 48);
-        //lower8bits = lower8bits % 1000;
         temporaryBytesArray[15] = (unsigned char) (((lower8bits % 1000) / 100) + 48);
-        //lower8bits = lower8bits % 100;
         temporaryBytesArray[16] = (unsigned char) (((lower8bits % 100) / 10) + 48);
-        //lower8bits = lower8bits % 10;
         temporaryBytesArray[17] = (unsigned char) ((lower8bits % 10) + 48);
         transmitNumberToGSM(temporaryBytesArray+14,4);
         myMsDelay(50);
@@ -296,11 +333,8 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
         myMsDelay(50);
         lower8bits = fullLoadCutOff;
         temporaryBytesArray[14] = (unsigned char) ((lower8bits / 1000) + 48);
-        //lower8bits = lower8bits % 1000;
         temporaryBytesArray[15] = (unsigned char) (((lower8bits % 1000) / 100) + 48);
-        //lower8bits = lower8bits % 100;
         temporaryBytesArray[16] = (unsigned char) (((lower8bits % 100) / 10) + 48);
-        //lower8bits = lower8bits % 10;
         temporaryBytesArray[17] = (unsigned char) ((lower8bits % 10) + 48);
         transmitNumberToGSM(temporaryBytesArray+14,4);
         myMsDelay(100);
@@ -312,19 +346,14 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
         myMsDelay(50);
         lower8bits = moistureLevel;
         temporaryBytesArray[14] = (unsigned char) ((lower8bits / 10000) + 48);
-        ///lower8bits = lower8bits % 10000;
         temporaryBytesArray[15] = (unsigned char) (((lower8bits % 10000) / 1000) + 48);
-        //lower8bits = lower8bits % 1000;
         temporaryBytesArray[16] = (unsigned char) (((lower8bits % 1000) / 100) + 48);
-        //lower8bits = lower8bits % 100;
         temporaryBytesArray[17] = (unsigned char) (((lower8bits % 100) / 10) + 48);
-        //lower8bits = lower8bits % 10;
         temporaryBytesArray[18] = (unsigned char) ((lower8bits % 10) + 48);
         transmitNumberToGSM(temporaryBytesArray+14,5);
         myMsDelay(100);
         break;
     case IrrigationData:
-		myMsDelay(10);
         transmitNumberToGSM(temporaryBytesArray, 2);
         myMsDelay(10);
         transmitStringToGSM(" ONprd:");
@@ -337,21 +366,9 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
         myMsDelay(10);
         transmitStringToGSM(" OFFprd:");
         myMsDelay(10);
-        //
         temporaryBytesArray[0] = (fieldValve[iterator].offPeriod/10) + 48;
         temporaryBytesArray[1] = (fieldValve[iterator].offPeriod%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-        //
-        /*
-        temporaryBytesArray[1] = fieldValve[iterator].offPeriod;
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 100;
-        temporaryBytesArray[0] = (temporaryBytesArray[1] / 10) + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        myMsDelay(10);
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 10;
-        temporaryBytesArray[0] = temporaryBytesArray[1] + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        */
         myMsDelay(10);
         transmitStringToGSM(" Dry:");
         myMsDelay(10);
@@ -371,89 +388,25 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
         myMsDelay(10);
         transmitStringToGSM(" DueDate: ");
         myMsDelay(10);
-        //
         temporaryBytesArray[0] = (fieldValve[iterator].nextDueDD/10) + 48;
         temporaryBytesArray[1] = (fieldValve[iterator].nextDueDD%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-        //
-        /*
-        temporaryBytesArray[1] = fieldValve[iterator].nextDueDD;
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 100;
-        temporaryBytesArray[0] = (temporaryBytesArray[1] / 10) + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
         myMsDelay(10);
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 10;
-        temporaryBytesArray[0] = temporaryBytesArray[1] + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        */
-        myMsDelay(10);
-        //
         temporaryBytesArray[0] = (fieldValve[iterator].nextDueMM/10) + 48;
         temporaryBytesArray[1] = (fieldValve[iterator].nextDueMM%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-        //
-        /*
-        temporaryBytesArray[1] = fieldValve[iterator].nextDueMM;
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 100;
-        temporaryBytesArray[0] = (temporaryBytesArray[1] / 10) + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
         myMsDelay(10);
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 10;
-        temporaryBytesArray[0] = temporaryBytesArray[1] + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        */
-        myMsDelay(10);
-        //
         temporaryBytesArray[0] = (fieldValve[iterator].nextDueYY/10) + 48;
         temporaryBytesArray[1] = (fieldValve[iterator].nextDueYY%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-        //
-        /*
-        temporaryBytesArray[1] = fieldValve[iterator].nextDueYY;
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 100;
-        temporaryBytesArray[0] = (temporaryBytesArray[1] / 10) + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
         myMsDelay(10);
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 10;
-        temporaryBytesArray[0] = temporaryBytesArray[1] + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        myMsDelay(10);
-        transmitStringToGSM("; ");
-        */
-        myMsDelay(10);
-        //
         temporaryBytesArray[0] = (fieldValve[iterator].motorOnTimeHour/10) + 48;
         temporaryBytesArray[1] = (fieldValve[iterator].motorOnTimeHour%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-        //
-        /*
-        temporaryBytesArray[1] = fieldValve[iterator].motorOnTimeHour;
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 100;
-        temporaryBytesArray[0] = (temporaryBytesArray[1] / 10) + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
         myMsDelay(10);
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 10;
-        temporaryBytesArray[0] = temporaryBytesArray[1] + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        myMsDelay(10);
-        transmitStringToGSM(":");
-        */
-        myMsDelay(10);
-        //
         temporaryBytesArray[0] = (fieldValve[iterator].motorOnTimeMinute/10) + 48;
         temporaryBytesArray[1] = (fieldValve[iterator].motorOnTimeMinute%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-        //
-        /*
-        temporaryBytesArray[1] = fieldValve[iterator].motorOnTimeMinute;
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 100;
-        temporaryBytesArray[0] = (temporaryBytesArray[1] / 10) + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        myMsDelay(10);
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 10;
-        temporaryBytesArray[0] = temporaryBytesArray[1] + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        */
         myMsDelay(10);
         transmitStringToGSM("\r\n");
         if (fieldValve[iterator].isFertigationEnabled) {
@@ -474,24 +427,9 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
             myMsDelay(10);
             transmitStringToGSM(" Iteration:");
             myMsDelay(10);
-            //
             temporaryBytesArray[0] = (fieldValve[iterator].fertigationInstance/10) + 48;
             temporaryBytesArray[1] = (fieldValve[iterator].fertigationInstance%10) + 48;
             transmitNumberToGSM(temporaryBytesArray,2);
-            //
-            /*
-            temporaryBytesArray[1] = fieldValve[iterator].fertigationInstance;
-            temporaryBytesArray[0] = (temporaryBytesArray[1] / 100) + 48;
-            transmitNumberToGSM(temporaryBytesArray, 1);
-            myMsDelay(10);
-            temporaryBytesArray[1] = temporaryBytesArray[1] % 100;
-            temporaryBytesArray[0] = (temporaryBytesArray[1] / 10) + 48;
-            transmitNumberToGSM(temporaryBytesArray, 1);
-            myMsDelay(10);
-            temporaryBytesArray[1] = temporaryBytesArray[1] % 10;
-            temporaryBytesArray[0] = temporaryBytesArray[1] + 48;
-            transmitNumberToGSM(temporaryBytesArray, 1);
-            */
             myMsDelay(10);
             transmitStringToGSM("\r\n");
         } 
@@ -504,81 +442,33 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
         myMsDelay(10);
         transmitStringToGSM("\r\nDelay1: ");
         myMsDelay(10);
-        //
         temporaryBytesArray[0] = (filtrationDelay1/10) + 48;
         temporaryBytesArray[1] = (filtrationDelay1%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-        //
-        /*
-        temporaryBytesArray[1] = filtrationDelay1;
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 100;
-        temporaryBytesArray[0] = (temporaryBytesArray[1] / 10) + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        myMsDelay(10);
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 10;
-        temporaryBytesArray[0] = temporaryBytesArray[1] + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        */
         myMsDelay(10);
         transmitStringToGSM("(Min) ");
         myMsDelay(10);
         transmitStringToGSM("Delay2: ");
         myMsDelay(10);
-        //
         temporaryBytesArray[0] = (filtrationDelay2/10) + 48;
         temporaryBytesArray[1] = (filtrationDelay2%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-        //
-        /*
-        temporaryBytesArray[1] = filtrationDelay2;
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 100;
-        temporaryBytesArray[0] = (temporaryBytesArray[1] / 10) + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        myMsDelay(10);
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 10;
-        temporaryBytesArray[0] = temporaryBytesArray[1] + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        */
         myMsDelay(10);
         transmitStringToGSM("(Min) ");
         myMsDelay(10);
         transmitStringToGSM("Delay3: ");
         myMsDelay(10);
-        //
         temporaryBytesArray[0] = (filtrationDelay3/10) + 48;
         temporaryBytesArray[1] = (filtrationDelay3%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-        //
-        /*
-        temporaryBytesArray[1] = filtrationDelay3;
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 100;
-        temporaryBytesArray[0] = (temporaryBytesArray[1] / 10) + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        myMsDelay(10);
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 10;
-        temporaryBytesArray[0] = temporaryBytesArray[1] + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        */
         myMsDelay(10);
         transmitStringToGSM("(Min)");
         myMsDelay(10);
         transmitStringToGSM("\r\nONTime: ");
         myMsDelay(10);
-        //
         temporaryBytesArray[0] = (filtrationOnTime/10) + 48;
         temporaryBytesArray[1] = (filtrationOnTime%10) + 48;
         transmitNumberToGSM(temporaryBytesArray,2);
-        //
-        /*
-        temporaryBytesArray[1] = filtrationOnTime;
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 100;
-        temporaryBytesArray[0] = (temporaryBytesArray[1] / 10) + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        myMsDelay(10);
-        temporaryBytesArray[1] = temporaryBytesArray[1] % 10;
-        temporaryBytesArray[0] = temporaryBytesArray[1] + 48;
-        transmitNumberToGSM(temporaryBytesArray, 1);
-        */
         myMsDelay(10);
         transmitStringToGSM("(Min) ");
         myMsDelay(10);
@@ -593,14 +483,99 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
         transmitStringToGSM("(Min)");
         myMsDelay(10);
         break;
+    case commonActiveFieldNoRequired: //Send Additional info like list of field valve numbers in Parallel action. // do if field valve action is requested       
+        iterator = 0;
+        while(fieldList[iterator] != 255 && iterator < fieldCount) {
+            for (index = 0; lastFieldList[index] != 255; index++) {
+                if (fieldList[iterator]==lastFieldList[index]) {
+                    valveMatched = true; 
+                    break; // skip sms for activating already active valve
+                }
+            }
+            if (valveMatched == false) {
+                /***************************/
+                // for field no. 01 to 09
+                if (fieldList[iterator]<9){
+                    temporaryBytesArray[0] = 48; // To store field no. of valve in action 
+                    temporaryBytesArray[1] = fieldList[iterator] + 49; // To store field no. of valve in action 
+                }// for field no. 10 to 12
+                else if (fieldList[iterator] > 8 && fieldList[iterator] < 12) {
+                    temporaryBytesArray[0] = 49; // To store field no. of valve in action 
+                    temporaryBytesArray[1] = fieldList[iterator] + 39; // To store field no. of valve in action 
+                }
+                /***************************/
+                //txByte(':');
+                transmitNumberToGSM(temporaryBytesArray,2);
+                txByte(' ');
+                myMsDelay(100);
+            }
+            valveMatched = false;
+            iterator++;
+        }
+        break;
+    case commonInActiveFieldNoRequired: //Send Additional info like list of field valve numbers in Parallel action. // do if field valve action is requested       
+        iterator = 0;
+        while(lastFieldList[iterator] != 255 && iterator < fieldCount) {
+            for (index = 0; fieldList[index] != 255; index++) {
+                if (lastFieldList[iterator]==fieldList[index]) {
+                    valveMatched = true; 
+                    break; // skip sms for deactivating reactivated valve
+                }
+            }
+            if (valveMatched == false) {
+                /***************************/
+                // for field no. 01 to 09
+                if (lastFieldList[iterator]<9){
+                    temporaryBytesArray[0] = 48; // To store field no. of valve in action 
+                    temporaryBytesArray[1] = lastFieldList[iterator] + 49; // To store field no. of valve in action 
+                }// for field no. 10 to 12
+                else if (lastFieldList[iterator] > 8 && lastFieldList[iterator] < 12) {
+                    temporaryBytesArray[0] = 49; // To store field no. of valve in action 
+                    temporaryBytesArray[1] = lastFieldList[iterator] + 39; // To store field no. of valve in action 
+                }
+                /***************************/
+                //txByte(':');
+                transmitNumberToGSM(temporaryBytesArray,2);
+                txByte(' ');
+                myMsDelay(100);
+            }
+            valveMatched = false;
+            iterator++;
+        }
+        break;
+    case fieldListRequired: //Send Additional info like list of field valve numbers in Parallel action. // do if field valve action is requested       
+        iterator = 0;
+        while(fieldList[iterator] != 255 && iterator < fieldCount) {
+            /***************************/
+            // for field no. 01 to 09
+            if (fieldList[iterator]<9){
+                temporaryBytesArray[0] = 48; // To store field no. of valve in action 
+                temporaryBytesArray[1] = fieldList[iterator] + 49; // To store field no. of valve in action 
+            }// for field no. 10 to 12
+            else if (fieldList[iterator] > 8 && fieldList[iterator] < 12) {
+                temporaryBytesArray[0] = 49; // To store field no. of valve in action 
+                temporaryBytesArray[1] = fieldList[iterator] + 39; // To store field no. of valve in action 
+            }
+            /***************************/
+            //txByte(':');
+            transmitNumberToGSM(temporaryBytesArray,2);
+            txByte(' ');
+            myMsDelay(100);
+			iterator++;		   
+        }
+        break;
+    case secretCode1Required:
+        /*
+        strncpy(stringToEncode,factryPswrd,6);
+        base64Encoder();
+        transmitNumberToGSM(encodedString,24); // send encoded factory password 
+        */
+        transmitNumberToGSM(pwd,6);
+        myMsDelay(100);
+        break;
     }
-    //myMsDelay(100);
     controllerCommandExecuted = false; // System initiated request of sending sms to GSM			
     msgIndex = CLEAR; // clear message storage index
-	//txByte(enter); // Go to new line for reception of new command from GSM
-    //myMsDelay(50);																  
-	//txByte(newLine); // Go to new line for reception of new command from GSM
-    //myMsDelay(50);
     txByte(terminateSms); // terminate SMS
     myMsDelay(100);
     setBCDdigit(0x00,0);  // (0.) BCD indication for OUT SMS Error
@@ -609,6 +584,11 @@ void sendSms(const char *message, unsigned char phoneNumber[], unsigned char inf
     PIR5bits.TMR3IF = SET; //Stop timer thread
     setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
     myMsDelay(500);
+#ifdef DEBUG_MODE_ON_H
+    //********Debug log#start************//
+    transmitStringToDebug("sendSms_OUT\r\n");
+    //********Debug log#end**************//
+#endif
 }
 
 /*************************************************************************************************************************
@@ -635,6 +615,11 @@ The purpose of this function is to send AT commands to GSM in order to get signa
 
 void checkSignalStrength(void) {
 	unsigned char digit = 0;
+#ifdef DEBUG_MODE_ON_H
+    //********Debug log#start************//
+    transmitStringToDebug("checkSignalStrength_IN\r\n");
+    //********Debug log#end**************//
+#endif
     while (1) {
         setBCDdigit(0x0F,1); // BCD Indication for Flash
         myMsDelay(1000);
@@ -713,5 +698,10 @@ void checkSignalStrength(void) {
             myMsDelay(10000);
         }
     }
+#ifdef DEBUG_MODE_ON_H
+    //********Debug log#start************//
+    transmitStringToDebug("checkSignalStrength_OUT\r\n");
+    //********Debug log#end**************//
+#endif
 }
 //*****************Serial communication functions_End****************//
