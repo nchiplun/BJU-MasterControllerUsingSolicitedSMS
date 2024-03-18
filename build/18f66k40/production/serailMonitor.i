@@ -24429,7 +24429,7 @@ int toupper_l(int, locale_t);
  __asm("\tpsect eeprom_data,class=EEDATA,noexec"); __asm("\tdb\t" "0x00" "," "0x00" "," "0x00" "," "0x00" "," "0x00" "," "0x00" "," "0x00" "," "0x00");
  __asm("\tpsect eeprom_data,class=EEDATA,noexec"); __asm("\tdb\t" "0x00" "," "0x00" "," "0x00" "," "0x00" "," "0x00" "," "0x00" "," "0x00" "," "0x00");
 # 43 "./variableDefinitions.h" 2
-# 147 "./variableDefinitions.h"
+# 150 "./variableDefinitions.h"
 struct FIELDVALVE {
     unsigned int dryValue;
     unsigned int wetValue;
@@ -24475,7 +24475,7 @@ struct FIELDVALVE fieldValve[12] = {0};
 
 #pragma idata eepromAddress
 const unsigned int eepromAddress[16] = {0x0000, 0x0030, 0x0060, 0x0090, 0x00C0, 0x00F0, 0x0120, 0x0150, 0x0180, 0x01B0, 0x01E0, 0x0210, 0x0240, 0x0270, 0x02A0, 0x2D0};
-# 238 "./variableDefinitions.h"
+# 241 "./variableDefinitions.h"
 unsigned int filtrationSeperationTime = 0;
 unsigned int dueDD = 0;
 unsigned int sleepCount = 0;
@@ -24627,7 +24627,7 @@ const char SmsSR04[74] = "System restarted in Diagnostic Mode with incomplete Ir
 const char SmsSR05[79] = "System restarted for All Phase Detection with incomplete Irrigation for field ";
 const char SmsSR06[71] = "System restarted for WDT Timeout with incomplete Irrigation for field ";
 const char SmsSR07[71] = "System restarted for Stack Error with incomplete Irrigation for field ";
-# 397 "./variableDefinitions.h"
+# 400 "./variableDefinitions.h"
 const char SmsSR14[59] = "System reset occurred, login code reset to Factory setting";
 const char SmsSR15[50] = "System reset occurred, Irrigation setting deleted";
 
