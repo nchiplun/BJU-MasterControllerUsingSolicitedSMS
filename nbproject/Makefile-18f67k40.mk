@@ -106,8 +106,8 @@ ifneq ($(INFORMATION_MESSAGE), )
 endif
 	${MAKE}  -f nbproject/Makefile-18f67k40.mk ${DISTDIR}/AutoIrrigation_SolicitedSMSNcDevBranch.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 	@echo "--------------------------------------"
-	@echo "User defined post-build step: [gnumkdir -p ${ProjectDir}\bin && cp ${ImagePath} ${ProjectDir}\bin\${PROJECTNAME}[${ConfName}]v0.6.hex ]"
-	@gnumkdir -p ${ProjectDir}\bin && cp ${ImagePath} ${ProjectDir}\bin\${PROJECTNAME}[${ConfName}]v0.6.hex 
+	@echo "User defined post-build step: [gnumkdir -p ${ProjectDir}\bin && cp ${ImagePath} ${ProjectDir}\bin\${PROJECTNAME}[${ConfName}]v0.7.hex ]"
+	@gnumkdir -p ${ProjectDir}\bin && cp ${ImagePath} ${ProjectDir}\bin\${PROJECTNAME}[${ConfName}]v0.7.hex 
 	@echo "--------------------------------------"
 
 MP_PROCESSOR_OPTION=18F67K40

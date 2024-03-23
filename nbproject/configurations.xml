@@ -81,7 +81,7 @@
         <makeUseCleanTarget>false</makeUseCleanTarget>
         <makeCustomizationPreStep></makeCustomizationPreStep>
         <makeCustomizationPostStepEnabled>true</makeCustomizationPostStepEnabled>
-        <makeCustomizationPostStep>gnumkdir -p ${ProjectDir}\bin &amp;&amp; cp ${ImagePath} ${ProjectDir}\bin\${PROJECTNAME}[${ConfName}]v0.6.hex </makeCustomizationPostStep>
+        <makeCustomizationPostStep>gnumkdir -p ${ProjectDir}\bin &amp;&amp; cp ${ImagePath} ${ProjectDir}\bin\${PROJECTNAME}[${ConfName}]v0.7.hex </makeCustomizationPostStep>
         <makeCustomizationPutChecksumInUserID>false</makeCustomizationPutChecksumInUserID>
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
@@ -432,7 +432,7 @@
         <makeUseCleanTarget>false</makeUseCleanTarget>
         <makeCustomizationPreStep></makeCustomizationPreStep>
         <makeCustomizationPostStepEnabled>true</makeCustomizationPostStepEnabled>
-        <makeCustomizationPostStep>gnumkdir -p ${ProjectDir}\bin &amp;&amp; cp ${ImagePath} ${ProjectDir}\bin\${PROJECTNAME}[${ConfName}]v0.6.hex </makeCustomizationPostStep>
+        <makeCustomizationPostStep>gnumkdir -p ${ProjectDir}\bin &amp;&amp; cp ${ImagePath} ${ProjectDir}\bin\${PROJECTNAME}[${ConfName}]v0.7.hex </makeCustomizationPostStep>
         <makeCustomizationPutChecksumInUserID>false</makeCustomizationPutChecksumInUserID>
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>

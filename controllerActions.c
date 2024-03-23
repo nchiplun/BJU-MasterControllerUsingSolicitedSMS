@@ -3315,15 +3315,13 @@ void deepSleep(void) {
         else if (MotorControl == ON ) {
             saveActiveSleepCountIntoEeprom(); // Save current valve on time
             // check Motor Dry run condition after each sleep count
-            if (dryRunCheckCount > 2) { // Check after  3 mins. of Motor ON Command to compensate Motor stabilization
-                if (isMotorInNoLoad()) {
-                    if (dryRunDetected) {
-                        doDryRunAction();
-                    }
-                    else if (lowPhaseCurrentDetected) {
-                        doLowPhaseAction();
-                        sleepCount = 65500; // undefined sleep until phase comes back
-                    }
+            if (isMotorInNoLoad() && dryRunCheckCount > 2) {
+                if (dryRunDetected) {
+                    doDryRunAction();
+                }
+                else if (lowPhaseCurrentDetected) {
+                    doLowPhaseAction();
+                    sleepCount = 65500; // undefined sleep until phase comes back
                 }
             }
             else {
