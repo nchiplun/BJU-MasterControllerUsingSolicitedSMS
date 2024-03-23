@@ -21,8 +21,9 @@ void saveIrrigationValveCycleStatusIntoEeprom(unsigned int, struct FIELDVALVE *)
 void saveFertigationValveStatusIntoEeprom(unsigned int, struct FIELDVALVE *); // To save field valve On Off status into EEPROM
 void saveFertigationValveValuesIntoEeprom(unsigned int, struct FIELDVALVE *); // To save all varibales of field valves EEPROM
 void saveIrrigationValveConfigurationStatusIntoEeprom(unsigned int, struct FIELDVALVE *); // To save field valve Hold status into EEPROM
+void saveIrrigationValvePriorityIntoEeprom(unsigned int, struct FIELDVALVE *); // To save field valve priority into EEPROM
 void readValveDataFromEeprom(unsigned int, struct FIELDVALVE *); // To read field valve values in to EEPROM
-unsigned char readFieldIrrigationValveNoFromEeprom(void); // To read last saved field valve no. 
+//unsigned char readFieldIrrigationValveNoFromEeprom(void); // To read last saved field valve no. 
 void loadDataFromEeprom(void); // To read all data from EEPROM
 void loadDataIntoEeprom(void); // To save all data into EEPROM
 void savePasswordIntoEeprom(void); // To save system password into EEPROM
@@ -33,7 +34,7 @@ void saveAuthenticationStatus(void); // To save system authentication status int
 void saveRTCBatteryStatus(void); // To save RTCBattery status into EEPROM
 unsigned int readActiveSleepCountFromEeprom(void); // To read sleep time from EEPROM for active valve on period
 unsigned int readRemainingFertigationOnPeriodFromEeprom(void);// To read Remaining Fertigation On Period From Eeprom
-void saveIrrigationValveNoIntoEeprom(unsigned char); // To save field no. into EEPROM 
+//void saveIrrigationValveNoIntoEeprom(unsigned char); // To save field no. into EEPROM 
 void saveFiltrationSequenceData(void); // To save filtration valve sequence data
 void saveResetCountIntoEeprom(void); //To save reset occurred by MCLR reset
 //void readResetCountFromEeprom(void); //To read reset occurred by MCLR reset

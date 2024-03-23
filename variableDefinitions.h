@@ -42,6 +42,9 @@
 // include processor files - each processor file is guarded.  
 #include "congfigBits.h"
 
+#define Major "0"
+#define Minor "7"
+
 #define _XTAL_FREQ 64000000
 /** Macro definition for library functions that triggers "suspicious pointer conversion" warning#start **/
 #define strncpy(a,b,c)     strncpy((char*)(a),(char*)(b),(c)) 
@@ -65,9 +68,13 @@
 #define fertigationValveControl PORTFbits.RF6       // To control fertigation valve
 #define MotorControl PORTFbits.RF7                  // To control Motor Pump  -- DOL Red (Stop) Button (NO Relay connection)) // Deactivate DOL Manual Red button 
 #define motorPowerTorque PORTGbits.RG6              // To control Capacitor Relay -- motorPowerTorque -- DOL (Start) Green Button (NO Relay connection))
-#define filtration1ValveControl PORTGbits.RG7           // To control filtration1 valve
-#define filtration2ValveControl PORTEbits.RE2           // To control filtration2 valve
-#define filtration3ValveControl PORTEbits.RE3           // To control filtration3 valve
+#define filtration1ValveControl PORTGbits.RG7       // To control filtration1 valve
+#define filtration2ValveControl PORTEbits.RE2       // To control filtration2 valve
+#define filtration3ValveControl PORTEbits.RE3       // To control filtration3 valve
+#define injector1Control PORTFbits.RF2              // To control injector1 valve
+#define injector2Control PORTFbits.RF3              // To control injector2 valve
+#define injector3Control PORTFbits.RF4              // To control injector3 valve
+#define injector4Control PORTFbits.RF5              // To control injector4 valve
 
 #define MoistureSensor1 PORTBbits.RB0           // Field1 moisture sensor measurement
 #define MoistureSensor2 PORTBbits.RB1           // Field2 moisture sensor measurement
@@ -219,10 +226,14 @@ const unsigned int eepromAddress[16] = {0x0000, 0x0030, 0x0060, 0x0090, 0x00C0, 
 #define fieldNoRequired 2       // TO mention field no in SMS
 #define timeRequired 3          // To indicate time in SMS
 #define secretCodeRequired 4    // To give secret factory code
-#define motorLoadRequired 5    // To give motor load values
-#define frequencyRequired 6    // To give motor load values
-#define IrrigationData 7       // To give Irrigation values
-#define filtrationData 8       // To give Filtration values
+#define motorLoadRequired 5     // To give motor load values
+#define frequencyRequired 6     // To give motor load values
+#define IrrigationData 7        // To give Irrigation values
+#define filtrationData 8        // To give Filtration values
+#define commonActiveFieldNoRequired 9// To give common field list to activate
+#define commonInActiveFieldNoRequired 10// To give common field list to deactivate
+#define fieldListRequired 11     // To give field list
+#define secretCode1Required 12    // To give current password code
 /***************************** Macros for Additional Info in SMS #end ****************/
 
 /***************************** Global variables definition#start *********************/
@@ -252,6 +263,8 @@ unsigned int injector3OffPeriodCnt = CLEAR; // to store injector 3 on period cou
 unsigned int injector4OffPeriodCnt = CLEAR; // to store injector 4 on period count
 unsigned int noLoadCutOff = CLEAR;
 unsigned int fullLoadCutOff = CLEAR;
+unsigned char fieldList[12] = {'\0'}; // To store valve list to be executed simultaneous
+unsigned char lastFieldList[12] = {'\0'}; // To store valve list to be switched off after execution simultaneous
 unsigned char userMobileNo[11] = ""; // To store 10 byte user mobile no.
 unsigned char temporaryBytesArray[20] = ""; // To store 20 byte buffer.
 unsigned char null[11] = {'\0'}; // Null.
@@ -272,7 +285,7 @@ unsigned char temp = CLEAR; // Temporary buffer
 unsigned char iterator = CLEAR; // To navigate through iteration in for loop
 unsigned char fieldCount = 12;   // To Store no. of fields to configure
 unsigned char resetCount = CLEAR; // To store count of reset occurred by MCLR Reset for menu option
-unsigned char startFieldNo = 0;  // To indicate starting field irrigation valve no. for scanning
+//unsigned char startFieldNo = 0;  // To indicate starting field irrigation valve no. for scanning
 unsigned char space = 0x20; // Represents space Ascii
 unsigned char terminateSms = 0x1A; // Represents Ctrl+z to indicate end of SMS
 unsigned char enter = 0x0D; // Represents Enter Key ASCII
@@ -297,6 +310,7 @@ unsigned char filtrationDelay2 = CLEAR; // To store filtration Delay2 in minutes
 unsigned char filtrationDelay3 = CLEAR; // To store filtration Delay3 in minutes
 unsigned char filtrationOnTime = CLEAR; // To store filtration OnTime in minutes
 unsigned char dryRunCheckCount = CLEAR; // To store dry run check count
+unsigned char nxtPriority = 1; // To store next priority for due valve by default set to first priority
 /***** System Config definition#end *************************/
 
 /******Data Encryption and Decryption#start *****************/
@@ -330,6 +344,7 @@ unsigned static char inject[7] = "INJECT"; // To Inject Test Data
 unsigned static char ct[3] = "CT"; // To set motor load readings
 unsigned static char setct[4] = "SCT"; // To set motor load condition thrpugh diagnostic
 unsigned static char secret[12] = "12345678912"; //Secret code to fetch unique factory password
+unsigned static char secret1[12] = "12345678913"; //Secret code to fetch current password
 unsigned static char getct[6] = "GETCT"; // get ct values
 unsigned static char getfreq[8] = "GETFREQ"; // get ct values
 unsigned static char countryCode[4] = "+91"; //Country code for GSM
@@ -345,22 +360,22 @@ const char SmsPwd1[32] = "Login code changed successfully"; // Acknowledge user 
 const char SmsPwd2[23] = "Login code not changed";
 const char SmsPwd3[23] = "Wrong login code found"; // Acknowledge user about successful motor off action
 
-const char SmsIrr1[36] = "Irrigation configured for field no."; // Acknowledge user about successful Irrigation configuration
-const char SmsIrr2[48] = "Irrigation configuration disabled for field no."; // Acknowledge user about successful Irrigation configuration disable action
-const char SmsIrr3[40] = "Irrigation not configured for field no."; // Acknowledge user about  Irrigation not configured
-const char SmsIrr4[33] = "Irrigation started for field no."; // Acknowledge user about successful Irrigation started action
-const char SmsIrr5[33] = "Irrigation stopped for field no."; // Acknowledge user about successful Irrigation stopped action
-const char SmsIrr6[60] = "Wet field detected.\r\nIrrigation not started for field no."; // Acknowledge user about Irrigation not started due to wet field detection
+const char SmsIrr1[36] = "Irrigation configured for priority "; // Acknowledge user about successful Irrigation configuration
+const char SmsIrr2[48] = "Irrigation configuration disabled for priority "; // Acknowledge user about successful Irrigation configuration disable action
+const char SmsIrr3[40] = "Irrigation not configured for priority "; // Acknowledge user about  Irrigation not configured
+const char SmsIrr4[30] = "Irrigation started for field "; // Acknowledge user about successful Irrigation started action
+const char SmsIrr5[30] = "Irrigation stopped for field "; // Acknowledge user about successful Irrigation stopped action
+const char SmsIrr6[57] = "Wet field detected.\r\nIrrigation not started for field "; // Acknowledge user about Irrigation not started due to wet field detection
 const char SmsIrr7[15] = "Irrigation No:"; // Send diagnostic data for irrigation
 
-const char SmsFert1[64] = "Irrigation is not Active. Fertigation not enabled for field no."; // Acknowledge user about Fertigation not configured due to disabled irrigation
-const char SmsFert2[56] = "Incorrect values. Fertigation not enabled for field no."; // Acknowledge user about Fertigation not configured due to incorrect values
-const char SmsFert3[34] = "Fertigation enabled for field no."; // Acknowledge user about successful Fertigation enabled action
-const char SmsFert4[35] = "Fertigation disabled for field no."; // Acknowledge user about successful Fertigation disabled action
-const char SmsFert5[34] = "Fertigation started for field no."; // Acknowledge user about successful Fertigation started action
-const char SmsFert6[34] = "Fertigation stopped for field no."; // Acknowledge user about successful Fertigation stopped action
-const char SmsFert7[71] = "Fertigation stopped with fertilizer level sensor failure for field no."; // Acknowledge user about Fertigation stopped action with sensor failure
-const char SmsFert8[60] = "Fertigation stopped with low fertilizer level for field no."; // Acknowledge user about Fertigation stopped action with low fertilizer level 
+const char SmsFert1[64] = "Irrigation is not Active. Fertigation not enabled for priority "; // Acknowledge user about Fertigation not configured due to disabled irrigation
+const char SmsFert2[56] = "Incorrect values. Fertigation not enabled for priority "; // Acknowledge user about Fertigation not configured due to incorrect values
+const char SmsFert3[34] = "Fertigation enabled for priority "; // Acknowledge user about successful Fertigation enabled action
+const char SmsFert4[35] = "Fertigation disabled for priority "; // Acknowledge user about successful Fertigation disabled action
+const char SmsFert5[31] = "Fertigation started for field "; // Acknowledge user about successful Fertigation started action
+const char SmsFert6[31] = "Fertigation stopped for field "; // Acknowledge user about successful Fertigation stopped action
+const char SmsFert7[68] = "Fertigation stopped with fertilizer level sensor failure for field "; // Acknowledge user about Fertigation stopped action with sensor failure
+const char SmsFert8[57] = "Fertigation stopped with low fertilizer level for field "; // Acknowledge user about Fertigation stopped action with low fertilizer level 
 
 const char SmsFilt1[27] = "Water filtration activated";
 const char SmsFilt2[29] = "Water filtration deactivated"; 
@@ -368,18 +383,20 @@ const char SmsFilt3[32] = "Water Filtration is not enabled";
 const char SmsFilt4[27] = "Water Filtration Sequence:";
 
 const char SmsSR01[60] = "System restarted with phase failure, suspending all actions"; // Acknowledge user about system restarted with Valve action
-const char SmsSR02[78] = "System restarted for Power Interrupt with incomplete Irrigation for field no."; // Acknowledge user about system restarted with Valve action
-const char SmsSR03[75] = "System restarted for Low Power In with incomplete Irrigation for field no."; // Acknowledge user about system restarted with Valve action
-const char SmsSR04[77] = "System restarted in Diagnostic Mode with incomplete Irrigation for field no."; // Acknowledge user about system restarted with Valve action
-const char SmsSR05[82] = "System restarted for All Phase Detection with incomplete Irrigation for field no."; // Acknowledge user about system restarted with Valve action
-const char SmsSR06[74] = "System restarted for WDT Timeout with incomplete Irrigation for field no."; // Acknowledge user about system restarted with Valve action
-const char SmsSR07[74] = "System restarted for Stack Error with incomplete Irrigation for field no."; // Acknowledge user about system restarted with Valve action
-const char SmsSR08[37] = "System restarted for Power Interrupt"; // Acknowledge user about system restarted with Valve action
-const char SmsSR09[31] = "System restarted for Low Power"; // Acknowledge user about system restarted with Valve action
-const char SmsSR10[36] = "System restarted in Diagnostic mode"; // Acknowledge user about system restarted with Valve action
-const char SmsSR11[41] = "System restarted for All Phase Detection"; // Acknowledge user about system restarted with Valve action
-const char SmsSR12[33] = "System restarted for WDT timeout"; // Acknowledge user about system restarted with Valve action
-const char SmsSR13[33] = "System restarted for stack error"; // Acknowledge user about system restarted with Valve action
+const char SmsSR02[75] = "System restarted for Power Interrupt with incomplete Irrigation for field "; // Acknowledge user about system restarted with Valve action
+const char SmsSR03[72] = "System restarted for Low Power In with incomplete Irrigation for field "; // Acknowledge user about system restarted with Valve action
+const char SmsSR04[74] = "System restarted in Diagnostic Mode with incomplete Irrigation for field "; // Acknowledge user about system restarted with Valve action
+const char SmsSR05[79] = "System restarted for All Phase Detection with incomplete Irrigation for field "; // Acknowledge user about system restarted with Valve action
+const char SmsSR06[71] = "System restarted for WDT Timeout with incomplete Irrigation for field "; // Acknowledge user about system restarted with Valve action
+const char SmsSR07[71] = "System restarted for Stack Error with incomplete Irrigation for field "; // Acknowledge user about system restarted with Valve action
+/* //disabled SMS for reset on NO valve in action to reduce SMS count
+const char SmsSR08[37] = "System restarted for Power Interrupt"; // Acknowledge user about system restarted with No Valve action
+const char SmsSR09[31] = "System restarted for Low Power"; // Acknowledge user about system restarted with No Valve action
+const char SmsSR10[36] = "System restarted in Diagnostic mode"; // Acknowledge user about system restarted with No Valve action
+const char SmsSR11[41] = "System restarted for All Phase Detection"; // Acknowledge user about system restarted with No Valve action
+const char SmsSR12[33] = "System restarted for WDT timeout"; // Acknowledge user about system restarted with No Valve action
+const char SmsSR13[33] = "System restarted for stack error"; // Acknowledge user about system restarted with No Valve action
+*/
 const char SmsSR14[59] = "System reset occurred, login code reset to Factory setting"; // Acknowledge user about successful motor off action
 const char SmsSR15[50] = "System reset occurred, Irrigation setting deleted"; // Acknowledge user about successful motor off action
 
@@ -388,24 +405,28 @@ const char SmsRTC2[41] = "System time synced to current local time";
 const char SmsRTC3[56] = "New RTC battery found, system time is set to local time";
 const char SmsRTC4[56] = "New RTC battery found, please sync system time manually"; // Acknowledge user about setting RTC through Mobile App
 
-const char SmsDR1[133] = "Dry Run detected, Motor, Irrigation and Fertigation switched off.\r\nIrrigation scheduled to next day with fertigation for field no."; // Acknowledge user about successful motor off action
-const char SmsDR2[120] = "Dry Run detected, Motor and Irrigation switched off.\r\nIrrigation scheduled to next day with fertigation for field no."; // Acknowledge user about successful motor off action
-const char SmsDR3[103] = "Dry Run detected, Motor and Irrigation switched off.\r\nIrrigation scheduled to next day for field no."; // Acknowledge user about successful motor off action
-const char SmsDR4[108] = "Dry Run detected, Motor and Irrigation switched off.\r\nIrrigation scheduled to next due date for field no."; // Acknowledge user about successful motor off action
+const char SmsDR1[130] = "Dry Run detected, Motor, Irrigation and Fertigation switched off.\r\nIrrigation scheduled to next day with fertigation for field "; // Acknowledge user about successful motor off action
+const char SmsDR2[117] = "Dry Run detected, Motor and Irrigation switched off.\r\nIrrigation scheduled to next day with fertigation for field "; // Acknowledge user about successful motor off action
+const char SmsDR3[100] = "Dry Run detected, Motor and Irrigation switched off.\r\nIrrigation scheduled to next day for field "; // Acknowledge user about successful motor off action
+const char SmsDR4[105] = "Dry Run detected, Motor and Irrigation switched off.\r\nIrrigation scheduled to next due date for field "; // Acknowledge user about successful motor off action
 
 const char SmsT1[27] = "Incorrect local time found"; 
-const char SmsT2[15] = "Current Time: "; 
+const char SmsT2[15] = "Current Time: ";
+/***********Debug**********/
+const char SmsT3[2] = "-";
+/***********Debug**********/
 
 const char SmsMotor1[58] = "Irrigation completed for due fields\r\nMotor switched off"; // Acknowledge user about successful motor off action
 const char SmsMotor2[35] = "Motorload cut-off set successfully"; // Acknowledge user about successful motor off action
 const char SmsMotor3[47] = "NoLoad and FullLoad Motor thresholds set to : "; // Acknowledge user about motor load values
 const char SmsMotor4[49] = "Irrigation is active, Motor load cut-off not set"; // Acknowledge user about Irrigation is active, Motor load cut-off procedure not started
 
-const char SmsConnect[17] = "System Connected"; // Acknowledge user about successful motor off action
+const char SmsConnect[17] = "System Connected"; // Acknowledge user about successful connection
 
 const char SmsTest[19] = "Test Data Injected"; 
 
-const char SmsFact1[15] = "Factory Key : "; // Acknowledge user about successful motor off action
+const char SmsKey1[15] = "Factory Key : "; // Factory key details
+const char SmsKey2[15] = "Current Key : "; // Current key details
 
 const char SmsPh1[47] = "Phase failure detected, suspending all actions"; // Acknowledge user about Phase failure status
 const char SmsPh2[69] = "Low Phase current detected, actions suspended, please restart system"; // Acknowledge user about successful motor off action
@@ -414,9 +435,9 @@ const char SmsPh4[25] = "Phase Y failure detected"; // Acknowledge user about ph
 const char SmsPh5[25] = "Phase B failure detected"; // Acknowledge user about phase failure status
 const char SmsPh6[19] = "All Phase detected"; // Acknowledge user about phase status
 
-const char SmsMS1[60] = "Moisture sensor is failed, Irrigation started for field no."; // Acknowledge user about failure in moisture sensor
-const char SmsMS2[46] = "Moisture sensor frequency value for field no."; // Acknowledge user measured moisture sensor value
-const char SmsMS3[40] = "Moisture sensor is failed for field no."; // Acknowledge user about failure in moisture sensor
+const char SmsMS1[57] = "Moisture sensor is failed, Irrigation started for field "; // Acknowledge user about failure in moisture sensor
+const char SmsMS2[43] = "Moisture sensor frequency value for field "; // Acknowledge user measured moisture sensor value
+const char SmsMS3[37] = "Moisture sensor is failed for field "; // Acknowledge user about failure in moisture sensor
 /***** SMS string definition#end ***************************/
 
 /***** statically allocated initialized user variables#start **/
@@ -448,14 +469,16 @@ _Bool dueValveChecked = false;					// To indicate valve due is checked at latest
 _Bool correctDate = false;          			// To indicate received date is correct
 _Bool phaseFailureDetected = false;             // To indicate phase failure
 _Bool lowRTCBatteryDetected = false;            // To store RTC Battery level Status
-_Bool rtcBatteryLevelChecked = false;             // To indicate condition to check RTC battery level
+_Bool rtcBatteryLevelChecked = false;           // To indicate condition to check RTC battery level
 _Bool phaseFailureActionTaken = false;          // To indicate action taken after phase failure detection
 _Bool filtrationEnabled = false;                // To store tank filtration operation status    
-_Bool cmtiCmd = false;                           // Set to indicate cmti command received
+_Bool cmtiCmd = false;                          // Set to indicate cmti command received
 _Bool DeviceBurnStatus = false;                 // To store Device program status
 _Bool gsmSetToLocalTime = false;                // To indicate if gsm set to local timezone
 _Bool wetSensor = false;                        // To indicate if sensor is wet
-_Bool fertigationDry = false;                   // To indicate fertigation level
+//_Bool fertigationDry = false;                   // To indicate fertigation level
+_Bool fieldDueForCycles = false;                // To indicate field valve due for remaining cycles
+_Bool parallelValveFetched = false;              // To indicate if parallel valves fetched
 /************* BOOLeans definition#end ***********************************/
 /***************************** Global variables definition#end ***********************/
 

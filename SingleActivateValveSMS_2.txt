@@ -1,0 +1,55 @@
+	if (fieldList[1] == 255) { //for Single valve in action
+        for (index = 0; lastFieldList[index] != 255; index++) { // check if current valve is already active
+            if (FieldNo == lastFieldList[index]) {
+                valveMatched = true; 
+                break; // skip sms for activating already active valve
+            }
+        }
+        if (valveMatched == false) {
+            /***************************/
+            // for field no. 01 to 09
+            if (FieldNo<9){
+                temporaryBytesArray[0] = 48; // To store field no. of valve in action 
+                temporaryBytesArray[1] = FieldNo + 49; // To store field no. of valve in action 
+            }// for field no. 10 to 12
+            else if (FieldNo > 8 && FieldNo < 12) {
+                temporaryBytesArray[0] = 49; // To store field no. of valve in action 
+                temporaryBytesArray[1] = FieldNo + 39; // To store field no. of valve in action 
+            }
+            /***************************/
+        #ifdef DEBUG_MODE_ON_H
+            //********Debug log#start************//
+            transmitStringToDebug("Valve: ");
+            transmitNumberToDebug(temporaryBytesArray, 2);
+            transmitStringToDebug("\r\n");
+            //********Debug log#end**************//
+        #endif
+
+            if(moistureSensorFailed) {
+                moistureSensorFailed = false;
+                /***************************/
+                sendSms(SmsMS1, userMobileNo, fieldNoRequired);
+            #ifdef SMS_DELIVERY_REPORT_ON_H
+                sleepCount = 2; // Load sleep count for SMS transmission action
+                sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
+                setBCDdigit(0x05,0);
+                deepSleep(); // Sleep until message transmission acknowledge SMS is received from service provider
+                setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+            #endif
+                /***************************/
+            }
+            else {
+                /***************************/
+                sendSms(SmsIrr4, userMobileNo, fieldNoRequired);   // Acknowledge user about successful Irrigation started action
+            #ifdef SMS_DELIVERY_REPORT_ON_H
+                sleepCount = 2; // Load sleep count for SMS transmission action
+                sleepCountChangedDueToInterrupt = true; // Sleep count needs to read from memory after SMS transmission
+                setBCDdigit(0x05,0);
+                deepSleep(); // Sleep until message transmission acknowledge SMS is received from service provider
+                setBCDdigit(0x0F,0); // Blank "." BCD Indication for Normal Condition
+            #endif
+                /***************************/
+            }
+        }
+        valveMatched = false;      
+    }

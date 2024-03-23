@@ -1,10 +1,10 @@
 Version 4.0 HI-TECH Software Intermediate Code
-"143 ./variableDefinitions.h
-[; ;./variableDefinitions.h: 143: struct FIELDVALVE {
+"150 ./variableDefinitions.h
+[; ;./variableDefinitions.h: 150: struct FIELDVALVE {
 [s S2016 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `a 1 `a 1 `a 1 `a 1 ]
 [n S2016 FIELDVALVE dryValue wetValue onPeriod fertigationDelay fertigationONperiod injector1OnPeriod injector2OnPeriod injector3OnPeriod injector4OnPeriod injector1OffPeriod injector2OffPeriod injector3OffPeriod injector4OffPeriod injector1Cycle injector2Cycle injector3Cycle injector4Cycle offPeriod motorOnTimeHour motorOnTimeMinute nextDueDD nextDueMM nextDueYY fertigationInstance priority fertigationStage cycles cyclesExecuted status isConfigured isFertigationEnabled fertigationValveInterrupted ]
-"45 ./controllerActions.h
-[; ;./controllerActions.h: 45: void setBCDdigit(unsigned char, _Bool);
+"46 ./controllerActions.h
+[; ;./controllerActions.h: 46: void setBCDdigit(unsigned char, _Bool);
 [v _setBCDdigit `(v ~T0 @X0 0 ef2`uc`a ]
 "54 C:\Program Files\Microchip\xc8\v2.35\pic\include\c99\string.h
 [; ;C:\Program Files\Microchip\xc8\v2.35\pic\include\c99\string.h: 54: size_t strlen (const char *);
@@ -2106,7 +2106,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 "118
 [; <" 	psect eeprom_data,class=EEDATA,noexec ;# ">
 [; <" 	db	0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00 ;# ">
-"181 ./variableDefinitions.h
+"188 ./variableDefinitions.h
 [v _fieldValve `S2016 ~T0 @X0 -> 12 `i e ]
 [i _fieldValve
 :U ..
@@ -2115,7 +2115,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"187
+"194
 [v _eepromAddress `Cui ~T0 @X0 -> 16 `i e ]
 [i _eepromAddress
 :U ..
@@ -2137,465 +2137,481 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> -> 720 `i `ui
 ..
 ]
-"230
-[; ;./variableDefinitions.h: 230: unsigned int filtrationSeperationTime = 0;
+"241
+[; ;./variableDefinitions.h: 241: unsigned int filtrationSeperationTime = 0;
 [v _filtrationSeperationTime `ui ~T0 @X0 1 e ]
 [i _filtrationSeperationTime
 -> -> 0 `i `ui
 ]
-"231
-[; ;./variableDefinitions.h: 231: unsigned int dueDD = 0;
+"242
+[; ;./variableDefinitions.h: 242: unsigned int dueDD = 0;
 [v _dueDD `ui ~T0 @X0 1 e ]
 [i _dueDD
 -> -> 0 `i `ui
 ]
-"232
-[; ;./variableDefinitions.h: 232: unsigned int sleepCount = 0;
+"243
+[; ;./variableDefinitions.h: 243: unsigned int sleepCount = 0;
 [v _sleepCount `ui ~T0 @X0 1 e ]
 [i _sleepCount
 -> -> 0 `i `ui
 ]
-"233
-[; ;./variableDefinitions.h: 233: unsigned int remainingFertigationOnPeriod = 0;
+"244
+[; ;./variableDefinitions.h: 244: unsigned int remainingFertigationOnPeriod = 0;
 [v _remainingFertigationOnPeriod `ui ~T0 @X0 1 e ]
 [i _remainingFertigationOnPeriod
 -> -> 0 `i `ui
 ]
-"234
-[; ;./variableDefinitions.h: 234: unsigned int lower8bits = 0;
+"245
+[; ;./variableDefinitions.h: 245: unsigned int lower8bits = 0;
 [v _lower8bits `ui ~T0 @X0 1 e ]
 [i _lower8bits
 -> -> 0 `i `ui
 ]
-"235
-[; ;./variableDefinitions.h: 235: unsigned int higher8bits = 0;
+"246
+[; ;./variableDefinitions.h: 246: unsigned int higher8bits = 0;
 [v _higher8bits `ui ~T0 @X0 1 e ]
 [i _higher8bits
 -> -> 0 `i `ui
 ]
-"236
-[; ;./variableDefinitions.h: 236: unsigned int moistureLevel = 0;
+"247
+[; ;./variableDefinitions.h: 247: unsigned int moistureLevel = 0;
 [v _moistureLevel `ui ~T0 @X0 1 e ]
 [i _moistureLevel
 -> -> 0 `i `ui
 ]
-"237
-[; ;./variableDefinitions.h: 237: unsigned int injector1OnPeriod = 0;
+"248
+[; ;./variableDefinitions.h: 248: unsigned int injector1OnPeriod = 0;
 [v _injector1OnPeriod `ui ~T0 @X0 1 e ]
 [i _injector1OnPeriod
 -> -> 0 `i `ui
 ]
-"238
-[; ;./variableDefinitions.h: 238: unsigned int injector2OnPeriod = 0;
+"249
+[; ;./variableDefinitions.h: 249: unsigned int injector2OnPeriod = 0;
 [v _injector2OnPeriod `ui ~T0 @X0 1 e ]
 [i _injector2OnPeriod
 -> -> 0 `i `ui
 ]
-"239
-[; ;./variableDefinitions.h: 239: unsigned int injector3OnPeriod = 0;
+"250
+[; ;./variableDefinitions.h: 250: unsigned int injector3OnPeriod = 0;
 [v _injector3OnPeriod `ui ~T0 @X0 1 e ]
 [i _injector3OnPeriod
 -> -> 0 `i `ui
 ]
-"240
-[; ;./variableDefinitions.h: 240: unsigned int injector4OnPeriod = 0;
+"251
+[; ;./variableDefinitions.h: 251: unsigned int injector4OnPeriod = 0;
 [v _injector4OnPeriod `ui ~T0 @X0 1 e ]
 [i _injector4OnPeriod
 -> -> 0 `i `ui
 ]
-"241
-[; ;./variableDefinitions.h: 241: unsigned int injector1OnPeriodCnt = 0;
+"252
+[; ;./variableDefinitions.h: 252: unsigned int injector1OnPeriodCnt = 0;
 [v _injector1OnPeriodCnt `ui ~T0 @X0 1 e ]
 [i _injector1OnPeriodCnt
 -> -> 0 `i `ui
 ]
-"242
-[; ;./variableDefinitions.h: 242: unsigned int injector2OnPeriodCnt = 0;
+"253
+[; ;./variableDefinitions.h: 253: unsigned int injector2OnPeriodCnt = 0;
 [v _injector2OnPeriodCnt `ui ~T0 @X0 1 e ]
 [i _injector2OnPeriodCnt
 -> -> 0 `i `ui
 ]
-"243
-[; ;./variableDefinitions.h: 243: unsigned int injector3OnPeriodCnt = 0;
+"254
+[; ;./variableDefinitions.h: 254: unsigned int injector3OnPeriodCnt = 0;
 [v _injector3OnPeriodCnt `ui ~T0 @X0 1 e ]
 [i _injector3OnPeriodCnt
 -> -> 0 `i `ui
 ]
-"244
-[; ;./variableDefinitions.h: 244: unsigned int injector4OnPeriodCnt = 0;
+"255
+[; ;./variableDefinitions.h: 255: unsigned int injector4OnPeriodCnt = 0;
 [v _injector4OnPeriodCnt `ui ~T0 @X0 1 e ]
 [i _injector4OnPeriodCnt
 -> -> 0 `i `ui
 ]
-"245
-[; ;./variableDefinitions.h: 245: unsigned int injector1OffPeriod = 0;
+"256
+[; ;./variableDefinitions.h: 256: unsigned int injector1OffPeriod = 0;
 [v _injector1OffPeriod `ui ~T0 @X0 1 e ]
 [i _injector1OffPeriod
 -> -> 0 `i `ui
 ]
-"246
-[; ;./variableDefinitions.h: 246: unsigned int injector2OffPeriod = 0;
+"257
+[; ;./variableDefinitions.h: 257: unsigned int injector2OffPeriod = 0;
 [v _injector2OffPeriod `ui ~T0 @X0 1 e ]
 [i _injector2OffPeriod
 -> -> 0 `i `ui
 ]
-"247
-[; ;./variableDefinitions.h: 247: unsigned int injector3OffPeriod = 0;
+"258
+[; ;./variableDefinitions.h: 258: unsigned int injector3OffPeriod = 0;
 [v _injector3OffPeriod `ui ~T0 @X0 1 e ]
 [i _injector3OffPeriod
 -> -> 0 `i `ui
 ]
-"248
-[; ;./variableDefinitions.h: 248: unsigned int injector4OffPeriod = 0;
+"259
+[; ;./variableDefinitions.h: 259: unsigned int injector4OffPeriod = 0;
 [v _injector4OffPeriod `ui ~T0 @X0 1 e ]
 [i _injector4OffPeriod
 -> -> 0 `i `ui
 ]
-"249
-[; ;./variableDefinitions.h: 249: unsigned int injector1OffPeriodCnt = 0;
+"260
+[; ;./variableDefinitions.h: 260: unsigned int injector1OffPeriodCnt = 0;
 [v _injector1OffPeriodCnt `ui ~T0 @X0 1 e ]
 [i _injector1OffPeriodCnt
 -> -> 0 `i `ui
 ]
-"250
-[; ;./variableDefinitions.h: 250: unsigned int injector2OffPeriodCnt = 0;
+"261
+[; ;./variableDefinitions.h: 261: unsigned int injector2OffPeriodCnt = 0;
 [v _injector2OffPeriodCnt `ui ~T0 @X0 1 e ]
 [i _injector2OffPeriodCnt
 -> -> 0 `i `ui
 ]
-"251
-[; ;./variableDefinitions.h: 251: unsigned int injector3OffPeriodCnt = 0;
+"262
+[; ;./variableDefinitions.h: 262: unsigned int injector3OffPeriodCnt = 0;
 [v _injector3OffPeriodCnt `ui ~T0 @X0 1 e ]
 [i _injector3OffPeriodCnt
 -> -> 0 `i `ui
 ]
-"252
-[; ;./variableDefinitions.h: 252: unsigned int injector4OffPeriodCnt = 0;
+"263
+[; ;./variableDefinitions.h: 263: unsigned int injector4OffPeriodCnt = 0;
 [v _injector4OffPeriodCnt `ui ~T0 @X0 1 e ]
 [i _injector4OffPeriodCnt
 -> -> 0 `i `ui
 ]
-"253
-[; ;./variableDefinitions.h: 253: unsigned int noLoadCutOff = 0;
+"264
+[; ;./variableDefinitions.h: 264: unsigned int noLoadCutOff = 0;
 [v _noLoadCutOff `ui ~T0 @X0 1 e ]
 [i _noLoadCutOff
 -> -> 0 `i `ui
 ]
-"254
-[; ;./variableDefinitions.h: 254: unsigned int fullLoadCutOff = 0;
+"265
+[; ;./variableDefinitions.h: 265: unsigned int fullLoadCutOff = 0;
 [v _fullLoadCutOff `ui ~T0 @X0 1 e ]
 [i _fullLoadCutOff
 -> -> 0 `i `ui
 ]
-"255
-[; ;./variableDefinitions.h: 255: unsigned char userMobileNo[11] = "";
+"266
+[; ;./variableDefinitions.h: 266: unsigned char fieldList[12] = {'\0'};
+[v _fieldList `uc ~T0 @X0 -> 12 `i e ]
+[i _fieldList
+:U ..
+-> -> 0 `ui `uc
+..
+]
+"267
+[; ;./variableDefinitions.h: 267: unsigned char lastFieldList[12] = {'\0'};
+[v _lastFieldList `uc ~T0 @X0 -> 12 `i e ]
+[i _lastFieldList
+:U ..
+-> -> 0 `ui `uc
+..
+]
+"268
+[; ;./variableDefinitions.h: 268: unsigned char userMobileNo[11] = "";
 [v _userMobileNo `uc ~T0 @X0 -> 11 `i e ]
 [i _userMobileNo
 :U ..
 -> 0 `c
 ..
 ]
-"256
-[; ;./variableDefinitions.h: 256: unsigned char temporaryBytesArray[20] = "";
+"269
+[; ;./variableDefinitions.h: 269: unsigned char temporaryBytesArray[20] = "";
 [v _temporaryBytesArray `uc ~T0 @X0 -> 20 `i e ]
 [i _temporaryBytesArray
 :U ..
 -> 0 `c
 ..
 ]
-"257
-[; ;./variableDefinitions.h: 257: unsigned char null[11] = {'\0'};
+"270
+[; ;./variableDefinitions.h: 270: unsigned char null[11] = {'\0'};
 [v _null `uc ~T0 @X0 -> 11 `i e ]
 [i _null
 :U ..
 -> -> 0 `ui `uc
 ..
 ]
-"258
-[; ;./variableDefinitions.h: 258: unsigned char pwd[7] = "";
+"271
+[; ;./variableDefinitions.h: 271: unsigned char pwd[7] = "";
 [v _pwd `uc ~T0 @X0 -> 7 `i e ]
 [i _pwd
 :U ..
 -> 0 `c
 ..
 ]
-"259
-[; ;./variableDefinitions.h: 259: unsigned char factryPswrd[7] = "";
+"272
+[; ;./variableDefinitions.h: 272: unsigned char factryPswrd[7] = "";
 [v _factryPswrd `uc ~T0 @X0 -> 7 `i e ]
 [i _factryPswrd
 :U ..
 -> 0 `c
 ..
 ]
-"260
-[; ;./variableDefinitions.h: 260: unsigned char injector1Cycle = 0;
+"273
+[; ;./variableDefinitions.h: 273: unsigned char injector1Cycle = 0;
 [v _injector1Cycle `uc ~T0 @X0 1 e ]
 [i _injector1Cycle
 -> -> 0 `i `uc
 ]
-"261
-[; ;./variableDefinitions.h: 261: unsigned char injector2Cycle = 0;
+"274
+[; ;./variableDefinitions.h: 274: unsigned char injector2Cycle = 0;
 [v _injector2Cycle `uc ~T0 @X0 1 e ]
 [i _injector2Cycle
 -> -> 0 `i `uc
 ]
-"262
-[; ;./variableDefinitions.h: 262: unsigned char injector3Cycle = 0;
+"275
+[; ;./variableDefinitions.h: 275: unsigned char injector3Cycle = 0;
 [v _injector3Cycle `uc ~T0 @X0 1 e ]
 [i _injector3Cycle
 -> -> 0 `i `uc
 ]
-"263
-[; ;./variableDefinitions.h: 263: unsigned char injector4Cycle = 0;
+"276
+[; ;./variableDefinitions.h: 276: unsigned char injector4Cycle = 0;
 [v _injector4Cycle `uc ~T0 @X0 1 e ]
 [i _injector4Cycle
 -> -> 0 `i `uc
 ]
-"264
-[; ;./variableDefinitions.h: 264: unsigned char injector1CycleCnt = 0;
+"277
+[; ;./variableDefinitions.h: 277: unsigned char injector1CycleCnt = 0;
 [v _injector1CycleCnt `uc ~T0 @X0 1 e ]
 [i _injector1CycleCnt
 -> -> 0 `i `uc
 ]
-"265
-[; ;./variableDefinitions.h: 265: unsigned char injector2CycleCnt = 0;
+"278
+[; ;./variableDefinitions.h: 278: unsigned char injector2CycleCnt = 0;
 [v _injector2CycleCnt `uc ~T0 @X0 1 e ]
 [i _injector2CycleCnt
 -> -> 0 `i `uc
 ]
-"266
-[; ;./variableDefinitions.h: 266: unsigned char injector3CycleCnt = 0;
+"279
+[; ;./variableDefinitions.h: 279: unsigned char injector3CycleCnt = 0;
 [v _injector3CycleCnt `uc ~T0 @X0 1 e ]
 [i _injector3CycleCnt
 -> -> 0 `i `uc
 ]
-"267
-[; ;./variableDefinitions.h: 267: unsigned char injector4CycleCnt = 0;
+"280
+[; ;./variableDefinitions.h: 280: unsigned char injector4CycleCnt = 0;
 [v _injector4CycleCnt `uc ~T0 @X0 1 e ]
 [i _injector4CycleCnt
 -> -> 0 `i `uc
 ]
-"268
-[; ;./variableDefinitions.h: 268: unsigned char timer3Count = 0;
+"281
+[; ;./variableDefinitions.h: 281: unsigned char timer3Count = 0;
 [v _timer3Count `uc ~T0 @X0 1 e ]
 [i _timer3Count
 -> -> 0 `i `uc
 ]
-"269
-[; ;./variableDefinitions.h: 269: unsigned char rxCharacter = 0;
+"282
+[; ;./variableDefinitions.h: 282: unsigned char rxCharacter = 0;
 [v _rxCharacter `uc ~T0 @X0 1 e ]
 [i _rxCharacter
 -> -> 0 `i `uc
 ]
-"270
-[; ;./variableDefinitions.h: 270: unsigned char msgIndex = 0;
+"283
+[; ;./variableDefinitions.h: 283: unsigned char msgIndex = 0;
 [v _msgIndex `uc ~T0 @X0 1 e ]
 [i _msgIndex
 -> -> 0 `i `uc
 ]
-"271
-[; ;./variableDefinitions.h: 271: unsigned char temp = 0;
+"284
+[; ;./variableDefinitions.h: 284: unsigned char temp = 0;
 [v _temp `uc ~T0 @X0 1 e ]
 [i _temp
 -> -> 0 `i `uc
 ]
-"272
-[; ;./variableDefinitions.h: 272: unsigned char iterator = 0;
+"285
+[; ;./variableDefinitions.h: 285: unsigned char iterator = 0;
 [v _iterator `uc ~T0 @X0 1 e ]
 [i _iterator
 -> -> 0 `i `uc
 ]
-"273
-[; ;./variableDefinitions.h: 273: unsigned char fieldCount = 12;
+"286
+[; ;./variableDefinitions.h: 286: unsigned char fieldCount = 12;
 [v _fieldCount `uc ~T0 @X0 1 e ]
 [i _fieldCount
 -> -> 12 `i `uc
 ]
-"274
-[; ;./variableDefinitions.h: 274: unsigned char resetCount = 0;
+"287
+[; ;./variableDefinitions.h: 287: unsigned char resetCount = 0;
 [v _resetCount `uc ~T0 @X0 1 e ]
 [i _resetCount
 -> -> 0 `i `uc
 ]
-"275
-[; ;./variableDefinitions.h: 275: unsigned char startFieldNo = 0;
-[v _startFieldNo `uc ~T0 @X0 1 e ]
-[i _startFieldNo
--> -> 0 `i `uc
-]
-"276
-[; ;./variableDefinitions.h: 276: unsigned char space = 0x20;
+"289
+[; ;./variableDefinitions.h: 289: unsigned char space = 0x20;
 [v _space `uc ~T0 @X0 1 e ]
 [i _space
 -> -> 32 `i `uc
 ]
-"277
-[; ;./variableDefinitions.h: 277: unsigned char terminateSms = 0x1A;
+"290
+[; ;./variableDefinitions.h: 290: unsigned char terminateSms = 0x1A;
 [v _terminateSms `uc ~T0 @X0 1 e ]
 [i _terminateSms
 -> -> 26 `i `uc
 ]
-"278
-[; ;./variableDefinitions.h: 278: unsigned char enter = 0x0D;
+"291
+[; ;./variableDefinitions.h: 291: unsigned char enter = 0x0D;
 [v _enter `uc ~T0 @X0 1 e ]
 [i _enter
 -> -> 13 `i `uc
 ]
-"279
-[; ;./variableDefinitions.h: 279: unsigned char newLine = 0x0A;
+"292
+[; ;./variableDefinitions.h: 292: unsigned char newLine = 0x0A;
 [v _newLine `uc ~T0 @X0 1 e ]
 [i _newLine
 -> -> 10 `i `uc
 ]
-"280
-[; ;./variableDefinitions.h: 280: unsigned char hundredsDigit = 0;
+"293
+[; ;./variableDefinitions.h: 293: unsigned char hundredsDigit = 0;
 [v _hundredsDigit `uc ~T0 @X0 1 e ]
 [i _hundredsDigit
 -> -> 0 `i `uc
 ]
-"281
-[; ;./variableDefinitions.h: 281: unsigned char tensDigit = 0;
+"294
+[; ;./variableDefinitions.h: 294: unsigned char tensDigit = 0;
 [v _tensDigit `uc ~T0 @X0 1 e ]
 [i _tensDigit
 -> -> 0 `i `uc
 ]
-"282
-[; ;./variableDefinitions.h: 282: unsigned char unitsDigit = 0;
+"295
+[; ;./variableDefinitions.h: 295: unsigned char unitsDigit = 0;
 [v _unitsDigit `uc ~T0 @X0 1 e ]
 [i _unitsDigit
 -> -> 0 `i `uc
 ]
-"283
-[; ;./variableDefinitions.h: 283: unsigned char Timer0Overflow = 0;
+"296
+[; ;./variableDefinitions.h: 296: unsigned char Timer0Overflow = 0;
 [v _Timer0Overflow `uc ~T0 @X0 1 e ]
 [i _Timer0Overflow
 -> -> 0 `i `uc
 ]
-"284
-[; ;./variableDefinitions.h: 284: unsigned char Timer1Overflow = 0;
+"297
+[; ;./variableDefinitions.h: 297: unsigned char Timer1Overflow = 0;
 [v _Timer1Overflow `uc ~T0 @X0 1 e ]
 [i _Timer1Overflow
 -> -> 0 `i `uc
 ]
-"285
-[; ;./variableDefinitions.h: 285: unsigned char Timer3Overflow = 0;
+"298
+[; ;./variableDefinitions.h: 298: unsigned char Timer3Overflow = 0;
 [v _Timer3Overflow `uc ~T0 @X0 1 e ]
 [i _Timer3Overflow
 -> -> 0 `i `uc
 ]
-"286
-[; ;./variableDefinitions.h: 286: unsigned char filtrationCycleSequence = 0;
+"299
+[; ;./variableDefinitions.h: 299: unsigned char filtrationCycleSequence = 0;
 [v _filtrationCycleSequence `uc ~T0 @X0 1 e ]
 [i _filtrationCycleSequence
 -> -> 0 `i `uc
 ]
-"287
-[; ;./variableDefinitions.h: 287: unsigned char currentYY = 0;
+"300
+[; ;./variableDefinitions.h: 300: unsigned char currentYY = 0;
 [v _currentYY `uc ~T0 @X0 1 e ]
 [i _currentYY
 -> -> 0 `i `uc
 ]
-"288
-[; ;./variableDefinitions.h: 288: unsigned char currentMM = 0;
+"301
+[; ;./variableDefinitions.h: 301: unsigned char currentMM = 0;
 [v _currentMM `uc ~T0 @X0 1 e ]
 [i _currentMM
 -> -> 0 `i `uc
 ]
-"289
-[; ;./variableDefinitions.h: 289: unsigned char currentDD = 0;
+"302
+[; ;./variableDefinitions.h: 302: unsigned char currentDD = 0;
 [v _currentDD `uc ~T0 @X0 1 e ]
 [i _currentDD
 -> -> 0 `i `uc
 ]
-"290
-[; ;./variableDefinitions.h: 290: unsigned char currentHour = 0;
+"303
+[; ;./variableDefinitions.h: 303: unsigned char currentHour = 0;
 [v _currentHour `uc ~T0 @X0 1 e ]
 [i _currentHour
 -> -> 0 `i `uc
 ]
-"291
-[; ;./variableDefinitions.h: 291: unsigned char currentMinutes = 0;
+"304
+[; ;./variableDefinitions.h: 304: unsigned char currentMinutes = 0;
 [v _currentMinutes `uc ~T0 @X0 1 e ]
 [i _currentMinutes
 -> -> 0 `i `uc
 ]
-"292
-[; ;./variableDefinitions.h: 292: unsigned char currentSeconds = 0;
+"305
+[; ;./variableDefinitions.h: 305: unsigned char currentSeconds = 0;
 [v _currentSeconds `uc ~T0 @X0 1 e ]
 [i _currentSeconds
 -> -> 0 `i `uc
 ]
-"293
-[; ;./variableDefinitions.h: 293: unsigned char dueYY = 0;
+"306
+[; ;./variableDefinitions.h: 306: unsigned char dueYY = 0;
 [v _dueYY `uc ~T0 @X0 1 e ]
 [i _dueYY
 -> -> 0 `i `uc
 ]
-"294
-[; ;./variableDefinitions.h: 294: unsigned char dueMM = 0;
+"307
+[; ;./variableDefinitions.h: 307: unsigned char dueMM = 0;
 [v _dueMM `uc ~T0 @X0 1 e ]
 [i _dueMM
 -> -> 0 `i `uc
 ]
-"295
-[; ;./variableDefinitions.h: 295: unsigned char filtrationDelay1 = 0;
+"308
+[; ;./variableDefinitions.h: 308: unsigned char filtrationDelay1 = 0;
 [v _filtrationDelay1 `uc ~T0 @X0 1 e ]
 [i _filtrationDelay1
 -> -> 0 `i `uc
 ]
-"296
-[; ;./variableDefinitions.h: 296: unsigned char filtrationDelay2 = 0;
+"309
+[; ;./variableDefinitions.h: 309: unsigned char filtrationDelay2 = 0;
 [v _filtrationDelay2 `uc ~T0 @X0 1 e ]
 [i _filtrationDelay2
 -> -> 0 `i `uc
 ]
-"297
-[; ;./variableDefinitions.h: 297: unsigned char filtrationDelay3 = 0;
+"310
+[; ;./variableDefinitions.h: 310: unsigned char filtrationDelay3 = 0;
 [v _filtrationDelay3 `uc ~T0 @X0 1 e ]
 [i _filtrationDelay3
 -> -> 0 `i `uc
 ]
-"298
-[; ;./variableDefinitions.h: 298: unsigned char filtrationOnTime = 0;
+"311
+[; ;./variableDefinitions.h: 311: unsigned char filtrationOnTime = 0;
 [v _filtrationOnTime `uc ~T0 @X0 1 e ]
 [i _filtrationOnTime
 -> -> 0 `i `uc
 ]
-"299
-[; ;./variableDefinitions.h: 299: unsigned char dryRunCheckCount = 0;
+"312
+[; ;./variableDefinitions.h: 312: unsigned char dryRunCheckCount = 0;
 [v _dryRunCheckCount `uc ~T0 @X0 1 e ]
 [i _dryRunCheckCount
 -> -> 0 `i `uc
 ]
-"305
+"313
+[; ;./variableDefinitions.h: 313: unsigned char nxtPriority = 1;
+[v _nxtPriority `uc ~T0 @X0 1 e ]
+[i _nxtPriority
+-> -> 1 `i `uc
+]
+"319
 [v _encodedString `uc ~T0 @X0 -> 100 `i e ]
 [i _encodedString
 :U ..
 -> -> 0 `ui `uc
 ..
 ]
-"307
+"321
 [v _stringToEncode `uc ~T0 @X0 -> 100 `i e ]
 [i _stringToEncode
 :U ..
 -> -> 0 `ui `uc
 ..
 ]
-"309
+"323
 [v _stringToDecode `uc ~T0 @X0 -> 220 `i e ]
 [i _stringToDecode
 :U ..
 -> -> 0 `ui `uc
 ..
 ]
-"312
+"326
 [v _decodedString `uc ~T0 @X0 -> 220 `i e ]
 [i _decodedString
 :U ..
 -> -> 0 `ui `uc
 ..
 ]
-"316
+"330
 [v _admin `uc ~T0 @X0 -> 3 `i s ]
 [i _admin
 :U ..
@@ -2604,7 +2620,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"317
+"331
 [v _hook `uc ~T0 @X0 -> 5 `i s ]
 [i _hook
 :U ..
@@ -2615,7 +2631,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"318
+"332
 [v _set `uc ~T0 @X0 -> 4 `i s ]
 [i _set
 :U ..
@@ -2625,7 +2641,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"319
+"333
 [v _enable `uc ~T0 @X0 -> 7 `i s ]
 [i _enable
 :U ..
@@ -2638,7 +2654,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"320
+"334
 [v _disable `uc ~T0 @X0 -> 8 `i s ]
 [i _disable
 :U ..
@@ -2652,7 +2668,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"321
+"335
 [v _active `uc ~T0 @X0 -> 7 `i s ]
 [i _active
 :U ..
@@ -2665,7 +2681,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"322
+"336
 [v _dactive `uc ~T0 @X0 -> 8 `i s ]
 [i _dactive
 :U ..
@@ -2679,7 +2695,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"323
+"337
 [v _hold `uc ~T0 @X0 -> 5 `i s ]
 [i _hold
 :U ..
@@ -2690,7 +2706,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"324
+"338
 [v _extract `uc ~T0 @X0 -> 8 `i s ]
 [i _extract
 :U ..
@@ -2704,7 +2720,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"325
+"339
 [v _ok `uc ~T0 @X0 -> 3 `i s ]
 [i _ok
 :U ..
@@ -2713,7 +2729,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"326
+"340
 [v _time `uc ~T0 @X0 -> 5 `i s ]
 [i _time
 :U ..
@@ -2724,7 +2740,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"327
+"341
 [v _feed `uc ~T0 @X0 -> 5 `i s ]
 [i _feed
 :U ..
@@ -2735,7 +2751,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"328
+"342
 [v _fdata `uc ~T0 @X0 -> 6 `i s ]
 [i _fdata
 :U ..
@@ -2747,7 +2763,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"329
+"343
 [v _inject `uc ~T0 @X0 -> 7 `i s ]
 [i _inject
 :U ..
@@ -2760,7 +2776,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"330
+"344
 [v _ct `uc ~T0 @X0 -> 3 `i s ]
 [i _ct
 :U ..
@@ -2769,7 +2785,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"331
+"345
 [v _setct `uc ~T0 @X0 -> 4 `i s ]
 [i _setct
 :U ..
@@ -2779,7 +2795,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"332
+"346
 [v _secret `uc ~T0 @X0 -> 12 `i s ]
 [i _secret
 :U ..
@@ -2797,7 +2813,25 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"333
+"347
+[v _secret1 `uc ~T0 @X0 -> 12 `i s ]
+[i _secret1
+:U ..
+-> 49 `c
+-> 50 `c
+-> 51 `c
+-> 52 `c
+-> 53 `c
+-> 54 `c
+-> 55 `c
+-> 56 `c
+-> 57 `c
+-> 49 `c
+-> 51 `c
+-> 0 `c
+..
+]
+"348
 [v _getct `uc ~T0 @X0 -> 6 `i s ]
 [i _getct
 :U ..
@@ -2809,7 +2843,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"334
+"349
 [v _getfreq `uc ~T0 @X0 -> 8 `i s ]
 [i _getfreq
 :U ..
@@ -2823,7 +2857,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"335
+"350
 [v _countryCode `uc ~T0 @X0 -> 4 `i s ]
 [i _countryCode
 :U ..
@@ -2833,7 +2867,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"339
+"354
 [v _SmsAU1 `Cuc ~T0 @X0 -> 23 `i e ]
 [i _SmsAU1
 :U ..
@@ -2862,7 +2896,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"340
+"355
 [v _SmsAU2 `Cuc ~T0 @X0 -> 51 `i e ]
 [i _SmsAU2
 :U ..
@@ -2917,7 +2951,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"341
+"356
 [v _SmsAU3 `Cuc ~T0 @X0 -> 22 `i e ]
 [i _SmsAU3
 :U ..
@@ -2945,7 +2979,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"342
+"357
 [v _SmsAU4 `Cuc ~T0 @X0 -> 64 `i e ]
 [i _SmsAU4
 :U ..
@@ -3015,7 +3049,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"344
+"359
 [v _SmsPwd1 `Cuc ~T0 @X0 -> 32 `i e ]
 [i _SmsPwd1
 :U ..
@@ -3053,7 +3087,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"345
+"360
 [v _SmsPwd2 `Cuc ~T0 @X0 -> 23 `i e ]
 [i _SmsPwd2
 :U ..
@@ -3082,7 +3116,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"346
+"361
 [v _SmsPwd3 `Cuc ~T0 @X0 -> 23 `i e ]
 [i _SmsPwd3
 :U ..
@@ -3111,7 +3145,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"348
+"363
 [v _SmsIrr1 `Cuc ~T0 @X0 -> 36 `i e ]
 [i _SmsIrr1
 :U ..
@@ -3141,19 +3175,19 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 111 `c
 -> 114 `c
 -> 32 `c
--> 102 `c
+-> 112 `c
+-> 114 `c
 -> 105 `c
--> 101 `c
--> 108 `c
--> 100 `c
--> 32 `c
--> 110 `c
 -> 111 `c
--> 46 `c
+-> 114 `c
+-> 105 `c
+-> 116 `c
+-> 121 `c
+-> 32 `c
 -> 0 `c
 ..
 ]
-"349
+"364
 [v _SmsIrr2 `Cuc ~T0 @X0 -> 48 `i e ]
 [i _SmsIrr2
 :U ..
@@ -3195,19 +3229,19 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 111 `c
 -> 114 `c
 -> 32 `c
--> 102 `c
+-> 112 `c
+-> 114 `c
 -> 105 `c
--> 101 `c
--> 108 `c
--> 100 `c
--> 32 `c
--> 110 `c
 -> 111 `c
--> 46 `c
+-> 114 `c
+-> 105 `c
+-> 116 `c
+-> 121 `c
+-> 32 `c
 -> 0 `c
 ..
 ]
-"350
+"365
 [v _SmsIrr3 `Cuc ~T0 @X0 -> 40 `i e ]
 [i _SmsIrr3
 :U ..
@@ -3241,20 +3275,20 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 111 `c
 -> 114 `c
 -> 32 `c
--> 102 `c
+-> 112 `c
+-> 114 `c
 -> 105 `c
--> 101 `c
--> 108 `c
--> 100 `c
--> 32 `c
--> 110 `c
 -> 111 `c
--> 46 `c
+-> 114 `c
+-> 105 `c
+-> 116 `c
+-> 121 `c
+-> 32 `c
 -> 0 `c
 ..
 ]
-"351
-[v _SmsIrr4 `Cuc ~T0 @X0 -> 33 `i e ]
+"366
+[v _SmsIrr4 `Cuc ~T0 @X0 -> 30 `i e ]
 [i _SmsIrr4
 :U ..
 -> 73 `c
@@ -3286,14 +3320,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"352
-[v _SmsIrr5 `Cuc ~T0 @X0 -> 33 `i e ]
+"367
+[v _SmsIrr5 `Cuc ~T0 @X0 -> 30 `i e ]
 [i _SmsIrr5
 :U ..
 -> 73 `c
@@ -3325,14 +3356,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"353
-[v _SmsIrr6 `Cuc ~T0 @X0 -> 60 `i e ]
+"368
+[v _SmsIrr6 `Cuc ~T0 @X0 -> 57 `i e ]
 [i _SmsIrr6
 :U ..
 -> 87 `c
@@ -3389,13 +3417,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"354
+"369
 [v _SmsIrr7 `Cuc ~T0 @X0 -> 15 `i e ]
 [i _SmsIrr7
 :U ..
@@ -3416,7 +3441,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"356
+"371
 [v _SmsFert1 `Cuc ~T0 @X0 -> 64 `i e ]
 [i _SmsFert1
 :U ..
@@ -3474,19 +3499,19 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 111 `c
 -> 114 `c
 -> 32 `c
--> 102 `c
+-> 112 `c
+-> 114 `c
 -> 105 `c
--> 101 `c
--> 108 `c
--> 100 `c
--> 32 `c
--> 110 `c
 -> 111 `c
--> 46 `c
+-> 114 `c
+-> 105 `c
+-> 116 `c
+-> 121 `c
+-> 32 `c
 -> 0 `c
 ..
 ]
-"357
+"372
 [v _SmsFert2 `Cuc ~T0 @X0 -> 56 `i e ]
 [i _SmsFert2
 :U ..
@@ -3536,19 +3561,19 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 111 `c
 -> 114 `c
 -> 32 `c
--> 102 `c
+-> 112 `c
+-> 114 `c
 -> 105 `c
--> 101 `c
--> 108 `c
--> 100 `c
--> 32 `c
--> 110 `c
 -> 111 `c
--> 46 `c
+-> 114 `c
+-> 105 `c
+-> 116 `c
+-> 121 `c
+-> 32 `c
 -> 0 `c
 ..
 ]
-"358
+"373
 [v _SmsFert3 `Cuc ~T0 @X0 -> 34 `i e ]
 [i _SmsFert3
 :U ..
@@ -3576,19 +3601,19 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 111 `c
 -> 114 `c
 -> 32 `c
--> 102 `c
+-> 112 `c
+-> 114 `c
 -> 105 `c
--> 101 `c
--> 108 `c
--> 100 `c
--> 32 `c
--> 110 `c
 -> 111 `c
--> 46 `c
+-> 114 `c
+-> 105 `c
+-> 116 `c
+-> 121 `c
+-> 32 `c
 -> 0 `c
 ..
 ]
-"359
+"374
 [v _SmsFert4 `Cuc ~T0 @X0 -> 35 `i e ]
 [i _SmsFert4
 :U ..
@@ -3617,20 +3642,20 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 111 `c
 -> 114 `c
 -> 32 `c
--> 102 `c
+-> 112 `c
+-> 114 `c
 -> 105 `c
--> 101 `c
--> 108 `c
--> 100 `c
--> 32 `c
--> 110 `c
 -> 111 `c
--> 46 `c
+-> 114 `c
+-> 105 `c
+-> 116 `c
+-> 121 `c
+-> 32 `c
 -> 0 `c
 ..
 ]
-"360
-[v _SmsFert5 `Cuc ~T0 @X0 -> 34 `i e ]
+"375
+[v _SmsFert5 `Cuc ~T0 @X0 -> 31 `i e ]
 [i _SmsFert5
 :U ..
 -> 70 `c
@@ -3663,14 +3688,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"361
-[v _SmsFert6 `Cuc ~T0 @X0 -> 34 `i e ]
+"376
+[v _SmsFert6 `Cuc ~T0 @X0 -> 31 `i e ]
 [i _SmsFert6
 :U ..
 -> 70 `c
@@ -3703,14 +3725,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"362
-[v _SmsFert7 `Cuc ~T0 @X0 -> 71 `i e ]
+"377
+[v _SmsFert7 `Cuc ~T0 @X0 -> 68 `i e ]
 [i _SmsFert7
 :U ..
 -> 70 `c
@@ -3780,14 +3799,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"363
-[v _SmsFert8 `Cuc ~T0 @X0 -> 60 `i e ]
+"378
+[v _SmsFert8 `Cuc ~T0 @X0 -> 57 `i e ]
 [i _SmsFert8
 :U ..
 -> 70 `c
@@ -3846,13 +3862,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"365
+"380
 [v _SmsFilt1 `Cuc ~T0 @X0 -> 27 `i e ]
 [i _SmsFilt1
 :U ..
@@ -3885,7 +3898,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"366
+"381
 [v _SmsFilt2 `Cuc ~T0 @X0 -> 29 `i e ]
 [i _SmsFilt2
 :U ..
@@ -3920,7 +3933,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"367
+"382
 [v _SmsFilt3 `Cuc ~T0 @X0 -> 32 `i e ]
 [i _SmsFilt3
 :U ..
@@ -3958,7 +3971,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"368
+"383
 [v _SmsFilt4 `Cuc ~T0 @X0 -> 27 `i e ]
 [i _SmsFilt4
 :U ..
@@ -3991,7 +4004,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"370
+"385
 [v _SmsSR01 `Cuc ~T0 @X0 -> 60 `i e ]
 [i _SmsSR01
 :U ..
@@ -4057,8 +4070,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"371
-[v _SmsSR02 `Cuc ~T0 @X0 -> 78 `i e ]
+"386
+[v _SmsSR02 `Cuc ~T0 @X0 -> 75 `i e ]
 [i _SmsSR02
 :U ..
 -> 83 `c
@@ -4135,14 +4148,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"372
-[v _SmsSR03 `Cuc ~T0 @X0 -> 75 `i e ]
+"387
+[v _SmsSR03 `Cuc ~T0 @X0 -> 72 `i e ]
 [i _SmsSR03
 :U ..
 -> 83 `c
@@ -4216,14 +4226,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"373
-[v _SmsSR04 `Cuc ~T0 @X0 -> 77 `i e ]
+"388
+[v _SmsSR04 `Cuc ~T0 @X0 -> 74 `i e ]
 [i _SmsSR04
 :U ..
 -> 83 `c
@@ -4299,14 +4306,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"374
-[v _SmsSR05 `Cuc ~T0 @X0 -> 82 `i e ]
+"389
+[v _SmsSR05 `Cuc ~T0 @X0 -> 79 `i e ]
 [i _SmsSR05
 :U ..
 -> 83 `c
@@ -4387,14 +4391,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"375
-[v _SmsSR06 `Cuc ~T0 @X0 -> 74 `i e ]
+"390
+[v _SmsSR06 `Cuc ~T0 @X0 -> 71 `i e ]
 [i _SmsSR06
 :U ..
 -> 83 `c
@@ -4467,14 +4468,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"376
-[v _SmsSR07 `Cuc ~T0 @X0 -> 74 `i e ]
+"391
+[v _SmsSR07 `Cuc ~T0 @X0 -> 71 `i e ]
 [i _SmsSR07
 :U ..
 -> 83 `c
@@ -4547,260 +4545,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"377
-[v _SmsSR08 `Cuc ~T0 @X0 -> 37 `i e ]
-[i _SmsSR08
-:U ..
--> 83 `c
--> 121 `c
--> 115 `c
--> 116 `c
--> 101 `c
--> 109 `c
--> 32 `c
--> 114 `c
--> 101 `c
--> 115 `c
--> 116 `c
--> 97 `c
--> 114 `c
--> 116 `c
--> 101 `c
--> 100 `c
--> 32 `c
--> 102 `c
--> 111 `c
--> 114 `c
--> 32 `c
--> 80 `c
--> 111 `c
--> 119 `c
--> 101 `c
--> 114 `c
--> 32 `c
--> 73 `c
--> 110 `c
--> 116 `c
--> 101 `c
--> 114 `c
--> 114 `c
--> 117 `c
--> 112 `c
--> 116 `c
--> 0 `c
-..
-]
-"378
-[v _SmsSR09 `Cuc ~T0 @X0 -> 31 `i e ]
-[i _SmsSR09
-:U ..
--> 83 `c
--> 121 `c
--> 115 `c
--> 116 `c
--> 101 `c
--> 109 `c
--> 32 `c
--> 114 `c
--> 101 `c
--> 115 `c
--> 116 `c
--> 97 `c
--> 114 `c
--> 116 `c
--> 101 `c
--> 100 `c
--> 32 `c
--> 102 `c
--> 111 `c
--> 114 `c
--> 32 `c
--> 76 `c
--> 111 `c
--> 119 `c
--> 32 `c
--> 80 `c
--> 111 `c
--> 119 `c
--> 101 `c
--> 114 `c
--> 0 `c
-..
-]
-"379
-[v _SmsSR10 `Cuc ~T0 @X0 -> 36 `i e ]
-[i _SmsSR10
-:U ..
--> 83 `c
--> 121 `c
--> 115 `c
--> 116 `c
--> 101 `c
--> 109 `c
--> 32 `c
--> 114 `c
--> 101 `c
--> 115 `c
--> 116 `c
--> 97 `c
--> 114 `c
--> 116 `c
--> 101 `c
--> 100 `c
--> 32 `c
--> 105 `c
--> 110 `c
--> 32 `c
--> 68 `c
--> 105 `c
--> 97 `c
--> 103 `c
--> 110 `c
--> 111 `c
--> 115 `c
--> 116 `c
--> 105 `c
--> 99 `c
--> 32 `c
--> 109 `c
--> 111 `c
--> 100 `c
--> 101 `c
--> 0 `c
-..
-]
-"380
-[v _SmsSR11 `Cuc ~T0 @X0 -> 41 `i e ]
-[i _SmsSR11
-:U ..
--> 83 `c
--> 121 `c
--> 115 `c
--> 116 `c
--> 101 `c
--> 109 `c
--> 32 `c
--> 114 `c
--> 101 `c
--> 115 `c
--> 116 `c
--> 97 `c
--> 114 `c
--> 116 `c
--> 101 `c
--> 100 `c
--> 32 `c
--> 102 `c
--> 111 `c
--> 114 `c
--> 32 `c
--> 65 `c
--> 108 `c
--> 108 `c
--> 32 `c
--> 80 `c
--> 104 `c
--> 97 `c
--> 115 `c
--> 101 `c
--> 32 `c
--> 68 `c
--> 101 `c
--> 116 `c
--> 101 `c
--> 99 `c
--> 116 `c
--> 105 `c
--> 111 `c
--> 110 `c
--> 0 `c
-..
-]
-"381
-[v _SmsSR12 `Cuc ~T0 @X0 -> 33 `i e ]
-[i _SmsSR12
-:U ..
--> 83 `c
--> 121 `c
--> 115 `c
--> 116 `c
--> 101 `c
--> 109 `c
--> 32 `c
--> 114 `c
--> 101 `c
--> 115 `c
--> 116 `c
--> 97 `c
--> 114 `c
--> 116 `c
--> 101 `c
--> 100 `c
--> 32 `c
--> 102 `c
--> 111 `c
--> 114 `c
--> 32 `c
--> 87 `c
--> 68 `c
--> 84 `c
--> 32 `c
--> 116 `c
--> 105 `c
--> 109 `c
--> 101 `c
--> 111 `c
--> 117 `c
--> 116 `c
--> 0 `c
-..
-]
-"382
-[v _SmsSR13 `Cuc ~T0 @X0 -> 33 `i e ]
-[i _SmsSR13
-:U ..
--> 83 `c
--> 121 `c
--> 115 `c
--> 116 `c
--> 101 `c
--> 109 `c
--> 32 `c
--> 114 `c
--> 101 `c
--> 115 `c
--> 116 `c
--> 97 `c
--> 114 `c
--> 116 `c
--> 101 `c
--> 100 `c
--> 32 `c
--> 102 `c
--> 111 `c
--> 114 `c
--> 32 `c
--> 115 `c
--> 116 `c
--> 97 `c
--> 99 `c
--> 107 `c
--> 32 `c
--> 101 `c
--> 114 `c
--> 114 `c
--> 111 `c
--> 114 `c
--> 0 `c
-..
-]
-"383
+"400
+[; ;./variableDefinitions.h: 400: const char SmsSR14[59] = "System reset occurred, login code reset to Factory setting";
 [v _SmsSR14 `Cuc ~T0 @X0 -> 59 `i e ]
 [i _SmsSR14
 :U ..
@@ -4865,7 +4614,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"384
+"401
+[; ;./variableDefinitions.h: 401: const char SmsSR15[50] = "System reset occurred, Irrigation setting deleted";
 [v _SmsSR15 `Cuc ~T0 @X0 -> 50 `i e ]
 [i _SmsSR15
 :U ..
@@ -4921,7 +4671,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"386
+"403
+[; ;./variableDefinitions.h: 403: const char SmsRTC1[50] = "RTC Battery found low, please replace RTC battery";
 [v _SmsRTC1 `Cuc ~T0 @X0 -> 50 `i e ]
 [i _SmsRTC1
 :U ..
@@ -4977,7 +4728,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"387
+"404
+[; ;./variableDefinitions.h: 404: const char SmsRTC2[41] = "System time synced to current local time";
 [v _SmsRTC2 `Cuc ~T0 @X0 -> 41 `i e ]
 [i _SmsRTC2
 :U ..
@@ -5024,7 +4776,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"388
+"405
+[; ;./variableDefinitions.h: 405: const char SmsRTC3[56] = "New RTC battery found, system time is set to local time";
 [v _SmsRTC3 `Cuc ~T0 @X0 -> 56 `i e ]
 [i _SmsRTC3
 :U ..
@@ -5086,7 +4839,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"389
+"406
+[; ;./variableDefinitions.h: 406: const char SmsRTC4[56] = "New RTC battery found, please sync system time manually";
 [v _SmsRTC4 `Cuc ~T0 @X0 -> 56 `i e ]
 [i _SmsRTC4
 :U ..
@@ -5148,8 +4902,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"391
-[v _SmsDR1 `Cuc ~T0 @X0 -> 133 `i e ]
+"408
+[; ;./variableDefinitions.h: 408: const char SmsDR1[130] = "Dry Run detected, Motor, Irrigation and Fertigation switched off.\r\nIrrigation scheduled to next day with fertigation for field ";
+[v _SmsDR1 `Cuc ~T0 @X0 -> 130 `i e ]
 [i _SmsDR1
 :U ..
 -> 68 `c
@@ -5279,14 +5034,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"392
-[v _SmsDR2 `Cuc ~T0 @X0 -> 120 `i e ]
+"409
+[; ;./variableDefinitions.h: 409: const char SmsDR2[117] = "Dry Run detected, Motor and Irrigation switched off.\r\nIrrigation scheduled to next day with fertigation for field ";
+[v _SmsDR2 `Cuc ~T0 @X0 -> 117 `i e ]
 [i _SmsDR2
 :U ..
 -> 68 `c
@@ -5403,14 +5156,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"393
-[v _SmsDR3 `Cuc ~T0 @X0 -> 103 `i e ]
+"410
+[; ;./variableDefinitions.h: 410: const char SmsDR3[100] = "Dry Run detected, Motor and Irrigation switched off.\r\nIrrigation scheduled to next day for field ";
+[v _SmsDR3 `Cuc ~T0 @X0 -> 100 `i e ]
 [i _SmsDR3
 :U ..
 -> 68 `c
@@ -5510,14 +5261,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"394
-[v _SmsDR4 `Cuc ~T0 @X0 -> 108 `i e ]
+"411
+[; ;./variableDefinitions.h: 411: const char SmsDR4[105] = "Dry Run detected, Motor and Irrigation switched off.\r\nIrrigation scheduled to next due date for field ";
+[v _SmsDR4 `Cuc ~T0 @X0 -> 105 `i e ]
 [i _SmsDR4
 :U ..
 -> 68 `c
@@ -5622,13 +5371,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"396
+"413
+[; ;./variableDefinitions.h: 413: const char SmsT1[27] = "Incorrect local time found";
 [v _SmsT1 `Cuc ~T0 @X0 -> 27 `i e ]
 [i _SmsT1
 :U ..
@@ -5661,7 +5408,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"397
+"414
+[; ;./variableDefinitions.h: 414: const char SmsT2[15] = "Current Time: ";
 [v _SmsT2 `Cuc ~T0 @X0 -> 15 `i e ]
 [i _SmsT2
 :U ..
@@ -5682,7 +5430,17 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"399
+"416
+[; ;./variableDefinitions.h: 416: const char SmsT3[2] = "-";
+[v _SmsT3 `Cuc ~T0 @X0 -> 2 `i e ]
+[i _SmsT3
+:U ..
+-> 45 `c
+-> 0 `c
+..
+]
+"419
+[; ;./variableDefinitions.h: 419: const char SmsMotor1[58] = "Irrigation completed for due fields\r\nMotor switched off";
 [v _SmsMotor1 `Cuc ~T0 @X0 -> 58 `i e ]
 [i _SmsMotor1
 :U ..
@@ -5744,7 +5502,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"400
+"420
+[; ;./variableDefinitions.h: 420: const char SmsMotor2[35] = "Motorload cut-off set successfully";
 [v _SmsMotor2 `Cuc ~T0 @X0 -> 35 `i e ]
 [i _SmsMotor2
 :U ..
@@ -5785,7 +5544,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"401
+"421
+[; ;./variableDefinitions.h: 421: const char SmsMotor3[47] = "NoLoad and FullLoad Motor thresholds set to : ";
 [v _SmsMotor3 `Cuc ~T0 @X0 -> 47 `i e ]
 [i _SmsMotor3
 :U ..
@@ -5838,7 +5598,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"402
+"422
+[; ;./variableDefinitions.h: 422: const char SmsMotor4[49] = "Irrigation is active, Motor load cut-off not set";
 [v _SmsMotor4 `Cuc ~T0 @X0 -> 49 `i e ]
 [i _SmsMotor4
 :U ..
@@ -5893,7 +5654,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"404
+"424
+[; ;./variableDefinitions.h: 424: const char SmsConnect[17] = "System Connected";
 [v _SmsConnect `Cuc ~T0 @X0 -> 17 `i e ]
 [i _SmsConnect
 :U ..
@@ -5916,7 +5678,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"406
+"426
+[; ;./variableDefinitions.h: 426: const char SmsTest[19] = "Test Data Injected";
 [v _SmsTest `Cuc ~T0 @X0 -> 19 `i e ]
 [i _SmsTest
 :U ..
@@ -5941,9 +5704,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"408
-[v _SmsFact1 `Cuc ~T0 @X0 -> 15 `i e ]
-[i _SmsFact1
+"428
+[; ;./variableDefinitions.h: 428: const char SmsKey1[15] = "Factory Key : ";
+[v _SmsKey1 `Cuc ~T0 @X0 -> 15 `i e ]
+[i _SmsKey1
 :U ..
 -> 70 `c
 -> 97 `c
@@ -5962,7 +5726,30 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"410
+"429
+[; ;./variableDefinitions.h: 429: const char SmsKey2[15] = "Current Key : ";
+[v _SmsKey2 `Cuc ~T0 @X0 -> 15 `i e ]
+[i _SmsKey2
+:U ..
+-> 67 `c
+-> 117 `c
+-> 114 `c
+-> 114 `c
+-> 101 `c
+-> 110 `c
+-> 116 `c
+-> 32 `c
+-> 75 `c
+-> 101 `c
+-> 121 `c
+-> 32 `c
+-> 58 `c
+-> 32 `c
+-> 0 `c
+..
+]
+"431
+[; ;./variableDefinitions.h: 431: const char SmsPh1[47] = "Phase failure detected, suspending all actions";
 [v _SmsPh1 `Cuc ~T0 @X0 -> 47 `i e ]
 [i _SmsPh1
 :U ..
@@ -6015,7 +5802,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"411
+"432
+[; ;./variableDefinitions.h: 432: const char SmsPh2[69] = "Low Phase current detected, actions suspended, please restart system";
 [v _SmsPh2 `Cuc ~T0 @X0 -> 69 `i e ]
 [i _SmsPh2
 :U ..
@@ -6090,7 +5878,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"412
+"433
+[; ;./variableDefinitions.h: 433: const char SmsPh3[25] = "Phase R failure detected";
 [v _SmsPh3 `Cuc ~T0 @X0 -> 25 `i e ]
 [i _SmsPh3
 :U ..
@@ -6121,7 +5910,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"413
+"434
+[; ;./variableDefinitions.h: 434: const char SmsPh4[25] = "Phase Y failure detected";
 [v _SmsPh4 `Cuc ~T0 @X0 -> 25 `i e ]
 [i _SmsPh4
 :U ..
@@ -6152,7 +5942,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"414
+"435
+[; ;./variableDefinitions.h: 435: const char SmsPh5[25] = "Phase B failure detected";
 [v _SmsPh5 `Cuc ~T0 @X0 -> 25 `i e ]
 [i _SmsPh5
 :U ..
@@ -6183,7 +5974,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"415
+"436
+[; ;./variableDefinitions.h: 436: const char SmsPh6[19] = "All Phase detected";
 [v _SmsPh6 `Cuc ~T0 @X0 -> 19 `i e ]
 [i _SmsPh6
 :U ..
@@ -6208,8 +6000,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"417
-[v _SmsMS1 `Cuc ~T0 @X0 -> 60 `i e ]
+"438
+[; ;./variableDefinitions.h: 438: const char SmsMS1[57] = "Moisture sensor is failed, Irrigation started for field ";
+[v _SmsMS1 `Cuc ~T0 @X0 -> 57 `i e ]
 [i _SmsMS1
 :U ..
 -> 77 `c
@@ -6268,14 +6061,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"418
-[v _SmsMS2 `Cuc ~T0 @X0 -> 46 `i e ]
+"439
+[; ;./variableDefinitions.h: 439: const char SmsMS2[43] = "Moisture sensor frequency value for field ";
+[v _SmsMS2 `Cuc ~T0 @X0 -> 43 `i e ]
 [i _SmsMS2
 :U ..
 -> 77 `c
@@ -6320,14 +6111,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"419
-[v _SmsMS3 `Cuc ~T0 @X0 -> 40 `i e ]
+"440
+[; ;./variableDefinitions.h: 440: const char SmsMS3[37] = "Moisture sensor is failed for field ";
+[v _SmsMS3 `Cuc ~T0 @X0 -> 37 `i e ]
 [i _SmsMS3
 :U ..
 -> 77 `c
@@ -6366,13 +6155,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 108 `c
 -> 100 `c
 -> 32 `c
--> 110 `c
--> 111 `c
--> 46 `c
 -> 0 `c
 ..
 ]
-"424
+"445
 [v _gsmResponse `uc ~T0 @X0 -> 220 `i e ]
 [i _gsmResponse
 :U ..
@@ -6384,7 +6170,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"429
+"450
 [v _cmti `uc ~T0 @X0 -> 14 `i s ]
 [i _cmti
 :U ..
@@ -6404,134 +6190,134 @@ Version 4.0 HI-TECH Software Intermediate Code
 -> 0 `c
 ..
 ]
-"434
+"455
 [v _systemAuthenticated `a ~T0 @X0 1 e ]
 [i _systemAuthenticated
 -> -> 0 `i `a
 ]
-"435
+"456
 [v _newSMSRcvd `a ~T0 @X0 1 e ]
 [i _newSMSRcvd
 -> -> 0 `i `a
 ]
-"436
+"457
 [v _checkMoistureSensor `a ~T0 @X0 1 e ]
 [i _checkMoistureSensor
 -> -> 0 `i `a
 ]
-"437
+"458
 [v _moistureSensorFailed `a ~T0 @X0 1 e ]
 [i _moistureSensorFailed
 -> -> 0 `i `a
 ]
-"438
+"459
 [v _controllerCommandExecuted `a ~T0 @X0 1 e ]
 [i _controllerCommandExecuted
 -> -> 0 `i `a
 ]
-"439
+"460
 [v _currentDateCalled `a ~T0 @X0 1 e ]
 [i _currentDateCalled
 -> -> 0 `i `a
 ]
-"440
+"461
 [v _sleepCountChangedDueToInterrupt `a ~T0 @X0 1 e ]
 [i _sleepCountChangedDueToInterrupt
 -> -> 0 `i `a
 ]
-"441
+"462
 [v _inSleepMode `a ~T0 @X0 1 e ]
 [i _inSleepMode
 -> -> 0 `i `a
 ]
-"442
+"463
 [v _dryRunDetected `a ~T0 @X0 1 e ]
 [i _dryRunDetected
 -> -> 0 `i `a
 ]
-"443
+"464
 [v _lowPhaseCurrentDetected `a ~T0 @X0 1 e ]
 [i _lowPhaseCurrentDetected
 -> -> 0 `i `a
 ]
-"444
+"465
 [v _valveDue `a ~T0 @X0 1 e ]
 [i _valveDue
 -> -> 0 `i `a
 ]
-"445
+"466
 [v _valveExecuted `a ~T0 @X0 1 e ]
 [i _valveExecuted
 -> -> 0 `i `a
 ]
-"446
+"467
 [v _onHold `a ~T0 @X0 1 e ]
 [i _onHold
 -> -> 0 `i `a
 ]
-"447
+"468
 [v _dueValveChecked `a ~T0 @X0 1 e ]
 [i _dueValveChecked
 -> -> 0 `i `a
 ]
-"448
+"469
 [v _correctDate `a ~T0 @X0 1 e ]
 [i _correctDate
 -> -> 0 `i `a
 ]
-"449
+"470
 [v _phaseFailureDetected `a ~T0 @X0 1 e ]
 [i _phaseFailureDetected
 -> -> 0 `i `a
 ]
-"450
+"471
 [v _lowRTCBatteryDetected `a ~T0 @X0 1 e ]
 [i _lowRTCBatteryDetected
 -> -> 0 `i `a
 ]
-"451
+"472
 [v _rtcBatteryLevelChecked `a ~T0 @X0 1 e ]
 [i _rtcBatteryLevelChecked
 -> -> 0 `i `a
 ]
-"452
+"473
 [v _phaseFailureActionTaken `a ~T0 @X0 1 e ]
 [i _phaseFailureActionTaken
 -> -> 0 `i `a
 ]
-"453
+"474
 [v _filtrationEnabled `a ~T0 @X0 1 e ]
 [i _filtrationEnabled
 -> -> 0 `i `a
 ]
-"454
+"475
 [v _cmtiCmd `a ~T0 @X0 1 e ]
 [i _cmtiCmd
 -> -> 0 `i `a
 ]
-"455
+"476
 [v _DeviceBurnStatus `a ~T0 @X0 1 e ]
 [i _DeviceBurnStatus
 -> -> 0 `i `a
 ]
-"456
+"477
 [v _gsmSetToLocalTime `a ~T0 @X0 1 e ]
 [i _gsmSetToLocalTime
 -> -> 0 `i `a
 ]
-"457
+"478
 [v _wetSensor `a ~T0 @X0 1 e ]
 [i _wetSensor
 -> -> 0 `i `a
 ]
-"458
-[v _fertigationDry `a ~T0 @X0 1 e ]
-[i _fertigationDry
+"480
+[v _fieldDueForCycles `a ~T0 @X0 1 e ]
+[i _fieldDueForCycles
 -> -> 0 `i `a
 ]
-"459
-[v _fertigationStart `a ~T0 @X0 1 e ]
-[i _fertigationStart
+"481
+[v _parallelValveFetched `a ~T0 @X0 1 e ]
+[i _parallelValveFetched
 -> -> 0 `i `a
 ]
 "91 dataEncryption.c
