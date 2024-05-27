@@ -24432,7 +24432,7 @@ int toupper_l(int, locale_t);
 # 43 "./variableDefinitions.h"
 # 1 "./congfigBits.h" 1
 # 43 "./variableDefinitions.h" 2
-# 150 "./variableDefinitions.h"
+# 147 "./variableDefinitions.h"
 struct FIELDVALVE {
     unsigned int dryValue;
     unsigned int wetValue;
@@ -24478,7 +24478,7 @@ struct FIELDVALVE fieldValve[12] = {0};
 
 #pragma idata eepromAddress
 const unsigned int eepromAddress[16] = {0x0000, 0x0030, 0x0060, 0x0090, 0x00C0, 0x00F0, 0x0120, 0x0150, 0x0180, 0x01B0, 0x01E0, 0x0210, 0x0240, 0x0270, 0x02A0, 0x2D0};
-# 241 "./variableDefinitions.h"
+# 238 "./variableDefinitions.h"
 unsigned int filtrationSeperationTime = 0;
 unsigned int dueDD = 0;
 unsigned int sleepCount = 0;
@@ -24568,27 +24568,27 @@ unsigned char decodedString[220] = {'\0'};
 
 
 
-unsigned static char admin[3] = "AU";
-unsigned static char hook[5] = "HOOK";
-unsigned static char set[4] = "SET";
-unsigned static char enable[7] = "ENABLE";
-unsigned static char disable[8] = "DISABLE";
-unsigned static char active[7] = "ACTIVE";
-unsigned static char dactive[8] = "DACTIVE";
-unsigned static char hold[5] = "HOLD";
-unsigned static char extract[8] = "EXTRACT";
-unsigned static char ok[3] = "ok";
-unsigned static char time[5] = "TIME";
-unsigned static char feed[5] = "FEED";
-unsigned static char fdata[6] = "FDATA";
-unsigned static char inject[7] = "INJECT";
-unsigned static char ct[3] = "CT";
-unsigned static char setct[4] = "SCT";
-unsigned static char secret[12] = "12345678912";
-unsigned static char secret1[12] = "12345678913";
-unsigned static char getct[6] = "GETCT";
-unsigned static char getfreq[8] = "GETFREQ";
-unsigned static char countryCode[4] = "+91";
+const char admin[3] = "AU";
+const char hook[5] = "HOOK";
+const char set[4] = "SET";
+const char enable[7] = "ENABLE";
+const char disable[8] = "DISABLE";
+const char active[7] = "ACTIVE";
+const char dactive[8] = "DACTIVE";
+const char hold[5] = "HOLD";
+const char extract[8] = "EXTRACT";
+const char ok[3] = "ok";
+const char time[5] = "TIME";
+const char feed[5] = "FEED";
+const char fdata[6] = "FDATA";
+const char inject[7] = "INJECT";
+const char ct[3] = "CT";
+const char setct[4] = "SCT";
+const char secret[12] = "12345678912";
+const char secret1[12] = "12345678913";
+const char getct[6] = "GETCT";
+const char getfreq[8] = "GETFREQ";
+const char countryCode[4] = "+91";
 
 
 
@@ -24630,7 +24630,7 @@ const char SmsSR04[74] = "System restarted in Diagnostic Mode with incomplete Ir
 const char SmsSR05[79] = "System restarted for All Phase Detection with incomplete Irrigation for field ";
 const char SmsSR06[71] = "System restarted for WDT Timeout with incomplete Irrigation for field ";
 const char SmsSR07[71] = "System restarted for Stack Error with incomplete Irrigation for field ";
-# 400 "./variableDefinitions.h"
+# 397 "./variableDefinitions.h"
 const char SmsSR14[59] = "System reset occurred, login code reset to Factory setting";
 const char SmsSR15[50] = "System reset occurred, Irrigation setting deleted";
 
@@ -24680,8 +24680,8 @@ unsigned char gsmResponse[220] = "HELLO";
 
 
 
-#pragma idata cmti
-unsigned char static cmti[14] = "+CMTI: \"SM\",x";
+
+const char cmti[14] = "+CMTI: \"SM\",x";
 
 
 
@@ -27216,18 +27216,18 @@ void deepSleep(void) {
         else if (PORTFbits.RF7 == 1 ) {
             saveActiveSleepCountIntoEeprom();
 
-            if (isMotorInNoLoad() && dryRunCheckCount > 2) {
-                if (dryRunDetected) {
-                    doDryRunAction();
-                }
-                else if (lowPhaseCurrentDetected) {
-                    doLowPhaseAction();
-                    sleepCount = 65500;
-                }
+
+            if (dryRunCheckCount > 2) {
+                if (isMotorInNoLoad()) {
+     if (dryRunDetected) {
+      doDryRunAction();
+     } else if (lowPhaseCurrentDetected) {
+      doLowPhaseAction();
+      sleepCount = 65500;
+     }
+    }
             }
-            else {
-                setBCDdigit(0x0C,1);
-            }
+            setBCDdigit(0x0C,1);
         }
         else if(dryRunDetected) {
             setBCDdigit(0x0C,0);

@@ -24,14 +24,14 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=AutoIrrigation_SolicitedSMSNcDevBranch.X
+PROJECTNAME=BJU_AutoIrr_Centralized_DevBranch.X
 
 # Active Configuration
 DEFAULTCONF=18f67k40
 CONF=${DEFAULTCONF}
 
 # All Configurations
-ALLCONFS=18f66k40 18f67k40 
+ALLCONFS=18f66k40 18f67k40 18f67k40_Test 
 
 
 # build
@@ -47,6 +47,7 @@ ALLCONFS=18f66k40 18f67k40
 .clobber-impl: .clobber-pre .depcheck-impl
 	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=18f66k40 clean
 	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=18f67k40 clean
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=18f67k40_Test clean
 
 
 
@@ -54,6 +55,7 @@ ALLCONFS=18f66k40 18f67k40
 .all-impl: .all-pre .depcheck-impl
 	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=18f66k40 build
 	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=18f67k40 build
+	    ${MAKE} SUBPROJECTS=${SUBPROJECTS} CONF=18f67k40_Test build
 
 
 

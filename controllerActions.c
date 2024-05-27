@@ -3315,18 +3315,18 @@ void deepSleep(void) {
         else if (MotorControl == ON ) {
             saveActiveSleepCountIntoEeprom(); // Save current valve on time
             // check Motor Dry run condition after each sleep count
-            if (isMotorInNoLoad() && dryRunCheckCount > 2) {
-                if (dryRunDetected) {
-                    doDryRunAction();
-                }
-                else if (lowPhaseCurrentDetected) {
-                    doLowPhaseAction();
-                    sleepCount = 65500; // undefined sleep until phase comes back
-                }
+            // check Motor Dry run condition after each sleep count
+            if (dryRunCheckCount > 2) {
+                if (isMotorInNoLoad()) {							
+					if (dryRunDetected) {
+						doDryRunAction();
+					} else if (lowPhaseCurrentDetected) {
+						doLowPhaseAction();
+						sleepCount = 65500; // undefined sleep until phase comes back
+					}
+				}
             }
-            else {
-                setBCDdigit(0x0C,1);  // (u) BCD Indication for valve in action
-            }     
+            setBCDdigit(0x0C,1);  // (u) BCD Indication for valve in action    
         }
         else if(dryRunDetected) {
             setBCDdigit(0x0C,0);  // (u.) BCD Indication for Dry Run Detected Error
@@ -3451,7 +3451,7 @@ void configureController(void) {
     INLVLH = 0xFF;      //ST input used for port reads and interrupt-on-change
     
     
-     //-----------ADC_Config-----------------------//
+    //-----------ADC_Config-----------------------//
     
 	ADREF = 0b00000000;  // Reference voltage set to VDD and GND
 	ADCON0bits.ADFM = 1; // ADC results Format -- ADRES and ADPREV data are right-justified

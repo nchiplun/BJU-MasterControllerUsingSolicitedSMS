@@ -42,9 +42,6 @@
 // include processor files - each processor file is guarded.  
 #include "congfigBits.h"
 
-#define Major "0"
-#define Minor "7"
-
 #define _XTAL_FREQ 64000000
 /** Macro definition for library functions that triggers "suspicious pointer conversion" warning#start **/
 #define strncpy(a,b,c)     strncpy((char*)(a),(char*)(b),(c)) 
@@ -327,27 +324,27 @@ unsigned char decodedString[220] = {'\0'};
 /***** Data Encryption and Decryption#end *********************/
 
 /***** SMS prototype definition#start *************************/
-unsigned static char admin[3] = "AU"; // To Administer device
-unsigned static char hook[5] = "HOOK"; // To connect with device
-unsigned static char set[4] = "SET"; // To Configure valve settings
-unsigned static char enable[7] = "ENABLE"; // To enable fertigation valve
-unsigned static char disable[8] = "DISABLE"; // To disable fertigation valve
-unsigned static char active[7] = "ACTIVE"; // To ACTIVATE filtration valve
-unsigned static char dactive[8] = "DACTIVE"; // To De-Activate filtration valve
-unsigned static char hold[5] = "HOLD"; // To hold irrigation valve settings
-unsigned static char extract[8] = "EXTRACT"; // To extract diagnostic data
-unsigned static char ok[3] = "ok"; // Acknowledge from GSM	
-unsigned static char time[5] = "TIME"; // To get current time from RTC
-unsigned static char feed[5] = "FEED"; // To Set current time into RTC
-unsigned static char fdata[6] = "FDATA"; // To get filtration cycle data
-unsigned static char inject[7] = "INJECT"; // To Inject Test Data
-unsigned static char ct[3] = "CT"; // To set motor load readings
-unsigned static char setct[4] = "SCT"; // To set motor load condition thrpugh diagnostic
-unsigned static char secret[12] = "12345678912"; //Secret code to fetch unique factory password
-unsigned static char secret1[12] = "12345678913"; //Secret code to fetch current password
-unsigned static char getct[6] = "GETCT"; // get ct values
-unsigned static char getfreq[8] = "GETFREQ"; // get ct values
-unsigned static char countryCode[4] = "+91"; //Country code for GSM
+const char admin[3] = "AU"; // To Administer device
+const char hook[5] = "HOOK"; // To connect with device
+const char set[4] = "SET"; // To Configure valve settings
+const char enable[7] = "ENABLE"; // To enable fertigation valve
+const char disable[8] = "DISABLE"; // To disable fertigation valve
+const char active[7] = "ACTIVE"; // To ACTIVATE filtration valve
+const char dactive[8] = "DACTIVE"; // To De-Activate filtration valve
+const char hold[5] = "HOLD"; // To hold irrigation valve settings
+const char extract[8] = "EXTRACT"; // To extract diagnostic data
+const char ok[3] = "ok"; // Acknowledge from GSM	
+const char time[5] = "TIME"; // To get current time from RTC
+const char feed[5] = "FEED"; // To Set current time into RTC
+const char fdata[6] = "FDATA"; // To get filtration cycle data
+const char inject[7] = "INJECT"; // To Inject Test Data
+const char ct[3] = "CT"; // To set motor load readings
+const char setct[4] = "SCT"; // To set motor load condition thrpugh diagnostic
+const char secret[12] = "12345678912"; //Secret code to fetch unique factory password
+const char secret1[12] = "12345678913"; //Secret code to fetch current password
+const char getct[6] = "GETCT"; // get ct values
+const char getfreq[8] = "GETFREQ"; // get ct values
+const char countryCode[4] = "+91"; //Country code for GSM
 /***** SMS prototype definition#end ***************************/
 
 /***** SMS strings definition#start *************************/
@@ -446,8 +443,8 @@ unsigned char gsmResponse[220] = "HELLO"; // To store the received message from 
 /***** statically allocated initialized user variables#end ****/
 
 /***** statically allocated initialized user variables#start **/
-#pragma idata cmti
-unsigned char static cmti[14] = "+CMTI: \"SM\",x"; // This cmd is received from GSM to Notify New SMS at 1st SIM memory
+//#pragma idata cmti
+const char cmti[14] = "+CMTI: \"SM\",x"; // This cmd is received from GSM to Notify New SMS at 1st SIM memory
 /***** statically allocated initialized user variables#end ****/
 /************* Strings definition#end ************************************/
 

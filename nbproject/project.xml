@@ -3,7 +3,7 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>AutoIrrigation_SolicitedSMSNcDev</name>
+            <name>BJU_AutoIrr_Centralized_DevBranch</name>
             <creation-uuid>3ab0a710-a933-4118-aa3d-791be85a5a20</creation-uuid>
             <make-project-type>0</make-project-type>
             <c-extensions>c</c-extensions>
@@ -22,6 +22,10 @@
                 </confElem>
                 <confElem>
                     <name>18f67k40</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>18f67k40_Test</name>
                     <type>2</type>
                 </confElem>
             </confList>

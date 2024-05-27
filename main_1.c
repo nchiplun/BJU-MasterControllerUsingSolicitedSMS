@@ -339,7 +339,7 @@ nxtVlv: if (!valveDue && !phaseFailureDetected && !lowPhaseCurrentDetected) {
             //********Debug log#end**************//
         #endif
             dueValveChecked = false;
-            actionsOnDueValve(iterator);// Copy field no. navigated through iterator. 
+            actionsOnDueValve(fieldList[0]);// Copy field no. navigated through iterator. 
         #ifdef DEBUG_MODE_ON_H
             //********Debug log#start************//
             transmitStringToDebug("actionsOnDueValve_OUT\r\n");

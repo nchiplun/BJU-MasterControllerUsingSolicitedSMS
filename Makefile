@@ -42,6 +42,9 @@
 #
 # NOCDDL
 
+Major = 1
+Minor1= 0
+Minor2= 1
 
 # Environment 
 MKDIR=mkdir
